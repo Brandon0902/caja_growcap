@@ -10,42 +10,43 @@ class UsuarioController extends Controller
 {
     public function index(Request $request)
     {
-        $roles = ['admin','cobrador','contador','gerente','otro'];
+        $roles = ['admin', 'cobrador', 'contador', 'gerente', 'otro'];
 
         $usuarios = User::when($request->filterRol, fn($q, $r) =>
-                                $q->where('rol', $r)
+                            $q->where('rol', $r)
+                        )
+                        ->when($request->search, fn($q, $s) =>
+                            $q->where(fn($q2) =>
+                                $q2->where('name', 'like', "%{$s}%")
+                                   ->orWhere('email', 'like', "%{$s}%")
                             )
-                            ->when($request->search, fn($q, $s) =>
-                                $q->where(fn($q2) =>
-                                    $q2->where('name', 'like', "%{$s}%")
-                                       ->orWhere('email', 'like', "%{$s}%")
-                                )
-                            )
-                            ->orderBy('name')
-                            ->paginate(15)
-                            ->appends($request->only('search','filterRol'));
+                        )
+                        ->orderBy('name')
+                        ->paginate(15)
+                        ->appends($request->only('search', 'filterRol'));
 
-        return view('usuarios.index', compact('usuarios','roles'));
+        return view('usuarios.index', compact('usuarios', 'roles'));
     }
 
     public function create()
     {
-        $roles = ['admin','cobrador','contador','gerente','otro'];
+        $roles = ['admin', 'cobrador', 'contador', 'gerente', 'otro'];
         return view('usuarios.create', compact('roles'));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'            => 'required|string|max:255',
-            'email'           => 'required|email|max:255|unique:usuarios,email',
-            'password'        => 'required|string|min:8|confirmed',
-            'rol'             => 'required|in:admin,cobrador,contador,gerente,otro',
-            'activo'          => 'required|boolean',
-            'fecha_creacion'  => 'required|date',
+            'name'           => 'required|string|max:255',
+            'email'          => 'required|email|max:255|unique:users,email',
+            'password'       => 'required|string|min:8|confirmed',
+            'rol'            => 'required|string|max:50',
+            'activo'         => 'required|boolean',
+            'fecha_creacion' => 'required|date',
         ]);
 
         $data['password'] = Hash::make($data['password']);
+
         User::create($data);
 
         return redirect()
@@ -62,8 +63,9 @@ class UsuarioController extends Controller
     public function edit($id)
     {
         $usuario = User::findOrFail($id);
-        $roles   = ['admin','cobrador','contador','gerente','otro'];
-        return view('usuarios.edit', compact('usuario','roles'));
+        $roles   = ['admin', 'cobrador', 'contador', 'gerente', 'otro'];
+
+        return view('usuarios.edit', compact('usuario', 'roles'));
     }
 
     public function update(Request $request, $id)
@@ -71,16 +73,15 @@ class UsuarioController extends Controller
         $usuario = User::findOrFail($id);
 
         $data = $request->validate([
-            'name'            => 'required|string|max:255',
-            'email'           => 'required|email|max:255|unique:usuarios,email,'
-                                 . $usuario->id_usuario . ',id_usuario',
-            'password'        => 'nullable|string|min:8|confirmed',
-            'rol'             => 'required|in:admin,cobrador,contador,gerente,otro',
-            'activo'          => 'required|boolean',
-            'fecha_creacion'  => 'required|date',
+            'name'           => 'required|string|max:255',
+            'email'          => "required|email|max:255|unique:users,email,{$usuario->id_usuario},id_usuario",
+            'password'       => 'nullable|string|min:8|confirmed',
+            'rol'            => 'required|string|max:50',
+            'activo'         => 'required|boolean',
+            'fecha_creacion' => 'required|date',
         ]);
 
-        if ($data['password'] ?? false) {
+        if (! empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         } else {
             unset($data['password']);

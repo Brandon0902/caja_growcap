@@ -219,6 +219,15 @@
         </svg>
       </button>
       <div x-show="adminOpen" x-cloak class="space-y-1">
+
+        <x-nav-link
+            :href="route('clientes.index')"
+            :active="request()->routeIs('clientes.*')"
+            class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+        >
+          <span x-show="open" class="ml-1">Clientes</span>
+        </x-nav-link>
+
         <x-nav-link
             :href="route('prestamos.index')"
             :active="request()->routeIs('prestamos.*')"
@@ -226,6 +235,47 @@
         >
           <span x-show="open" class="ml-1">Préstamos</span>
         </x-nav-link>
+        {{-- Inversiones --}}
+        <x-nav-link
+            :href="route('inversiones.index')"
+            :active="request()->routeIs('inversiones.*')"
+            class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+        >
+          <span x-show="open" class="ml-1">Inversiones</span>
+        </x-nav-link>
+
+        <x-nav-link
+            :href="route('ahorros.index')"
+            :active="request()->routeIs('ahorros.*')"
+            class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+        >
+          <span x-show="open" class="ml-1">Ahorros</span>
+        </x-nav-link>
+
+        <x-nav-link
+            :href="route('config_mora.index')"
+            :active="request()->routeIs('config_mora.*')"
+            class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+        >
+          <span x-show="open" class="ml-1">Mora</span>
+        </x-nav-link>
+
+        <x-nav-link
+            :href="route('empresas.index')"
+            :active="request()->routeIs('empresas.*')"
+            class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+        >
+          <span x-show="open" class="ml-1">Empresas</span>
+        </x-nav-link>
+
+         <x-nav-link
+            :href="route('preguntas.index')"
+            :active="request()->routeIs('preguntas.*')"
+            class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+        >
+          <span x-show="open" class="ml-1">Preguntas</span>
+        </x-nav-link>
+  
       </div>
     </div>
 

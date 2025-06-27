@@ -12,9 +12,12 @@
   <link rel="preconnect" href="https://fonts.bunny.net">
   <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-  <!-- Scripts -->
-  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <!-- Vite-generated CSS & JS -->
   @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+  <!-- Alpine.js (solo UNA carga) -->
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <style>[x-cloak] { display: none !important; }</style>
 </head>
 
 <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900">
@@ -22,18 +25,17 @@
     {{-- Sidebar --}}
     @include('layouts.navigation')
 
-    {{-- Contenido principal: el margin-left cambia según open --}}
+    {{-- Contenido principal --}}
     <div
       :class="open ? 'ml-64' : 'ml-16'"
       class="flex-1 flex flex-col transition-all duration-200 ease-in-out"
     >
-      {{-- Barra superior: tema + perfil --}}
+      {{-- Barra superior --}}
       <div class="px-4 py-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <div class="max-w-7xl mx-auto flex justify-end items-center space-x-4">
-          {{-- Toggle Claro/Oscuro --}}
+          {{-- Toggle Light/Dark Mode --}}
           <button id="theme-toggle"
                   class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-            <!-- Sol (modo claro) -->
             <svg id="theme-toggle-light-icon" xmlns="http://www.w3.org/2000/svg"
                  class="w-5 h-5 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -47,7 +49,6 @@
               <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
               <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
             </svg>
-            <!-- Luna (modo oscuro) -->
             <svg id="theme-toggle-dark-icon" xmlns="http://www.w3.org/2000/svg"
                  class="w-5 h-5 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -55,7 +56,7 @@
             </svg>
           </button>
 
-          {{-- Dropdown Usuario --}}
+          {{-- User dropdown --}}
           <x-dropdown align="right" width="48">
             <x-slot name="trigger">
               <button
@@ -90,7 +91,7 @@
         </div>
       </div>
 
-      {{-- Encabezado de página (slot) --}}
+      {{-- Optional page header --}}
       @isset($header)
         <header class="bg-white dark:bg-gray-800 shadow">
           <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -99,12 +100,14 @@
         </header>
       @endisset
 
-      {{-- Contenido principal --}}
+      {{-- Main content --}}
       <main class="flex-1 overflow-y-auto">
         {{ $slot }}
       </main>
     </div>
   </div>
+
+  {{-- SweetAlert2 --}}
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

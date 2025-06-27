@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Ahorro;
+use Illuminate\Http\Request;
+
+class AhorroController extends Controller
+{
+    public function index()
+    {
+        $ahorros = Ahorro::orderByDesc('id')
+                         ->paginate(15);
+
+        return view('adminahorros.index', compact('ahorros'));
+    }
+
+    public function create()
+    {
+        return view('adminahorros.create');
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'meses_minimos' => 'required|integer|min:0',
+            'monto_minimo'  => 'required|numeric|min:0',
+            'tipo_ahorro'   => 'required|string|max:50',
+            'tasa_vigente'  => 'required|numeric|min:0',
+        ]);
+
+        Ahorro::create($data);
+
+        return redirect()
+            ->route('ahorros.index')
+            ->with('success', 'Ahorro creado correctamente.');
+    }
+
+    public function show(Ahorro $ahorro)
+    {
+        return view('adminahorros.show', compact('ahorro'));
+    }
+
+    public function edit(Ahorro $ahorro)
+    {
+        return view('adminahorros.edit', compact('ahorro'));
+    }
+
+    public function update(Request $request, Ahorro $ahorro)
+    {
+        $data = $request->validate([
+            'meses_minimos' => 'required|integer|min:0',
+            'monto_minimo'  => 'required|numeric|min:0',
+            'tipo_ahorro'   => 'required|string|max:50',
+            'tasa_vigente'  => 'required|numeric|min:0',
+        ]);
+
+        $ahorro->update($data);
+
+        return redirect()
+            ->route('ahorros.index')
+            ->with('success', 'Ahorro actualizado correctamente.');
+    }
+
+    public function destroy(Ahorro $ahorro)
+    {
+        // borrado físico
+        $ahorro->delete();
+
+        return redirect()
+            ->route('ahorros.index')
+            ->with('success', 'Ahorro eliminado correctamente.');
+    }
+}

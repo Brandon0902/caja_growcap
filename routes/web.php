@@ -2,10 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CajaController;
+use App\Http\Controllers\AhorroController;
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\PreguntaController;
 use App\Http\Controllers\PrestamoController;
 use App\Http\Controllers\SucursalController;
+use App\Http\Controllers\InversionController;
+use App\Http\Controllers\ConfigMoraController;
 use App\Http\Controllers\CategoriaGastoController;
 use App\Http\Controllers\MovimientoCajaController;
 use App\Http\Controllers\CategoriaIngresoController;
@@ -49,6 +55,18 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('prestamos', PrestamoController::class);
 
+    Route::resource('inversiones', InversionController::class);
+    
+    Route::resource('ahorros', AhorroController::class);
+
+    Route::resource('empresas', EmpresaController::class);
+
+    Route::resource('clientes', ClienteController::class);
+
+    Route::resource('config_mora', ConfigMoraController::class);
+
+    Route::resource('preguntas', PreguntaController::class);
+    
 });
 
 require __DIR__.'/auth.php';
