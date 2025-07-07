@@ -60,6 +60,14 @@ return [
             'report' => false,
         ],
 
+        'documentos' => [
+            'driver'     => 'local',
+            'root'       => storage_path('app/public/documentos'),
+            'url'        => env('APP_URL').'/storage/documentos',
+            'visibility' => 'public',
+        ],
+
+
     ],
 
     /*

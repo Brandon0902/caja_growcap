@@ -12,7 +12,7 @@ class Inversion extends Model
     protected $table = 'inversiones';
     protected $primaryKey = 'id';
 
-    public $timestamps = true; // o true si luego decides usar created_at/updated_at
+    public $timestamps = false; // o true si luego decides usar created_at/updated_at
 
     protected $fillable = [
         'periodo',
@@ -28,6 +28,6 @@ class Inversion extends Model
 
     public function usuario()
     {
-        return $this->belongsTo(User::class, 'id_usuario', 'id');
+        return $this->belongsTo(User::class, 'id_usuario', 'id_usuario');
     }
 }

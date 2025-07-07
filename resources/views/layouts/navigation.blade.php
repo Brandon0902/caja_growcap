@@ -2,9 +2,10 @@
 <aside 
     x-data="{ 
       cajasOpen: {{ request()->routeIs('cajas.*') || request()->routeIs('movimientos-caja.*') ? 'true' : 'false' }},
-      catOpen: {{ request()->routeIs('categoria-ingresos.*') || request()->routeIs('subcategoria-ingresos.*') || request()->routeIs('categoria-gastos.*') || request()->routeIs('subcategoria-gastos.*') ? 'true' : 'false' }},
-      adminOpen: {{ request()->routeIs('prestamos.*') ? 'true' : 'false' }},
-      open: true 
+      catOpen:   {{ request()->routeIs('categoria-ingresos.*') || request()->routeIs('subcategoria-ingresos.*') || request()->routeIs('categoria-gastos.*') || request()->routeIs('subcategoria-gastos.*') ? 'true' : 'false' }},
+      adminOpen: {{ request()->routeIs('prestamos.*')                                       ? 'true' : 'false' }},
+      clientesOpen: {{ request()->routeIs('user_ahorros.*')                                ? 'true' : 'false' }},
+      open:      true 
     }"
     :class="open ? 'w-64 overflow-x-hidden' : 'w-16 overflow-x-hidden'"
     class="fixed inset-y-0 left-0 flex flex-col
@@ -28,6 +29,7 @@
 
   {{-- Navegación --}}
   <nav class="flex flex-col flex-1 px-2 overflow-y-auto overflow-x-hidden divide-y divide-white/20">
+
     {{-- Dashboard --}}
     <x-nav-link 
         :href="route('dashboard')" 
@@ -133,7 +135,6 @@
         </svg>
       </button>
       <div x-show="catOpen" x-cloak class="space-y-1">
-        {{-- Ingresos --}}
         <x-nav-link
             :href="route('categoria-ingresos.index')"
             :active="request()->routeIs('categoria-ingresos.*')"
@@ -148,12 +149,10 @@
         >
           <span x-show="open" class="ml-1">Subcat. Ingresos</span>
         </x-nav-link>
-
-        {{-- Gastos --}}
         <x-nav-link
             :href="route('categoria-gastos.index')"
             :active="request()->routeIs('categoria-gastos.*')"
-            class="!text-white flex	items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+            class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
         >
           <span x-show="open" class="ml-1">Cat. Gastos</span>
         </x-nav-link>
@@ -166,6 +165,72 @@
         </x-nav-link>
       </div>
     </div>
+
+    {{-- Clientes --}}
+    <div class="mt-1 space-y-1">
+      <button
+        @click="clientesOpen = !clientesOpen"
+        :class="clientesOpen ? 'bg-purple-700/50' : 'hover:bg-purple-700/50'"
+        class="!text-white flex items-center w-full px-2 py-2 rounded-md transition"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="h-6 w-6 text-white flex-shrink-0"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round"
+             viewBox="0 0 24 24">
+          <path d="M17 20h5v-2a4 4 0 00-3-3.87" />
+          <path d="M9 20H4v-2a4 4 0 013-3.87" />
+          <path d="M16 11a4 4 0 10-8 0 4 4 0 008 0z" />
+        </svg>
+        <span x-show="open" class="ml-3 flex-1 text-left">Clientes</span>
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="h-5 w-5 text-white transform transition-transform"
+             :class="clientesOpen ? 'rotate-90' : ''"
+             viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd"
+                d="M6 6L14 10L6 14V6Z"
+                clip-rule="evenodd"/>
+        </svg>
+      </button>
+      <div x-show="clientesOpen" x-cloak class="space-y-1">
+        {{-- Datos de Cliente --}}
+        <x-nav-link
+          :href="route('user_data.index')"
+          :active="request()->routeIs('user_data.*')"
+          class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+        >
+          <span x-show="open" class="ml-1">Datos de Cliente</span>
+        </x-nav-link>
+
+        {{-- Ahorros --}}
+        <x-nav-link
+          :href="route('user_ahorros.index')"
+          :active="request()->routeIs('user_ahorros.*')"
+          class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+        >
+          <span x-show="open" class="ml-1">Ahorros</span>
+        </x-nav-link>
+
+         {{-- Inversiones --}}
+        <x-nav-link
+        :href="route('user_inversiones.index')"
+          :active="request()->routeIs('user_inversiones.*')"
+          class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+        >
+          <span x-show="open" class="ml-1">Inversiones</span>
+        </x-nav-link>
+
+
+        {{-- NUEVO: Documentos --}}
+        <x-nav-link
+          :href="route('documentos.index')"
+          :active="request()->routeIs('documentos.*')"
+          class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+        >
+          <span x-show="open" class="ml-1">Documentos</span>
+        </x-nav-link>
+        </div>
+      </div>
 
     {{-- Usuarios administrativos --}}
     <x-nav-link
@@ -185,7 +250,7 @@
       <span x-show="open" class="ml-3">Usuarios</span>
     </x-nav-link>
 
-    {{-- Admin: Préstamos --}}
+    {{-- Admin: Préstamos, Inversiones, etc. --}}
     <div class="mt-1 space-y-1">
       <button
         @click="adminOpen = !adminOpen"
@@ -197,7 +262,6 @@
              fill="none" stroke="currentColor" stroke-width="2"
              stroke-linecap="round" stroke-linejoin="round"
              viewBox="0 0 24 24">
-          <!-- Icono de engranaje para Admin -->
           <path d="M12 1v2" />
           <path d="M12 21v2" />
           <path d="M4.22 4.22l1.42 1.42" />
@@ -219,63 +283,55 @@
         </svg>
       </button>
       <div x-show="adminOpen" x-cloak class="space-y-1">
-
         <x-nav-link
-            :href="route('clientes.index')"
-            :active="request()->routeIs('clientes.*')"
-            class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+          :href="route('clientes.index')"
+          :active="request()->routeIs('clientes.*')"
+          class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
         >
           <span x-show="open" class="ml-1">Clientes</span>
         </x-nav-link>
-
         <x-nav-link
-            :href="route('prestamos.index')"
-            :active="request()->routeIs('prestamos.*')"
-            class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+          :href="route('prestamos.index')"
+          :active="request()->routeIs('prestamos.*')"
+          class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
         >
           <span x-show="open" class="ml-1">Préstamos</span>
         </x-nav-link>
-        {{-- Inversiones --}}
         <x-nav-link
-            :href="route('inversiones.index')"
-            :active="request()->routeIs('inversiones.*')"
-            class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+          :href="route('inversiones.index')"
+          :active="request()->routeIs('inversiones.*')"
+          class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
         >
           <span x-show="open" class="ml-1">Inversiones</span>
         </x-nav-link>
-
         <x-nav-link
-            :href="route('ahorros.index')"
-            :active="request()->routeIs('ahorros.*')"
-            class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+          :href="route('ahorros.index')"
+          :active="request()->routeIs('ahorros.*')"
+          class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
         >
           <span x-show="open" class="ml-1">Ahorros</span>
         </x-nav-link>
-
         <x-nav-link
-            :href="route('config_mora.index')"
-            :active="request()->routeIs('config_mora.*')"
-            class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+          :href="route('config_mora.index')"
+          :active="request()->routeIs('config_mora.*')"
+          class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
         >
           <span x-show="open" class="ml-1">Mora</span>
         </x-nav-link>
-
         <x-nav-link
-            :href="route('empresas.index')"
-            :active="request()->routeIs('empresas.*')"
-            class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+          :href="route('empresas.index')"
+          :active="request()->routeIs('empresas.*')"
+          class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
         >
           <span x-show="open" class="ml-1">Empresas</span>
         </x-nav-link>
-
-         <x-nav-link
-            :href="route('preguntas.index')"
-            :active="request()->routeIs('preguntas.*')"
-            class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+        <x-nav-link
+          :href="route('preguntas.index')"
+          :active="request()->routeIs('preguntas.*')"
+          class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
         >
           <span x-show="open" class="ml-1">Preguntas</span>
         </x-nav-link>
-  
       </div>
     </div>
 

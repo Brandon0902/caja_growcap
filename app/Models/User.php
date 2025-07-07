@@ -10,11 +10,18 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    // Tabla y clave primaria personalizados:
+    // Nombre real de la tabla y clave primaria
     protected $table = 'usuarios';
     protected $primaryKey = 'id_usuario';
 
-    // Columnas que se pueden asignar en masa
+    // Si tu PK es entero autoincremental
+    public $incrementing = true;
+    protected $keyType = 'int';
+
+    // Tu tabla no usa created_at / updated_at
+    public $timestamps = false;
+
+    // Columnas que se pueden llenar en masa
     protected $fillable = [
         'name',
         'email',
@@ -24,13 +31,13 @@ class User extends Authenticatable
         'activo',
     ];
 
-    // Columnas que no queremos exponer en JSON
+    // Columnas ocultas al serializar
     protected $hidden = [
         'password',
-        // 'remember_token', // elimínalo si tu tabla no lo tiene
+        // 'remember_token',
     ];
 
-    // Casts para convertir tipos automáticamente
+    // Conversión automática de tipos
     protected $casts = [
         'fecha_creacion' => 'datetime',
         'password'       => 'hashed',
@@ -38,7 +45,23 @@ class User extends Authenticatable
     ];
 
     /**
-     * Relación: si este usuario es “gerente” de alguna sucursal.
+     * Inversiones realizadas por el usuario.
+     */
+    public function inversiones()
+    {
+        return $this->hasMany(\App\Models\UserInversion::class, 'id_usuario', 'id_usuario');
+    }
+
+    /**
+     * Ahorros realizados por el usuario.
+     */
+    public function ahorros()
+    {
+        return $this->hasMany(\App\Models\UserAhorro::class, 'id_usuario', 'id_usuario');
+    }
+
+    /**
+     * Si este usuario es “gerente” de alguna sucursal.
      */
     public function sucursalGerenciada()
     {
@@ -46,7 +69,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Relación pivote: sucursales a las que tiene acceso este usuario.
+     * Sucursales a las que tiene acceso (pivote).
      */
     public function sucursalesConAcceso()
     {
@@ -59,7 +82,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Relación pivote: cajas a las que tiene acceso este usuario.
+     * Cajas a las que tiene acceso (pivote).
      */
     public function cajasConAcceso()
     {
@@ -72,7 +95,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Relación: cajas de las cuales este usuario es responsable.
+     * Cajas de las cuales este usuario es responsable.
      */
     public function cajasResponsable()
     {
@@ -80,7 +103,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Relación: sucursales que este usuario creó/actualizó (campaña id_usuario en sucursales).
+     * Sucursales creadas/actualizadas por este usuario.
      */
     public function sucursalesCreadas()
     {

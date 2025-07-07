@@ -12,7 +12,7 @@ class Cliente extends Model
 
     protected $table = 'clientes';
     protected $primaryKey = 'id';
-    public $timestamps = false;
+    public $timestamps = false;          // la tabla no tiene created_at / updated_at
 
     protected $fillable = [
         'id_superior',
@@ -21,10 +21,10 @@ class Cliente extends Model
         'apellido',
         'telefono',
         'email',
-        // 'codigo_cliente' se genera internamente
+        'codigo_cliente',
         'username',
         'pass_reset_guid',
-        'pass',
+        'pass',          // ← importante para asignación masiva
         'tipo',
         'fecha',
         'fecha_edit',
@@ -33,23 +33,34 @@ class Cliente extends Model
         'status',
     ];
 
+    protected $casts = [
+        'fecha'        => 'date',      // lo convierte a Carbon (sólo fecha)
+        'fecha_edit'   => 'datetime',  // Carbon con fecha+hora
+        'ultimo_acceso'=> 'datetime',
+    ];
+
+    /* ---------- Genera automáticamente el código del cliente ---------- */
     protected static function boot()
     {
         parent::boot();
 
-        static::creating(function($cliente) {
-            // Generar código único de cliente
+        static::creating(function ($cliente) {
             $iniciales = strtoupper(
                 Str::substr($cliente->nombre, 0, 1) .
                 Str::substr($cliente->apellido, 0, 1)
             );
 
             do {
-                $digitos = str_pad(random_int(0, 9999), 4, '0', STR_PAD_LEFT);
-                $codigo  = $iniciales . $digitos;
-            } while ( self::where('codigo_cliente', $codigo)->exists() );
+                $codigo = $iniciales . str_pad(random_int(0, 9999), 4, '0', STR_PAD_LEFT);
+            } while (self::where('codigo_cliente', $codigo)->exists());
 
             $cliente->codigo_cliente = $codigo;
         });
+    }
+
+    /* ------------------ Relaciones ------------------ */
+    public function inversiones()
+    {
+        return $this->hasMany(\App\Models\UserInversion::class, 'id_cliente');
     }
 }
