@@ -31,30 +31,24 @@ class ClienteController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'codigo_cliente' => 'required|string|max:8',
-            'id_superior'    => 'nullable|integer',
-            'id_padre'       => 'nullable|integer',
+            'codigo_cliente' => 'required|string|max:8|unique:clientes,codigo_cliente',
             'nombre'         => 'required|string|max:255',
             'apellido'       => 'nullable|string|max:255',
+            'email'          => 'required|email|max:255|unique:clientes,email',
             'telefono'       => 'nullable|string|max:255',
-            'email'          => 'nullable|email|max:255',
-            'user'           => 'nullable|string|max:255',
-            'pass'           => 'nullable|string|min:8|confirmed',
+            'user'           => 'required|string|max:255|unique:clientes,user',
+            'pass'           => 'required|string|min:8|confirmed',
             'tipo'           => 'nullable|string|max:255',
             'fecha'          => 'nullable|date',
         ]);
 
-        // Si enviaron contraseña, la hasheamos; si no, la quitamos.
-        if (!empty($data['pass'])) {
-            $data['pass'] = Hash::make($data['pass']);
-        } else {
-            unset($data['pass']);
-        }
+        // Hashear la contraseña
+        $data['pass'] = Hash::make($data['pass']);
 
         // Campos automáticos
-        $data['id_usuario']  = session('id_admin');
-        $data['status']      = 1;
-        $data['fecha_edit']  = now();
+        $data['id_usuario'] = session('id_admin');
+        $data['status']     = 1;
+        $data['fecha_edit'] = now();
 
         Cliente::create($data);
 

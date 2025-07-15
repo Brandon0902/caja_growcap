@@ -63,4 +63,10 @@ class Cliente extends Model
     {
         return $this->hasMany(\App\Models\UserInversion::class, 'id_cliente');
     }
+
+    public function userData()
+    {
+        return $this->hasOne(\App\Models\UserData::class, 'id_cliente', 'id');
+    }
+    
 }

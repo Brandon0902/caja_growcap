@@ -43,7 +43,8 @@ class UserAhorroController extends Controller
     {
         $cliente = Cliente::findOrFail($idCliente);
 
-        $ahorros = UserAhorro::with('ahorro')
+        // Con 'movimientos' eager‐loaded
+        $ahorros = UserAhorro::with(['ahorro', 'movimientos'])
             ->where('id_cliente', $idCliente)
             ->orderByDesc('fecha_inicio')
             ->paginate(15);

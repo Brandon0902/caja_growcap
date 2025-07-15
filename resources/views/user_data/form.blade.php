@@ -1,9 +1,12 @@
-{{-- resources/views/user_data/edit.blade.php --}}
+{{-- resources/views/user_data/form.blade.php --}}
 <x-app-layout>
   <x-slot name="header">
+    @php $isEdit = $userData->exists; @endphp
     <h2 class="font-semibold text-xl text-white leading-tight">
-      {{ __('Editar Datos de Cliente') }}
-      ({{ optional($userData->cliente)->nombre }} {{ optional($userData->cliente)->apellido }})
+      {{ $isEdit
+          ? "Editar Datos de Cliente ({$cliente->nombre} {$cliente->apellido})"
+          : "Nuevo Registro de Datos Cliente ({$cliente->nombre} {$cliente->apellido})"
+      }}
     </h2>
   </x-slot>
 
@@ -16,7 +19,8 @@
       'acceso'        => 'Acceso',
       'laborales'     => 'Laborales',
     ];
-    $active = request('tab', 'general');
+    $active = request('tab','general');
+    $formAction = route('clientes.datos.save', $cliente) . '?tab=' . $active;
   @endphp
 
   <div class="py-6 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -27,29 +31,30 @@
     @endif
 
     <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg">
-      {{-- Nav de pestañas --}}
+      {{-- Pestañas --}}
       <nav class="flex border-b border-gray-200 dark:border-gray-700 px-4">
         @foreach($tabs as $key => $label)
-          <a href="{{ route('user_data.edit', $userData) }}?tab={{ $key }}"
-             class="py-3 px-4 -mb-px border-b-2 font-medium text-sm {{ $active === $key
-                   ? 'border-indigo-500 text-indigo-600 dark:text-indigo-300'
-                   : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300' }}">
+          <a href="{{ route('clientes.datos.form', $cliente) }}?tab={{ $key }}"
+             class="py-3 px-4 -mb-px border-b-2 font-medium text-sm
+               {{ $active === $key
+                  ? 'border-indigo-500 text-indigo-600 dark:text-indigo-300'
+                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300' }}">
             {{ $label }}
           </a>
         @endforeach
       </nav>
 
-      @if($active === 'laborales')
-        {{-- Pestaña Laborales --}}
+      @if($active === 'laborales' && $userData->exists)
+        {{-- Solo partial laborales cuando el registro ya existe --}}
         @include('user_data.partials.laborales')
       @else
-        <form action="{{ route('user_data.update', $userData) }}?tab={{ $active }}" method="POST">
+        <form action="{{ $formAction }}" method="POST" class="space-y-6 p-6">
           @csrf
-          @method('PUT')
-          <input type="hidden" name="id_cliente" value="{{ $userData->id_cliente }}">
+
+          {{-- Mantenemos la pestaña activa --}}
           <input type="hidden" name="tab" value="{{ $active }}">
 
-          <div class="p-6 bg-gray-50 dark:bg-gray-700 rounded-b-lg">
+          <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 space-y-6">
             @switch($active)
               @case('general')
                 @include('user_data.partials.general')
@@ -76,10 +81,10 @@
             @endswitch
           </div>
 
-          <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 text-right">
+          <div class="text-right">
             <button type="submit"
-                    class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded">
-              Guardar cambios
+                    class="px-4 py-2 {{ $isEdit ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-blue-600 hover:bg-blue-700' }} text-white rounded">
+              {{ $isEdit ? 'Guardar cambios' : 'Guardar' }}
             </button>
           </div>
         </form>

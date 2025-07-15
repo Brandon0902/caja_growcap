@@ -166,6 +166,39 @@
       </div>
     </div>
 
+    {{-- Mensajes (menú principal) --}}
+    <x-nav-link
+        :href="route('mensajes.index')"
+        :active="request()->routeIs('mensajes.*')"
+        class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/50 transition w-full"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg"
+           class="h-6 w-6 text-white flex-shrink-0"
+           fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round"
+           viewBox="0 0 24 24">
+        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h12a2 2 0 012 2z" />
+      </svg>
+      <span x-show="open" class="ml-3">Mensajes</span>
+    </x-nav-link>
+
+    {{-- Tickets (menú principal) --}}
+    <x-nav-link
+        :href="route('tickets.index')"
+        :active="request()->routeIs('tickets.*')"
+        class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/50 transition w-full"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 text-white flex-shrink-0"
+          fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round"
+          viewBox="0 0 24 24">
+        <path d="M3 8h18M3 12h18M3 16h18" />
+        <circle cx="12" cy="12" r="2" />
+      </svg>
+      <span x-show="open" class="ml-3">Tickets</span>
+    </x-nav-link>
+
     {{-- Clientes --}}
     <div class="mt-1 space-y-1">
       <button
@@ -218,6 +251,42 @@
           class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
         >
           <span x-show="open" class="ml-1">Inversiones</span>
+        </x-nav-link>
+
+        {{-- Depósitos --}}
+        <x-nav-link
+          :href="route('depositos.index')"
+          :active="request()->routeIs('depositos.*')"
+          class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+        >
+          <span x-show="open" class="ml-1">Depósitos</span>
+        </x-nav-link>
+
+        {{-- Retiros --}}
+        <x-nav-link
+          :href="route('retiros.index')"
+          :active="request()->routeIs('retiros.*')"
+          class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+        >
+          <span x-show="open">Retiros</span>
+        </x-nav-link>
+
+        {{-- Préstamos --}}
+        <x-nav-link
+          :href="route('user_prestamos.index')"
+          :active="request()->routeIs('user_prestamos.*')"
+          class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+        >
+          <span x-show="open" class="ml-1">Préstamos</span>
+        </x-nav-link>
+
+        {{-- Abonos --}}
+        <x-nav-link
+          :href="route('adminuserabonos.clientes.index')" 
+          :active="request()->routeIs('adminuserabonos.clientes.*')"
+          class="!text-white flex items-center px-2 py-2 rounded-md hover:bg-purple-700/30 transition w-full ml-8"
+        >
+          <span x-show="open" class="ml-1">Abonos</span>
         </x-nav-link>
 
 
