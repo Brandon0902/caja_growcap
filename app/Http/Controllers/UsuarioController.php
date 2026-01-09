@@ -27,6 +27,11 @@ class UsuarioController extends Controller
                         ->paginate(15)
                         ->appends($request->only('search', 'filterRol'));
 
+        $isPanel = $request->boolean('panel') || $request->header('X-Panel') === '1';
+        if ($isPanel) {
+            return view('usuarios._panel', compact('usuarios', 'roles'));
+        }
+
         return view('usuarios.index', compact('usuarios', 'roles'));
     }
 

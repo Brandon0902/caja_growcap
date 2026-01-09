@@ -29,6 +29,11 @@ class SubcategoriaGastoController extends Controller
             ->orderBy('nombre')
             ->paginate(15);
 
+        $isPanel = request()->boolean('panel') || request()->header('X-Panel') === '1';
+        if ($isPanel) {
+            return view('subcategoria-gastos._panel', compact('subcategorias'));
+        }
+
         return view('subcategoria-gastos.index', compact('subcategorias'));
     }
 
