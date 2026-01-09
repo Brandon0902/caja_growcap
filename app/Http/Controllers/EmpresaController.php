@@ -7,9 +7,14 @@ use Illuminate\Http\Request;
 
 class EmpresaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $empresas = Empresa::orderByDesc('id')->paginate(15);
+        $isPanel = $request->boolean('panel') || $request->header('X-Panel') === '1';
+        if ($isPanel) {
+            return view('adminempresas._panel', compact('empresas'));
+        }
+
         return view('adminempresas.index', compact('empresas'));
     }
 

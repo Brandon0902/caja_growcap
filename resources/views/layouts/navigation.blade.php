@@ -292,45 +292,17 @@
     </div>
     @endcanany
 
-    {{-- ========== Admin ========== --}}
+    {{-- ========== Panel Control ========== --}}
     @role('admin','web')
     <div class="mt-1 space-y-1">
-      <button
-        @click=" if (isFlyout()) { openFly('admin','adminBtn'); return; } adminOpen = !adminOpen; "
-        :class="adminOpen ? 'bg-purple-700/50' : 'hover:bg-purple-700/50'"
-        class="!text-white w-full px-2 py-2 rounded-md transition toplink-base"
-        x-bind:class="{ 'toplink-closed': !open }" x-ref="adminBtn">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l1.42-1.42"/><path d="M18.36 5.64l1.42-1.42"/><circle cx="12" cy="12" r="3"/></svg>
-        <span x-bind:class="open ? 'caption' : 'caption-closed'">Admin</span>
-      </button>
-
-      <div x-show="adminOpen && open" x-cloak class="space-y-1 rounded-md bg-white text-slate-900 p-2 shadow-sm submenu-white">
-        @can('clientes.ver')    <x-nav-link :href="route('clientes.index')"   :active="request()->routeIs('clientes.*')"   class="px-2 py-2 rounded-md hover:bg-purple-50 transition w-full ml-8">Clientes</x-nav-link>@endcan
-        @can('prestamos.ver')   <x-nav-link :href="route('prestamos.index')"  :active="request()->routeIs('prestamos.*')"  class="px-2 py-2 rounded-md hover:bg-purple-50 transition w-full ml-8">Préstamos</x-nav-link>@endcan
-        @can('inversiones.ver') <x-nav-link :href="route('inversiones.index')" :active="request()->routeIs('inversiones.*')" class="px-2 py-2 rounded-md hover:bg-purple-50 transition w-full ml-8">Inversiones</x-nav-link>@endcan
-        @can('ahorros.ver')     <x-nav-link :href="route('ahorros.index')"    :active="request()->routeIs('ahorros.*')"    class="px-2 py-2 rounded-md hover:bg-purple-50 transition w-full ml-8">Ahorros</x-nav-link>@endcan
-        @can('config_mora.ver') <x-nav-link :href="route('config_mora.index')" :active="request()->routeIs('config_mora.*')" class="px-2 py-2 rounded-md hover:bg-purple-50 transition w-full ml-8">Mora</x-nav-link>@endcan
-        @can('empresas.ver')    <x-nav-link :href="route('empresas.index')"   :active="request()->routeIs('empresas.*')"   class="px-2 py-2 rounded-md hover:bg-purple-50 transition w-full ml-8">Empresas</x-nav-link>@endcan
-        @can('preguntas.ver')   <x-nav-link :href="route('preguntas.index')"  :active="request()->routeIs('preguntas.*')"  class="px-2 py-2 rounded-md hover:bg-purple-50 transition w-full ml-8">Preguntas</x-nav-link>@endcan
-        @can('admin.ver')       <x-nav-link :href="route('admin.permisos.index')" :active="request()->routeIs('admin.permisos.*')" class="px-2 py-2 rounded-md hover:bg-purple-50 transition w-full ml-8">Permisos</x-nav-link>@endcan
-        @can('usuarios.ver')    <x-nav-link :href="route('usuarios.index')"      :active="request()->routeIs('usuarios.*')"      class="px-2 py-2 rounded-md hover:bg-purple-50 transition w-full ml-8">Usuarios</x-nav-link>@endcan
-
-        @canany(['categorias.ver','categoria_ingresos.ver','subcategoria_ingresos.ver','categoria_gastos.ver','subcategoria_gastos.ver','proveedores.ver'])
-        <div class="ml-8">
-          <button @click="catOpen = !catOpen" class="submenu-toggle flex items-center w-full px-2 py-2 rounded-md transition">
-            <span class="flex-1 text-left">Categorías</span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform transition-transform" :class="catOpen ? 'rotate-90' : ''" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 6L14 10L6 14V6Z" clip-rule="evenodd"/></svg>
-          </button>
-          <div x-show="catOpen" x-cloak class="space-y-1 mt-1">
-            @can('categoria_ingresos.ver')    <x-nav-link :href="route('categoria-ingresos.index')"    :active="request()->routeIs('categoria-ingresos.*')"    class="px-2 py-2 rounded-md hover:bg-purple-50 transition w-full ml-8">Cat. Ingresos</x-nav-link>@endcan
-            @can('subcategoria_ingresos.ver') <x-nav-link :href="route('subcategoria-ingresos.index')" :active="request()->routeIs('subcategoria-ingresos.*')" class="px-2 py-2 rounded-md hover:bg-purple-50 transition w-full ml-8">Subcat. Ingresos</x-nav-link>@endcan
-            @can('categoria_gastos.ver')      <x-nav-link :href="route('categoria-gastos.index')"      :active="request()->routeIs('categoria-gastos.*')"      class="px-2 py-2 rounded-md hover:bg-purple-50 transition w-full ml-8">Cat. Gastos</x-nav-link>@endcan
-            @can('subcategoria_gastos.ver')   <x-nav-link :href="route('subcategoria-gastos.index')"   :active="request()->routeIs('subcategoria-gastos.*')"   class="px-2 py-2 rounded-md hover:bg-purple-50 transition w-full ml-8">Subcat. Gastos</x-nav-link>@endcan
-            @can('proveedores.ver')           <x-nav-link :href="route('proveedores.index')"           :active="request()->routeIs('proveedores.*')"           class="px-2 py-2 rounded-md hover:bg-purple-50 transition w-full ml-8">Proveedores</x-nav-link>@endcan
-          </div>
-        </div>
-        @endcanany
-      </div>
+      <x-nav-link
+        :href="route('panel-control.index')"
+        :active="request()->routeIs('panel-control.*')"
+        class="!text-white px-2 py-2 rounded-md hover:bg-purple-700/50 transition w-full toplink-base"
+        x-bind:class="{ 'toplink-closed': !open }">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><circle cx="12" cy="12" r="3"/></svg>
+        <span x-bind:class="open ? 'caption' : 'caption-closed'">Panel Control</span>
+      </x-nav-link>
     </div>
     @endrole
 

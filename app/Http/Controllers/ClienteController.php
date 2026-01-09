@@ -86,6 +86,11 @@ class ClienteController extends Controller
 
         $clientes = $q->orderByDesc('id')->paginate(15)->withQueryString();
 
+        $isPanel = $request->boolean('panel') || $request->header('X-Panel') === '1';
+        if ($isPanel) {
+            return view(self::VIEW.'_panel', compact('clientes'));
+        }
+
         return view(self::VIEW.'index', compact('clientes'));
     }
 

@@ -16,6 +16,11 @@ class SubcategoriaIngresoController extends Controller
                ->orderBy('nombre')
                ->paginate(15);
 
+        $isPanel = request()->boolean('panel') || request()->header('X-Panel') === '1';
+        if ($isPanel) {
+            return view('subcategoria-ingresos._panel', compact('subs'));
+        }
+
         return view('subcategoria-ingresos.index', compact('subs'));
     }
 
