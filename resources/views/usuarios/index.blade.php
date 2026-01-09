@@ -6,22 +6,50 @@
     </h2>
   </x-slot>
 
+  <style>[x-cloak]{display:none!important}</style>
+
   <div class="py-6 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
-       x-data="{ search: '', filterRol: '' }"
-  >
-    {{-- + Nuevo Usuario y filtros --}}
-    <div class="mb-4 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-2 sm:space-y-0">
-      {{-- Botón “Nuevo Usuario” --}}
+       x-data="{
+         search: '',
+         filterRol: '',
+         typing: false,
+         clear() { this.search=''; this.filterRol=''; }
+       }">
+
+    {{-- Éxito --}}
+    @if(session('success'))
+      <div class="mb-4 rounded-lg bg-yellow-100 p-4 text-yellow-800
+                  dark:bg-yellow-900 dark:text-yellow-200">
+        {{ session('success') }}
+      </div>
+    @endif
+
+    {{-- Acciones y filtros --}}
+    <div class="mb-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
       <a href="{{ route('usuarios.create') }}"
          class="inline-flex items-center px-4 py-2
                 bg-yellow-500 hover:bg-yellow-600 dark:bg-yellow-700 dark:hover:bg-yellow-800
                 text-white font-semibold rounded-md shadow-sm focus:outline-none
                 focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400">
-        + Nuevo Usuario
+        + {{ __('Nuevo Usuario') }}
       </a>
 
-      <div class="flex space-x-2">
-        {{-- Filtro por rol --}}
+      <div class="flex items-center gap-2 w-full sm:w-auto">
+        <div class="relative flex-1 sm:w-72">
+          <input type="text"
+                 x-model.debounce.400ms="search"
+                 @input="typing = true; setTimeout(()=>typing=false, 350)"
+                 placeholder="{{ __('Buscar por nombre/email/rol…') }}"
+                 class="w-full px-3 py-2 border rounded-md shadow-sm
+                        focus:outline-none focus:ring-2 focus:ring-purple-500
+                        bg-white text-gray-700 dark:bg-gray-700 dark:text-gray-200
+                        dark:border-gray-600"/>
+          <svg x-cloak x-show="typing" class="h-5 w-5 animate-spin absolute right-3 top-2.5 opacity-70" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none" opacity=".25"></circle>
+            <path d="M22 12a10 10 0 0 1-10 10" fill="currentColor"></path>
+          </svg>
+        </div>
+
         <select x-model="filterRol"
                 class="px-3 py-2 sm:w-48 border rounded-md shadow-sm
                        focus:outline-none focus:ring-2 focus:ring-purple-500
@@ -33,60 +61,57 @@
           @endforeach
         </select>
 
-        {{-- Buscador --}}
-        <input type="text"
-               x-model="search"
-               placeholder="{{ __('Buscar…') }}"
-               class="px-3 py-2 border rounded-md shadow-sm
-                      focus:outline-none focus:ring-2 focus:ring-purple-500
-                      bg-white text-gray-700 dark:bg-gray-700 dark:text-gray-200
-                      dark:border-gray-600"/>
+        <button @click="clear()"
+                class="px-3 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:text-gray-200 rounded-md">
+          {{ __('Limpiar') }}
+        </button>
       </div>
     </div>
 
-    {{-- Mensaje de éxito --}}
-    @if(session('success'))
-      <div class="mb-4 rounded-lg bg-yellow-100 p-4 text-yellow-800
-                  dark:bg-yellow-900 dark:text-yellow-200">
-        {{ session('success') }}
-      </div>
-    @endif
-
-    {{-- Panel de tabla --}}
+    {{-- Tabla --}}
     <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg">
       <div class="overflow-x-auto">
         <table class="table-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700 whitespace-nowrap">
           <thead class="bg-purple-700 dark:bg-purple-900">
             <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Nombre</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Email</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Rol</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Creación</th>
-              <th class="px-6 py-3 text-center text-xs font-medium text-white uppercase">Activo</th>
-              <th class="px-6 py-3 text-right text-xs font-medium text-white uppercase">Acciones</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">{{ __('Nombre') }}</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">{{ __('Email') }}</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">{{ __('Rol') }}</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">{{ __('Creación') }}</th>
+              <th class="px-6 py-3 text-center text-xs font-medium text-white uppercase">{{ __('Activo') }}</th>
+              <th class="px-6 py-3 text-right text-xs font-medium text-white uppercase">{{ __('Acciones') }}</th>
             </tr>
           </thead>
+
           <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             @forelse($usuarios as $u)
-              <tr x-show="
-                $el.textContent.toLowerCase().includes(search.toLowerCase())
-                && (!filterRol || filterRol == '{{ $u->rol }}')
-              " class="last:border-0">
+              <tr
+                x-show="
+                  (
+                    '{{ Str::lower($u->name) }} {{ Str::lower($u->email) }} {{ Str::lower($u->rol) }}'
+                  ).includes(search.toLowerCase())
+                  && (!filterRol || filterRol === '{{ $u->rol }}')
+                "
+                class="last:border-0 hover:bg-gray-50 dark:hover:bg-gray-700"
+              >
                 <td class="px-6 py-4 text-gray-700 dark:text-gray-200">{{ $u->name }}</td>
                 <td class="px-6 py-4 text-gray-700 dark:text-gray-200">{{ $u->email }}</td>
-                <td class="px-6 py-4 text-gray-700 dark:text-gray-200">{{ ucfirst($u->rol) }}</td>
-                <td class="px-6 py-4 text-gray-700 dark:text-gray-200">{{ $u->fecha_creacion->format('Y-m-d H:i') }}</td>
+                <td class="px-6 py-4 text-gray-700 dark:text-gray-200">
+                  <span class="px-2 py-0.5 rounded text-xs font-semibold
+                               bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
+                    {{ ucfirst($u->rol) }}
+                  </span>
+                </td>
+                <td class="px-6 py-4 text-gray-700 dark:text-gray-200">
+                  {{ optional($u->fecha_creacion)->format('Y-m-d H:i') ?? '—' }}
+                </td>
                 <td class="px-6 py-4 text-center">
                   @if($u->activo)
                     <span class="inline-flex rounded-full bg-yellow-100 px-2 text-xs font-semibold text-yellow-800
-                                 dark:bg-yellow-900 dark:text-yellow-200">
-                      Sí
-                    </span>
+                                 dark:bg-yellow-900 dark:text-yellow-200">Sí</span>
                   @else
                     <span class="inline-flex rounded-full bg-gray-100 px-2 text-xs font-semibold text-gray-800
-                                 dark:bg-gray-700 dark:text-gray-300">
-                      No
-                    </span>
+                                 dark:bg-gray-700 dark:text-gray-300">No</span>
                   @endif
                 </td>
                 <td class="px-6 py-4 text-right space-x-2">
@@ -121,7 +146,7 @@
                     {{ __('Editar') }}
                   </a>
 
-                  {{-- Toggle Active --}}
+                  {{-- Activar / Desactivar --}}
                   <form id="toggle-form-{{ $u->id_usuario }}"
                         action="{{ route('usuarios.toggle', $u) }}"
                         method="POST" class="inline">
@@ -164,8 +189,7 @@
               </tr>
             @empty
               <tr>
-                <td colspan="6"
-                    class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+                <td colspan="6" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
                   {{ __('No hay usuarios registrados.') }}
                 </td>
               </tr>
@@ -181,7 +205,7 @@
     </div>
   </div>
 
-  {{-- SweetAlert2 --}}
+  {{-- SweetAlert2 para activar/inactivar --}}
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     document.querySelectorAll('.btn-toggle').forEach(btn => {

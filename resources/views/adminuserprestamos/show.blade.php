@@ -1,150 +1,74 @@
-{{-- resources/views/adminuserprestamos/show.blade.php --}}
-@php
-use App\Models\UserData;
-// Obtenemos el UserData asociado al cliente (contiene documentos del aval)
-$ud = UserData::firstWhere('id_cliente', $cliente->id);
-@endphp
-
 <x-app-layout>
   <x-slot name="header">
     <div class="flex items-center justify-between">
       <h2 class="font-semibold text-xl text-white leading-tight">
-        {{ __("Préstamos de") }} {{ $cliente->nombre }} {{ $cliente->apellido }}
+        {{ __('Préstamo #') }}{{ str_pad($prestamo->id, 3, '0', STR_PAD_LEFT) }}
       </h2>
       <div class="flex space-x-2">
-        <a href="{{ route('user_prestamos.create') }}"
-           class="inline-flex items-center px-3 py-2 bg-green-600 hover:bg-green-700
-                  text-white text-sm font-medium rounded-md shadow-sm focus:outline-none
-                  focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-          {{ __('Crear Préstamo') }}
-        </a>
         <a href="{{ route('user_prestamos.index') }}"
-           class="inline-flex items-center px-3 py-2 bg-gray-500 hover:bg-gray-600
-                  text-white text-sm font-medium rounded-md shadow-sm focus:outline-none
-                  focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+           class="inline-flex items-center px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white text-sm font-medium rounded-md">
           {{ __('← Volver') }}
+        </a>
+        <a href="{{ route('user_prestamos.edit', $prestamo) }}"
+           class="inline-flex items-center px-3 py-2 bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-medium rounded-md">
+          {{ __('Editar') }}
         </a>
       </div>
     </div>
   </x-slot>
 
-  <div class="py-6 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    @if(session('success'))
-      <div class="mb-4 rounded bg-green-100 p-4 text-green-800 dark:bg-green-900 dark:text-green-200">
-        {{ session('success') }}
+  <div class="py-6 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 space-y-6">
+    <div class="bg-white dark:bg-gray-800 shadow sm:rounded-lg p-6">
+      <h3 class="font-semibold text-lg text-gray-900 dark:text-gray-100 mb-3">{{ __('Resumen') }}</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700 dark:text-gray-200">
+        <div><span class="font-medium">{{ __('Cliente:') }}</span>
+          {{ optional($prestamo->cliente)->nombre }} {{ optional($prestamo->cliente)->apellido }}
+          <div class="text-xs text-gray-500">{{ optional($prestamo->cliente)->email }}</div>
+        </div>
+        <div><span class="font-medium">{{ __('Monto:') }}</span> ${{ number_format($prestamo->cantidad,2) }}</div>
+        <div><span class="font-medium">{{ __('Tipo / Semanas:') }}</span> {{ $prestamo->tipo_prestamo }} / {{ $prestamo->semanas }}</div>
+        <div><span class="font-medium">{{ __('Interés:') }}</span> {{ number_format($prestamo->interes,2) }}% ( ${{ number_format($prestamo->interes_generado,2) }} )</div>
+        <div><span class="font-medium">{{ __('Inicio:') }}</span> {{ \Carbon\Carbon::parse($prestamo->fecha_inicio)->format('Y-m-d') }}</div>
+        <div><span class="font-medium">{{ __('Status:') }}</span> {{ $statusOptions[$prestamo->status] ?? '—' }}</div>
+        <div><span class="font-medium">{{ __('Caja:') }}</span> {{ optional($prestamo->caja)->nombre ?? '—' }}</div>
+        <div><span class="font-medium">{{ __('Mora acum.:') }}</span> ${{ number_format($prestamo->mora_acumulada,2) }}</div>
       </div>
-    @endif
+    </div>
 
-    <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg overflow-x-auto">
-      <table class="table-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700 whitespace-nowrap">
-        <thead class="bg-green-700 dark:bg-green-900">
-          <tr>
-            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">#</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Cantidad</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Tipo</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Semanas</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Inicio</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Interés</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Abonos</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Mora</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Estado</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Aval</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Estado Aval</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Notificado Aval</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Documentos Aval</th>
-            <th class="px-6 py-3 text-right text-xs font-medium text-white uppercase">Acciones</th>
-          </tr>
-        </thead>
-        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-          @forelse($prestamos as $p)
+    <div class="bg-white dark:bg-gray-800 shadow sm:rounded-lg p-6">
+      <h3 class="font-semibold text-lg text-gray-900 dark:text-gray-100 mb-3">{{ __('Plan de pagos') }}</h3>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 whitespace-nowrap">
+          <thead class="bg-gray-100 dark:bg-gray-700">
             <tr>
-              <td class="px-6 py-4 text-gray-700 dark:text-gray-200">
-                {{ str_pad($p->id, 3, '0', STR_PAD_LEFT) }}
-              </td>
-              <td class="px-6 py-4 text-gray-700 dark:text-gray-200">
-                {{ number_format($p->cantidad, 2) }}
-              </td>
-              <td class="px-6 py-4 text-gray-700 dark:text-gray-200">
-                {{ $p->tipo_prestamo }}
-              </td>
-              <td class="px-6 py-4 text-gray-700 dark:text-gray-200">
-                {{ $p->semanas }} semanas
-              </td>
-              <td class="px-6 py-4 text-gray-700 dark:text-gray-200">
-                {{ \Carbon\Carbon::parse($p->fecha_inicio)->format('Y-m-d') }}
-              </td>
-              <td class="px-6 py-4 text-gray-700 dark:text-gray-200">
-                {{ $p->interes_generado }}
-              </td>
-              <td class="px-6 py-4 text-gray-700 dark:text-gray-200">
-                {{ $p->abonos_echos }}
-              </td>
-              <td class="px-6 py-4 text-gray-700 dark:text-gray-200">
-                {{ number_format($p->mora_acumulada, 2) }}
-              </td>
-              <td class="px-6 py-4 text-gray-900 dark:text-white">
-                {{ $statusOptions[$p->status] ?? '-' }}
-              </td>
-              <td class="px-6 py-4 text-gray-700 dark:text-gray-200">
-                {{ optional($p->aval)->nombre ?? 'Sin aval' }}
-              </td>
-              <td class="px-6 py-4 text-gray-700 dark:text-gray-200">
-                {{ $statusOptions[$p->aval_status] ?? '-' }}
-              </td>
-              <td class="px-6 py-4 text-gray-700 dark:text-gray-200">
-                {{ $p->aval_responded_at
-                   ? \Carbon\Carbon::parse($p->aval_responded_at)->format('Y-m-d H:i')
-                   : '—' }}
-              </td>
-              {{-- Documentos del aval, apilados verticalmente --}}
-              <td class="px-6 py-4 text-gray-700 dark:text-gray-200">
-                <div class="flex flex-col space-y-1 w-max">
-                  @if($ud)
-                    @php
-                      $fields = [
-                        'doc_solicitud_aval'        => 'Solicitud',
-                        'doc_comprobante_domicilio' => 'Domicilio',
-                        'doc_ine_frente'            => 'INE Frente',
-                        'doc_ine_reverso'           => 'INE Reverso',
-                      ];
-                    @endphp
-                    @foreach($fields as $field => $label)
-                      @if($ud->documento && $ud->documento->{$field})
-                        <a href="{{ route('documentos.view', [$ud, $field]) }}"
-                           target="_blank"
-                           class="block px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white text-xs font-medium rounded">
-                          {{ $label }}
-                        </a>
-                      @else
-                        <a href="{{ route('documentos.create', $ud) }}?field={{ $field }}"
-                           class="block px-2 py-1 bg-gray-500 hover:bg-gray-600 text-white text-xs font-medium rounded">
-                          {{ $label }}
-                        </a>
-                      @endif
-                    @endforeach
-                  @endif
-                </div>
-              </td>
-              <td class="px-6 py-4 text-right">
-                <a href="{{ route('user_prestamos.edit', $p) }}"
-                   class="inline-block px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-medium rounded">
-                  {{ __('Editar') }}
-                </a>
-              </td>
+              <th class="px-4 py-2 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase">#</th>
+              <th class="px-4 py-2 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase">Fecha Vto.</th>
+              <th class="px-4 py-2 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase">Pagado</th>
+              <th class="px-4 py-2 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase">Saldo Rest.</th>
+              <th class="px-4 py-2 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase">Estado</th>
             </tr>
-          @empty
-            <tr>
-              <td colspan="14"
-                  class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
-                {{ __('Este cliente no tiene préstamos.') }}
-              </td>
-            </tr>
-          @endforelse
-        </tbody>
-      </table>
-
-      <div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 text-right sm:px-6">
-        {{ $prestamos->links() }}
+          </thead>
+          <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+            @foreach($prestamo->abonos as $ab)
+              <tr>
+                <td class="px-4 py-2 text-gray-700 dark:text-gray-200">{{ $ab->num_pago }}</td>
+                <td class="px-4 py-2 text-gray-700 dark:text-gray-200">{{ $ab->fecha_vencimiento }}</td>
+                <td class="px-4 py-2 text-gray-700 dark:text-gray-200">${{ number_format($ab->cantidad,2) }}</td>
+                <td class="px-4 py-2 text-gray-700 dark:text-gray-200">${{ number_format($ab->saldo_restante,2) }}</td>
+                <td class="px-4 py-2 text-gray-700 dark:text-gray-200">
+                  {{ [0=>'Pendiente',1=>'Pagado'][$ab->status] ?? '—' }}
+                </td>
+              </tr>
+            @endforeach
+            @if($prestamo->abonos->isEmpty())
+              <tr>
+                <td colspan="5" class="px-4 py-4 text-center text-gray-500 dark:text-gray-400">
+                  {{ __('Sin abonos generados.') }}
+                </td>
+              </tr>
+            @endif
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

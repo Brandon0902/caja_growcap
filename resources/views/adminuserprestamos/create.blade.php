@@ -50,31 +50,21 @@
 
       {{-- Cliente --}}
       <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">
-          {{ __('Cliente') }}
-        </label>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">{{ __('Cliente') }}</label>
         <select name="id_cliente" required
-                class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded
-                       bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+                class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200">
           <option value="">{{ __('-- Seleccione Cliente --') }}</option>
           @foreach ($clientes as $c)
-            <option value="{{ $c->id }}" @selected(old('id_cliente') == $c->id)>
-              {{ $c->nombre }} {{ $c->apellido }}
-            </option>
+            <option value="{{ $c->id }}" @selected(old('id_cliente') == $c->id)>{{ $c->nombre }} {{ $c->apellido }}</option>
           @endforeach
         </select>
       </div>
 
       {{-- Plan --}}
       <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">
-          {{ __('Plan') }}
-        </label>
-        <select name="id_activo"
-                x-model.number="selectedPlan"
-                required
-                class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded
-                       bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">{{ __('Plan') }}</label>
+        <select name="id_activo" x-model.number="selectedPlan" required
+                class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200">
           <option value="">{{ __('-- Seleccione Plan --') }}</option>
           @foreach ($planes as $p)
             <option value="{{ $p->id_prestamo }}" @selected(old('id_activo') == $p->id_prestamo)>
@@ -89,20 +79,17 @@
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">{{ __('Periodo') }}</label>
           <input x-model="periodo" disabled
-                 class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded
-                        bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200"/>
+                 class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200"/>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">{{ __('Semanas') }}</label>
           <input x-model="semanas" disabled
-                 class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded
-                        bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200"/>
+                 class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200"/>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">{{ __('Interés %') }}</label>
           <input x-model="interes" disabled
-                 class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded
-                        bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200"/>
+                 class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200"/>
         </div>
       </div>
 
@@ -110,24 +97,59 @@
       <div class="mb-4">
         <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">{{ __('Fecha de inicio') }}</label>
         <input type="date" name="fecha_inicio" value="{{ old('fecha_inicio') }}" required
-               class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded
-                      bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200"/>
+               class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200"/>
       </div>
 
-      {{-- Cantidad e interés generado --}}
+      {{-- Cantidad / interés generado --}}
       <div class="mb-4 grid grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">{{ __('Cantidad a solicitar') }}</label>
           <input type="number" name="cantidad" x-model.number="cantidad" step="0.01" required
-                 class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded
-                        bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200"/>
+                 class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200"/>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">{{ __('Interés generado') }}</label>
           <input :value="interesGen" disabled
-                 class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded
-                        bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200"/>
+                 class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200"/>
         </div>
+      </div>
+
+      {{-- Caja --}}
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">{{ __('Caja (de dónde sale el desembolso)') }}</label>
+        <select name="id_caja" required
+                class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+          <option value="">{{ __('-- Seleccione Caja --') }}</option>
+          @forelse($cajas as $cx)
+            <option value="{{ $cx->id_caja }}" @selected(old('id_caja') == $cx->id_caja)>
+              {{ $cx->nombre }}
+              @if(!is_null($cx->saldo_final)) — {{ __('Saldo:') }} ${{ number_format($cx->saldo_final, 2) }} @endif
+            </option>
+          @empty
+            <option value="" disabled>{{ __('No hay cajas abiertas disponibles') }}</option>
+          @endforelse
+        </select>
+        <p class="text-xs italic text-gray-500 dark:text-gray-400 mt-1">
+          {{ __('Si el estado se crea como Pagado, el desembolso se registrará como Egreso en esta caja y se generará el plan de abonos.') }}
+        </p>
+      </div>
+
+      {{-- Estado inicial (select de status) --}}
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">{{ __('Estado inicial del préstamo') }}</label>
+        <select name="status" required
+                class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+          @php $oldStatus = old('status', 3); @endphp
+          <option value="1" @selected($oldStatus==1)>Autorizado</option>
+          <option value="2" @selected($oldStatus==2)>Pendiente</option>
+          <option value="3" @selected($oldStatus==3)>En revisión</option>
+          <option value="4" @selected($oldStatus==4)>Rechazado</option>
+          <option value="5" @selected($oldStatus==5)>Pagado</option>
+          <option value="6" @selected($oldStatus==6)>Terminado</option>
+        </select>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+          {{ __('Si eliges “Pagado”, se generará el plan de abonos y el desembolso quedará registrado en caja automáticamente.') }}
+        </p>
       </div>
 
       <hr class="my-4"/>
@@ -136,8 +158,7 @@
       <div class="mb-4">
         <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">{{ __('Código de Aval') }}</label>
         <input type="text" name="codigo_aval" value="{{ old('codigo_aval') }}"
-               class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded
-                      bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200"/>
+               class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200"/>
         <p class="text-xs italic text-gray-500 dark:text-gray-400">
           {{ __('Si ingresa código de aval no es necesario subir documentos.') }}
         </p>
@@ -147,23 +168,19 @@
       <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">{{ __('Solicitud de Aval') }}</label>
-          <input type="file" name="doc_solicitud_aval"
-                 class="mt-1 block w-full text-gray-700 dark:text-gray-200"/>
+          <input type="file" name="doc_solicitud_aval" class="mt-1 block w-full text-gray-700 dark:text-gray-200"/>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">{{ __('Comprobante de Domicilio') }}</label>
-          <input type="file" name="doc_comprobante_domicilio"
-                 class="mt-1 block w-full text-gray-700 dark:text-gray-200"/>
+          <input type="file" name="doc_comprobante_domicilio" class="mt-1 block w-full text-gray-700 dark:text-gray-200"/>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">{{ __('INE Frente') }}</label>
-          <input type="file" name="doc_ine_frente"
-                 class="mt-1 block w-full text-gray-700 dark:text-gray-200"/>
+          <input type="file" name="doc_ine_frente" class="mt-1 block w-full text-gray-700 dark:text-gray-200"/>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">{{ __('INE Reverso') }}</label>
-          <input type="file" name="doc_ine_reverso"
-                 class="mt-1 block w-full text-gray-700 dark:text-gray-200"/>
+          <input type="file" name="doc_ine_reverso" class="mt-1 block w-full text-gray-700 dark:text-gray-200"/>
         </div>
       </div>
 

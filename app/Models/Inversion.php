@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class Inversion extends Model
 {
@@ -12,11 +13,11 @@ class Inversion extends Model
     protected $table = 'inversiones';
     protected $primaryKey = 'id';
 
-    public $timestamps = false; // o true si luego decides usar created_at/updated_at
+    public $timestamps = false;
 
     protected $fillable = [
+        'nombre',
         'periodo',
-        'meses_minimos',
         'monto_minimo',
         'monto_maximo',
         'rendimiento',
@@ -24,6 +25,12 @@ class Inversion extends Model
         'fecha_edit',
         'id_usuario',
         'status',
+    ];
+
+    protected $casts = [
+        'fecha'      => 'datetime',  // tu columna es datetime
+        'fecha_edit' => 'datetime',
+        'status'     => 'string',
     ];
 
     public function usuario()

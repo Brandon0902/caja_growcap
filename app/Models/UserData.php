@@ -2,10 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Cliente;
-use App\Models\Estado;
-use App\Models\Municipio;
-use App\Models\Documento;
 use Illuminate\Database\Eloquent\Model;
 
 class UserData extends Model
@@ -36,6 +32,13 @@ class UserData extends Model
         'porcentaje_1',
         'porcentaje_2',
         'fecha_ingreso',
+
+        // ⬇️ Nuevos campos de cache de score
+        'credit_score',
+        'credit_range',
+        'credit_breakdown',
+        'credit_last_calc',
+        'credit_version',
     ];
 
     protected $casts = [
@@ -49,30 +52,19 @@ class UserData extends Model
         'fecha_alta'         => 'datetime',
         'fecha_modificacion' => 'datetime',
         'fecha_ingreso'      => 'date',
+
+        // Casts de cache
+        'credit_score'       => 'integer',
+        'credit_range'       => 'string',
+        'credit_breakdown'   => 'array',     // si usaste LONGTEXT, puedes castear manualmente en mutators
+        'credit_last_calc'   => 'datetime',
+        'credit_version'     => 'integer',
     ];
 
-    public function cliente()
-    {
-        return $this->belongsTo(Cliente::class, 'id_cliente', 'id');
-    }
-
-    public function estado()
-    {
-        return $this->belongsTo(Estado::class, 'id_estado', 'id');
-    }
-
-    public function municipio()
-    {
-        return $this->belongsTo(Municipio::class, 'id_municipio', 'id');
-    }
-
-    public function documento()
-    {
-        return $this->hasOne(Documento::class, 'id_cliente', 'id_cliente');
-    }
-
-    public function laboral()
-    {
-        return $this->hasOne(UserLaboral::class, 'id_cliente', 'id_cliente');
-    }
+    // ===== Relaciones =====
+    public function cliente()  { return $this->belongsTo(Cliente::class,  'id_cliente', 'id'); }
+    public function estado()   { return $this->belongsTo(Estado::class,   'id_estado',  'id'); }
+    public function municipio(){ return $this->belongsTo(Municipio::class,'id_municipio','id'); }
+    public function documento(){ return $this->hasOne(Documento::class,   'id_cliente', 'id_cliente'); }
+    public function laboral()  { return $this->hasOne(UserLaboral::class, 'id_cliente', 'id_cliente'); }
 }

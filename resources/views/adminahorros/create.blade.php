@@ -6,12 +6,23 @@
   </x-slot>
 
   <div class="py-6 mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-    {{-- Errores de validación --}}
     <x-validation-errors class="mb-4"/>
 
     <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-6">
       <form action="{{ route('ahorros.store') }}" method="POST">
         @csrf
+
+        {{-- Nombre --}}
+        <div class="mb-4">
+          <x-label for="nombre" value="Nombre" />
+          <x-input id="nombre"
+                   name="nombre"
+                   type="text"
+                   maxlength="255"
+                   :value="old('nombre')"
+                   required
+                   autofocus />
+        </div>
 
         {{-- Meses mínimos --}}
         <div class="mb-4">
@@ -21,8 +32,7 @@
                    type="number"
                    min="0"
                    :value="old('meses_minimos')"
-                   required
-                   autofocus />
+                   required />
         </div>
 
         {{-- Monto mínimo --}}
@@ -37,9 +47,9 @@
                    required />
         </div>
 
-        {{-- Tipo de ahorro --}}
+        {{-- Categoría --}}
         <div class="mb-4">
-          <x-label for="tipo_ahorro" value="Tipo de Ahorro" />
+          <x-label for="tipo_ahorro" value="Categoría" />
           <x-input id="tipo_ahorro"
                    name="tipo_ahorro"
                    type="text"

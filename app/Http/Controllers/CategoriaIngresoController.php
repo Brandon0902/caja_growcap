@@ -6,30 +6,41 @@ namespace App\Http\Controllers;
 use App\Models\CategoriaIngreso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class CategoriaIngresoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categorias = CategoriaIngreso::with('usuario')
-                          ->orderBy('nombre')
-                          ->paginate(15);
+        $q = CategoriaIngreso::query()->with('usuario');
+
+        if ($s = trim((string)$request->get('q', ''))) {
+            $q->where('nombre', 'like', "%{$s}%");
+        }
+
+        $categorias = $q->orderBy('nombre')
+            ->paginate(15)
+            ->withQueryString();
 
         return view('categoria-ingresos.index', compact('categorias'));
     }
 
     public function create()
     {
+        // Ya no necesitamos sucursales
         return view('categoria-ingresos.create');
     }
 
     public function store(Request $request)
     {
+        $u = Auth::user();
+        $tabla = (new CategoriaIngreso)->getTable(); // "categorias_ingreso"
+
         $data = $request->validate([
-            'nombre' => 'required|string|max:255|unique:categoria_ingresos,nombre',
+            'nombre' => ['required','string','max:255', Rule::unique($tabla, 'nombre')],
         ]);
 
-        $data['id_usuario'] = Auth::id();
+        $data['id_usuario'] = $u->id_usuario ?? $u->id;
 
         CategoriaIngreso::create($data);
 
@@ -38,35 +49,59 @@ class CategoriaIngresoController extends Controller
             ->with('success', 'Categoría de ingreso creada correctamente.');
     }
 
-    public function show(CategoriaIngreso $categoriaIngreso)
+    public function show(string $id)
     {
-        return view('categoria-ingresos.show', ['categoria' => $categoriaIngreso]);
+        $categoria = CategoriaIngreso::query()
+            ->with('usuario')
+            ->whereKey($id)
+            ->firstOrFail();
+
+        return view('categoria-ingresos.show', ['categoria' => $categoria]);
     }
 
-    public function edit(CategoriaIngreso $categoriaIngreso)
+    public function edit(string $id)
     {
-        return view('categoria-ingresos.edit', ['categoria' => $categoriaIngreso]);
+        $categoria = CategoriaIngreso::query()
+            ->whereKey($id)
+            ->firstOrFail();
+
+        // Ya no necesitamos sucursales
+        return view('categoria-ingresos.edit', compact('categoria'));
     }
 
-    public function update(Request $request, CategoriaIngreso $categoriaIngreso)
+    public function update(Request $request, string $id)
     {
+        $u = Auth::user();
+
+        $categoria = CategoriaIngreso::query()
+            ->whereKey($id)
+            ->firstOrFail();
+
+        $tabla = (new CategoriaIngreso)->getTable();
+
         $data = $request->validate([
-            'nombre' => 'required|string|max:255|unique:categoria_ingresos,nombre,' 
-                        . $categoriaIngreso->id_cat_ing . ',id_cat_ing',
+            'nombre' => [
+                'required','string','max:255',
+                Rule::unique($tabla, 'nombre')->ignore($categoria->getKey(), $categoria->getKeyName()),
+            ],
         ]);
 
-        $data['id_usuario'] = Auth::id();
+        $data['id_usuario'] = $u->id_usuario ?? $u->id;
 
-        $categoriaIngreso->update($data);
+        $categoria->update($data);
 
         return redirect()
             ->route('categoria-ingresos.index')
             ->with('success', 'Categoría de ingreso actualizada correctamente.');
     }
 
-    public function destroy(CategoriaIngreso $categoriaIngreso)
+    public function destroy(string $id)
     {
-        $categoriaIngreso->delete();
+        $categoria = CategoriaIngreso::query()
+            ->whereKey($id)
+            ->firstOrFail();
+
+        $categoria->delete();
 
         return redirect()
             ->route('categoria-ingresos.index')

@@ -9,23 +9,28 @@
     <div class="bg-white dark:bg-gray-800 shadow sm:rounded-lg p-6 space-y-4">
 
       <div>
+        <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200">Nombre</h3>
+        <p class="text-gray-700 dark:text-gray-300">{{ $ahorro->nombre ?? '—' }}</p>
+      </div>
+
+      <div>
         <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200">Meses Mínimos</h3>
         <p class="text-gray-700 dark:text-gray-300">{{ $ahorro->meses_minimos }}</p>
       </div>
 
       <div>
         <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200">Monto Mínimo</h3>
-        <p class="text-gray-700 dark:text-gray-300">{{ $ahorro->monto_minimo }}</p>
+        <p class="text-gray-700 dark:text-gray-300">${{ number_format((float)$ahorro->monto_minimo, 2) }}</p>
       </div>
 
       <div>
-        <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200">Tipo de Ahorro</h3>
+        <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200">Categoría</h3>
         <p class="text-gray-700 dark:text-gray-300">{{ $ahorro->tipo_ahorro }}</p>
       </div>
 
       <div>
         <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200">Tasa Vigente (%)</h3>
-        <p class="text-gray-700 dark:text-gray-300">{{ $ahorro->tasa_vigente }}%</p>
+        <p class="text-gray-700 dark:text-gray-300">{{ number_format((float)$ahorro->tasa_vigente, 2) }}%</p>
       </div>
 
       <div class="flex justify-end">

@@ -43,7 +43,7 @@
                              autofocus />
                 </div>
 
-                {{-- Cobrador --}}
+                {{-- Cobrador / Responsable --}}
                 <div class="mb-4">
                     <x-label for="responsable_id" value="Cobrador" />
                     <select id="responsable_id"
@@ -53,9 +53,21 @@
                                    focus:outline-none focus:ring-2 focus:ring-purple-500">
                         <option value="">{{ __('— Seleccionar cobrador —') }}</option>
                         @foreach($usuarios as $u)
+                            @php
+                                $rol = ucfirst($u->rol ?? '');
+                                $suc = optional($u->sucursal)->nombre;
+                                // Texto adicional:
+                                if ($u->rol === 'gerente' && $suc) {
+                                    $detalleRol = " — Gerente de {$suc}";
+                                } elseif ($u->rol === 'cobrador' && $suc) {
+                                    $detalleRol = " — {$suc}";
+                                } else {
+                                    $detalleRol = '';
+                                }
+                            @endphp
                             <option value="{{ $u->id_usuario }}"
                                 {{ old('responsable_id') == $u->id_usuario ? 'selected' : '' }}>
-                                {{ $u->name }} ({{ $u->email }})
+                                {{ $u->name }} ({{ $u->email }}) — {{ $rol }}{!! $detalleRol !!}
                             </option>
                         @endforeach
                     </select>

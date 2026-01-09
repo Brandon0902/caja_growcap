@@ -66,6 +66,13 @@ return [
             'url'        => env('APP_URL').'/storage/documentos',
             'visibility' => 'public',
         ],
+        
+        'gastos' => [
+            'driver' => 'local',
+            'root'   => storage_path('app/public/gastos'),
+            'url'    => env('APP_URL').'/storage/gastos',
+            'visibility' => 'public',
+        ],
 
 
     ],

@@ -3,19 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class UserPrestamo extends Model
 {
-    // Nombre de la tabla
+    /** Tabla y PK */
     protected $table = 'user_prestamos';
-
-    // Clave primaria
     protected $primaryKey = 'id';
-
-    // No usamos created_at / updated_at
     public $timestamps = false;
 
-    // Campos asignables en masa
+    /** Fillable */
     protected $fillable = [
         'id_cliente',
         'aval_id',
@@ -38,50 +36,98 @@ class UserPrestamo extends Model
         'deposito',
         'nota',
         'id_usuario',
+        'id_empleado',      // ✅ NUEVO
         'id_activo',
         'status',
         'aval_status',
         'aval_responded_at',
         'num_atrasos',
         'mora_acumulada',
+        'id_caja',
+        'saldo_a_favor',
     ];
 
-    // Casts para fechas y números
+    /** Casts */
     protected $casts = [
-        'id_cliente'         => 'integer',
-        'aval_id'            => 'integer',
-        'cantidad'           => 'decimal:2',
-        'tiempo'             => 'integer',
-        'interes'            => 'integer',
-        'abonos_echos'       => 'integer',
-        'id_usuario'         => 'integer',
-        'id_activo'          => 'integer',
-        'status'             => 'integer',
-        'aval_status'        => 'integer',
-        'num_atrasos'        => 'integer',
-        'fecha_solicitud'    => 'datetime',
-        'aval_notified_at'   => 'datetime',
-        'fecha_inicio'       => 'date',
-        'fecha_seguimiento'  => 'datetime',
-        'fecha_edit'         => 'datetime',
-        'aval_responded_at'  => 'datetime',
-        'mora_acumulada'     => 'decimal:2',
+        'id_cliente'        => 'integer',
+        'aval_id'           => 'integer',
+        'cantidad'          => 'float',
+        'interes'           => 'float',
+        'interes_generado'  => 'float',
+        'mora_acumulada'    => 'float',
+        'tiempo'            => 'integer',
+        'semanas'           => 'integer',
+        'abonos_echos'      => 'integer',
+        'id_usuario'        => 'integer',
+        'id_empleado'       => 'integer',  // ✅ NUEVO (en BD es bigint unsigned, en PHP ok)
+        'id_activo'         => 'integer',
+        'status'            => 'integer',
+        'aval_status'       => 'integer',
+        'num_atrasos'       => 'integer',
+        'id_caja'           => 'integer',
+        'fecha_solicitud'   => 'datetime',
+        'aval_notified_at'  => 'datetime',
+        'fecha_inicio'      => 'datetime',
+        'fecha_seguimiento' => 'datetime',
+        'fecha_edit'        => 'datetime',
+        'aval_responded_at' => 'datetime',
+        'saldo_a_favor'     => 'decimal:2',
     ];
 
-    // Relaciones
-    public function cliente()
+    /* ==========================
+       Relaciones
+       ========================== */
+
+    public function cliente(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\Cliente::class, 'id_cliente');
+        return $this->belongsTo(Cliente::class, 'id_cliente', 'id');
     }
 
-    public function aval()
+    public function aval(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\Cliente::class, 'aval_id');
+        return $this->belongsTo(Cliente::class, 'aval_id', 'id');
     }
 
-    public function prestamo()
+    public function prestamo(): BelongsTo
     {
-        //         FK local   PK remota
+        // FK local (user_prestamos.id_activo) -> PK remota (prestamos.id_prestamo)
         return $this->belongsTo(Prestamo::class, 'id_activo', 'id_prestamo');
+    }
+
+    /** Alias para "plan" */
+    public function plan(): BelongsTo
+    {
+        return $this->belongsTo(Prestamo::class, 'id_activo', 'id_prestamo');
+    }
+
+    public function caja(): BelongsTo
+    {
+        return $this->belongsTo(Caja::class, 'id_caja', 'id_caja');
+    }
+
+    /**
+     * Abonos del préstamo.
+     * FK real en user_abonos = user_prestamo_id
+     */
+    public function abonos(): HasMany
+    {
+        return $this->hasMany(UserAbono::class, 'user_prestamo_id', 'id');
+    }
+
+    /**
+     * ✅ NUEVO: empleado/cobrador asignado al préstamo
+     * user_prestamos.id_empleado -> usuarios.id_usuario
+     */
+    public function empleado(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'id_empleado', 'id_usuario');
+    }
+
+    /**
+     * ✅ NUEVO: comisiones asociadas a este préstamo
+     */
+    public function comisiones(): HasMany
+    {
+        return $this->hasMany(EmpleadoComision::class, 'user_prestamo_id', 'id');
     }
 }

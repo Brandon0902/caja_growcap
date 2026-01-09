@@ -12,13 +12,13 @@ class Ahorro extends Model
     protected $table = 'ahorros';
     protected $primaryKey = 'id';
 
-    // Como la tabla no tiene created_at/updated_at, deshabilitamos timestamps
-    public $timestamps = false;
+    public $timestamps = true; // ✅ porque ya tienes created_at/updated_at
 
     protected $fillable = [
+        'nombre',        // ✅ nuevo
         'meses_minimos',
         'monto_minimo',
-        'tipo_ahorro',
+        'tipo_ahorro',   // ✅ categoría
         'tasa_vigente',
     ];
 }

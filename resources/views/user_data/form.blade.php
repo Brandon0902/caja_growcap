@@ -31,7 +31,6 @@
     @endif
 
     <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg">
-      {{-- Pestañas --}}
       <nav class="flex border-b border-gray-200 dark:border-gray-700 px-4">
         @foreach($tabs as $key => $label)
           <a href="{{ route('clientes.datos.form', $cliente) }}?tab={{ $key }}"
@@ -44,51 +43,51 @@
         @endforeach
       </nav>
 
-      @if($active === 'laborales' && $userData->exists)
-        {{-- Solo partial laborales cuando el registro ya existe --}}
-        @include('user_data.partials.laborales')
-      @else
-        <form action="{{ $formAction }}" method="POST" class="space-y-6 p-6">
-          @csrf
+      {{-- Form general (NO se usa en laborales porque laborales trae su propio form) --}}
+      <form action="{{ $formAction }}" method="POST" class="space-y-6 p-6">
+        @csrf
+        <input type="hidden" name="tab" value="{{ $active }}">
 
-          {{-- Mantenemos la pestaña activa --}}
-          <input type="hidden" name="tab" value="{{ $active }}">
+        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 space-y-6">
+          @switch($active)
+            @case('general')
+              @include('user_data.partials.general')
+              @break
 
-          <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 space-y-6">
-            @switch($active)
-              @case('general')
-                @include('user_data.partials.general')
-                @break
+            @case('beneficiarios')
+              @include('user_data.partials.beneficiarios')
+              @break
 
-              @case('beneficiarios')
-                @include('user_data.partials.beneficiarios')
-                @break
+            @case('banco')
+              @include('user_data.partials.banco')
+              @break
 
-              @case('banco')
-                @include('user_data.partials.banco')
-                @break
+            @case('seguridad')
+              @include('user_data.partials.seguridad')
+              @break
 
-              @case('seguridad')
-                @include('user_data.partials.seguridad')
-                @break
+            @case('acceso')
+              @include('user_data.partials.acceso')
+              @break
 
-              @case('acceso')
-                @include('user_data.partials.acceso')
-                @break
+            @case('laborales')
+              @include('user_data.partials.laborales')
+              @break
 
-              @default
-                @include('user_data.partials.general')
-            @endswitch
-          </div>
+            @default
+              @include('user_data.partials.general')
+          @endswitch
+        </div>
 
+        @if($active !== 'laborales')
           <div class="text-right">
             <button type="submit"
                     class="px-4 py-2 {{ $isEdit ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-blue-600 hover:bg-blue-700' }} text-white rounded">
               {{ $isEdit ? 'Guardar cambios' : 'Guardar' }}
             </button>
           </div>
-        </form>
-      @endif
+        @endif
+      </form>
     </div>
   </div>
 </x-app-layout>

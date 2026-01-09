@@ -1,17 +1,27 @@
 <x-app-layout>
   <x-slot name="header">
     <h2 class="font-semibold text-xl text-white leading-tight">
-      {{ __('Nueva Inversión') }}
+      {{ __('Nueva Inversion') }}
     </h2>
   </x-slot>
 
   <div class="py-6 mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-    {{-- Errores de validación --}}
     <x-validation-errors class="mb-4"/>
 
     <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-6">
       <form action="{{ route('inversiones.store') }}" method="POST">
         @csrf
+
+        {{-- Nombre --}}
+        <div class="mb-4">
+          <x-label for="nombre" value="Nombre" />
+          <x-input id="nombre"
+                   name="nombre"
+                   type="text"
+                   :value="old('nombre')"
+                   required
+                   autofocus />
+        </div>
 
         {{-- Periodo --}}
         <div class="mb-4">
@@ -20,24 +30,12 @@
                    name="periodo"
                    type="text"
                    :value="old('periodo')"
-                   required
-                   autofocus />
-        </div>
-
-        {{-- Meses mínimos --}}
-        <div class="mb-4">
-          <x-label for="meses_minimos" value="Meses Mínimos" />
-          <x-input id="meses_minimos"
-                   name="meses_minimos"
-                   type="number"
-                   min="0"
-                   :value="old('meses_minimos')"
                    required />
         </div>
 
-        {{-- Monto mínimo --}}
+        {{-- Monto minimo --}}
         <div class="mb-4">
-          <x-label for="monto_minimo" value="Monto Mínimo" />
+          <x-label for="monto_minimo" value="Monto Minimo" />
           <x-input id="monto_minimo"
                    name="monto_minimo"
                    type="number"
@@ -47,9 +45,9 @@
                    required />
         </div>
 
-        {{-- Monto máximo --}}
+        {{-- Monto maximo --}}
         <div class="mb-4">
-          <x-label for="monto_maximo" value="Monto Máximo" />
+          <x-label for="monto_maximo" value="Monto Maximo" />
           <x-input id="monto_maximo"
                    name="monto_maximo"
                    type="number"

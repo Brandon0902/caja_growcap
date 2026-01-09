@@ -5,44 +5,55 @@ namespace App\Http\Controllers;
 use App\Models\Sucursal;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Services\VisibilityScope;
 
 class SucursalController extends Controller
 {
     /**
-     * Display a listing of the sucursales.
+     * Listado de sucursales.
      */
     public function index(Request $request)
     {
-        // Lista de gerentes activos, para el filtro
+        // Gerentes activos (para combos/filtros de la vista, opcional)
         $gerentes = User::where('rol', 'gerente')
-                        ->where('activo', true)
-                        ->orderBy('name', 'asc')
-                        ->get();
+            ->where('activo', true)
+            ->orderBy('name', 'asc')
+            ->get();
 
-        // Traer todas las sucursales con paginación, incluyendo datos de gerente y creador
-        $sucursales = Sucursal::with(['gerente', 'creador'])
-                            ->orderBy('nombre')
-                            ->paginate(15);
+        $q = Sucursal::query()->with(['gerente', 'creador']);
+
+        // ⬇️ aplica visibilidad por sucursal para este módulo
+        $q = VisibilityScope::sucursales($q, auth()->user());
+
+        // Buscador opcional
+        if ($term = $request->get('q')) {
+            $q->where(function ($w) use ($term) {
+                $w->where('nombre', 'like', "%{$term}%")
+                  ->orWhere('direccion', 'like', "%{$term}%")
+                  ->orWhere('telefono', 'like', "%{$term}%");
+            });
+        }
+
+        $sucursales = $q->orderBy('nombre')->paginate(15);
 
         return view('sucursales.index', compact('sucursales', 'gerentes'));
     }
 
     /**
-     * Show the form for creating a new sucursal.
+     * Formulario de creación.
      */
     public function create()
     {
-        // Listar usuarios con rol 'gerente' y activo = true para asignarlos
         $gerentes = User::where('rol', 'gerente')
-                        ->where('activo', true)
-                        ->orderBy('name', 'asc')    // <-- cambio aquí
-                        ->get();
+            ->where('activo', true)
+            ->orderBy('name', 'asc')
+            ->get();
 
         return view('sucursales.create', compact('gerentes'));
     }
 
     /**
-     * Store a newly created sucursal in storage.
+     * Guardar nueva sucursal.
      */
     public function store(Request $request)
     {
@@ -52,10 +63,10 @@ class SucursalController extends Controller
             'telefono'            => 'required|string|max:20',
             'gerente_id'          => 'required|integer|exists:usuarios,id_usuario',
             'politica_crediticia' => 'nullable|string',
-            'acceso_activo'       => 'required|boolean',
         ]);
 
-        $data['id_usuario'] = auth()->user()->id_usuario;
+        $data['acceso_activo'] = $request->boolean('acceso_activo');
+        $data['id_usuario']    = auth()->user()->id_usuario ?? auth()->id();
 
         Sucursal::create($data);
 
@@ -65,49 +76,57 @@ class SucursalController extends Controller
     }
 
     /**
-     * Display the specified sucursal.
+     * Mostrar una sucursal (respetando visibilidad).
      */
     public function show(string $id)
     {
-        $sucursal = Sucursal::with(['gerente', 'creador', 'cajas'])
-                             ->findOrFail($id);
+        $q = Sucursal::query()->with(['gerente', 'creador', 'cajas']);
+        $q = VisibilityScope::sucursales($q, auth()->user());
+
+        $sucursal = $q->where('id_sucursal', $id)->firstOrFail();
 
         return view('sucursales.show', compact('sucursal'));
     }
 
     /**
-     * Show the form for editing the specified sucursal.
+     * Formulario de edición (respetando visibilidad).
      */
     public function edit(string $id)
     {
-        $sucursal = Sucursal::findOrFail($id);
+        $q = Sucursal::query();
+        $q = VisibilityScope::sucursales($q, auth()->user());
+
+        $sucursal = $q->where('id_sucursal', $id)->firstOrFail();
 
         $gerentes = User::where('rol', 'gerente')
-                        ->where('activo', true)
-                        ->orderBy('name', 'asc')    // <-- y aquí
-                        ->get();
+            ->where('activo', true)
+            ->orderBy('name', 'asc')
+            ->get();
 
         return view('sucursales.edit', compact('sucursal', 'gerentes'));
     }
 
     /**
-     * Update the specified sucursal in storage.
+     * Actualizar sucursal (respetando visibilidad).
      */
     public function update(Request $request, string $id)
     {
-        $sucursal = Sucursal::findOrFail($id);
+        $q = Sucursal::query();
+        $q = VisibilityScope::sucursales($q, auth()->user());
+
+        $sucursal = $q->where('id_sucursal', $id)->firstOrFail();
 
         $data = $request->validate([
-            'nombre'              => 'required|string|max:255|unique:sucursales,nombre,' 
-                                     . $sucursal->id_sucursal . ',id_sucursal',
+            'nombre'              => 'required|string|max:255|unique:sucursales,nombre,' . $sucursal->id_sucursal . ',id_sucursal',
             'direccion'           => 'required|string|max:500',
             'telefono'            => 'required|string|max:20',
             'gerente_id'          => 'required|integer|exists:usuarios,id_usuario',
             'politica_crediticia' => 'nullable|string',
-            'acceso_activo'       => 'required|boolean',
         ]);
 
-        $data['id_usuario'] = auth()->user()->id_usuario;
+        $data['acceso_activo'] = $request->boolean('acceso_activo');
+        $data['id_usuario']    = auth()->user()->id_usuario ?? auth()->id();
+
         $sucursal->update($data);
 
         return redirect()
@@ -116,11 +135,14 @@ class SucursalController extends Controller
     }
 
     /**
-     * Remove (deactivate) the specified sucursal from storage.
+     * Desactivar sucursal (soft off) respetando visibilidad.
      */
     public function destroy(string $id)
     {
-        $sucursal = Sucursal::findOrFail($id);
+        $q = Sucursal::query();
+        $q = VisibilityScope::sucursales($q, auth()->user());
+
+        $sucursal = $q->where('id_sucursal', $id)->firstOrFail();
         $sucursal->update(['acceso_activo' => false]);
 
         return redirect()
@@ -128,10 +150,18 @@ class SucursalController extends Controller
             ->with('success', 'Sucursal desactivada correctamente.');
     }
 
-        public function toggle(Sucursal $sucursal)
+    /**
+     * Alternar bandera acceso_activo (respetando visibilidad).
+     */
+    public function toggle(string $id)
     {
+        $q = Sucursal::query();
+        $q = VisibilityScope::sucursales($q, auth()->user());
+
+        $sucursal = $q->where('id_sucursal', $id)->firstOrFail();
+
         $sucursal->update([
-            'acceso_activo' => ! $sucursal->acceso_activo,
+            'acceso_activo' => ! (bool) $sucursal->acceso_activo,
         ]);
 
         return redirect()

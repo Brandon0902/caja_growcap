@@ -1,3 +1,4 @@
+{{-- resources/views/empresas/index.blade.php --}}
 <x-app-layout>
   <x-slot name="header">
     <h2 class="font-semibold text-xl text-white leading-tight">
@@ -5,24 +6,50 @@
     </h2>
   </x-slot>
 
-  <div class="py-6 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" x-data="{ search: '' }">
+  <style>[x-cloak]{display:none!important}</style>
+
+  <div class="py-6 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+       x-data="{
+         search: '',
+         typing: false,
+         clear(){ this.search=''; }
+       }">
+
     {{-- + Nueva Empresa y búsqueda --}}
-    <div class="mb-4 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-2 sm:space-y-0">
+    <div class="mb-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
       <a href="{{ route('empresas.create') }}"
          class="inline-flex items-center px-4 py-2
                 bg-yellow-500 hover:bg-yellow-600 dark:bg-yellow-700 dark:hover:bg-yellow-800
                 text-white font-semibold rounded-md shadow-sm focus:outline-none
                 focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400">
-        + Nueva Empresa
+        + {{ __('Nueva Empresa') }}
       </a>
 
-      <input type="text"
-             x-model="search"
-             placeholder="{{ __('Buscar…') }}"
-             class="px-3 py-2 border rounded-md shadow-sm
-                    focus:outline-none focus:ring-2 focus:ring-purple-500
-                    bg-white text-gray-700 dark:bg-gray-700 dark:text-gray-200
-                    dark:border-gray-600"/>
+      <div class="flex items-center gap-2 w-full sm:w-auto">
+        <div class="relative flex-1 sm:w-96">
+          <input type="text"
+                 x-model.debounce.400ms="search"
+                 @input="typing = true; setTimeout(()=>typing=false, 350)"
+                 placeholder="{{ __('Buscar por nombre / RFC / ciudad / estado / país…') }}"
+                 class="w-full px-3 py-2 border rounded-md shadow-sm
+                        focus:outline-none focus:ring-2 focus:ring-purple-500
+                        bg-white text-gray-700 dark:bg-gray-700 dark:text-gray-200
+                        dark:border-gray-600"/>
+          {{-- Spinner --}}
+          <svg x-cloak x-show="typing"
+               class="h-5 w-5 animate-spin absolute right-3 top-2.5 opacity-70"
+               viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none" opacity=".25"></circle>
+            <path d="M22 12a10 10 0 0 1-10 10" fill="currentColor"></path>
+          </svg>
+        </div>
+
+        <button @click="clear()"
+                class="px-3 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800
+                       dark:bg-gray-700 dark:text-gray-200 rounded-md">
+          {{ __('Limpiar') }}
+        </button>
+      </div>
     </div>
 
     @if(session('success'))
@@ -51,7 +78,8 @@
           </thead>
           <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             @forelse($empresas as $e)
-              <tr x-show="$el.textContent.toLowerCase().includes(search.toLowerCase())">
+              <tr x-show="($el.textContent || '').toLowerCase().includes((search || '').toLowerCase())"
+                  class="hover:bg-gray-100 dark:hover:bg-gray-700">
                 <td class="px-6 py-4 text-gray-700 dark:text-gray-200">
                   {{ str_pad($e->id, 3, '0', STR_PAD_LEFT) }}
                 </td>

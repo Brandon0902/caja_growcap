@@ -9,27 +9,36 @@ use Illuminate\Support\Facades\Auth;
 
 class CategoriaGastoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categorias = CategoriaGasto::with('usuario')
-                          ->orderBy('nombre')
-                          ->paginate(15);
+        $q = CategoriaGasto::query()->with('usuario');
+
+        if ($s = trim((string)$request->get('q', ''))) {
+            $q->where('nombre', 'like', "%{$s}%");
+        }
+
+        $categorias = $q->orderBy('nombre')
+            ->paginate(15)
+            ->withQueryString();
 
         return view('categoria-gastos.index', compact('categorias'));
     }
 
     public function create()
     {
+        // Ya no necesitamos sucursales
         return view('categoria-gastos.create');
     }
 
     public function store(Request $request)
     {
+        $u = Auth::user();
+
         $data = $request->validate([
             'nombre' => 'required|string|max:255|unique:categorias_gasto,nombre',
         ]);
 
-        $data['id_usuario'] = Auth::id();
+        $data['id_usuario'] = $u->id_usuario ?? $u->id;
 
         CategoriaGasto::create($data);
 
@@ -38,35 +47,54 @@ class CategoriaGastoController extends Controller
             ->with('success', 'Categoría de gasto creada correctamente.');
     }
 
-    public function show(CategoriaGasto $categoriaGasto)
+    public function show(string $id)
     {
-        return view('categoria-gastos.show', ['categoria' => $categoriaGasto]);
+        $categoria = CategoriaGasto::query()
+            ->with('usuario')
+            ->where('id_cat_gasto', $id)
+            ->firstOrFail();
+
+        return view('categoria-gastos.show', ['categoria' => $categoria]);
     }
 
-    public function edit(CategoriaGasto $categoriaGasto)
+    public function edit(string $id)
     {
-        return view('categoria-gastos.edit', ['categoria' => $categoriaGasto]);
+        $categoria = CategoriaGasto::query()
+            ->where('id_cat_gasto', $id)
+            ->firstOrFail();
+
+        // Ya no necesitamos sucursales
+        return view('categoria-gastos.edit', compact('categoria'));
     }
 
-    public function update(Request $request, CategoriaGasto $categoriaGasto)
+    public function update(Request $request, string $id)
     {
+        $u = Auth::user();
+
+        $categoria = CategoriaGasto::query()
+            ->where('id_cat_gasto', $id)
+            ->firstOrFail();
+
         $data = $request->validate([
-            'nombre' => 'required|string|max:255|unique:categorias_gasto,nombre,' 
-                        . $categoriaGasto->id_cat_gasto . ',id_cat_gasto',
+            'nombre' => 'required|string|max:255|unique:categorias_gasto,nombre,' . $categoria->id_cat_gasto . ',id_cat_gasto',
         ]);
 
-        $data['id_usuario'] = Auth::id();
+        $data['id_usuario'] = $u->id_usuario ?? $u->id;
 
-        $categoriaGasto->update($data);
+        $categoria->update($data);
 
         return redirect()
             ->route('categoria-gastos.index')
             ->with('success', 'Categoría de gasto actualizada correctamente.');
     }
 
-    public function destroy(CategoriaGasto $categoriaGasto)
+    public function destroy(string $id)
     {
-        $categoriaGasto->delete();
+        $categoria = CategoriaGasto::query()
+            ->where('id_cat_gasto', $id)
+            ->firstOrFail();
+
+        $categoria->delete();
 
         return redirect()
             ->route('categoria-gastos.index')

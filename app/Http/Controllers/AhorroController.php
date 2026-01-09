@@ -7,11 +7,14 @@ use Illuminate\Http\Request;
 
 class AhorroController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        $ahorros = Ahorro::orderByDesc('id')
-                         ->paginate(15);
-
+        $ahorros = Ahorro::orderByDesc('id')->paginate(15);
         return view('adminahorros.index', compact('ahorros'));
     }
 
@@ -23,9 +26,10 @@ class AhorroController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
+            'nombre'        => 'required|string|max:255',
             'meses_minimos' => 'required|integer|min:0',
             'monto_minimo'  => 'required|numeric|min:0',
-            'tipo_ahorro'   => 'required|string|max:50',
+            'tipo_ahorro'   => 'required|string|max:50', // categoría
             'tasa_vigente'  => 'required|numeric|min:0',
         ]);
 
@@ -49,9 +53,10 @@ class AhorroController extends Controller
     public function update(Request $request, Ahorro $ahorro)
     {
         $data = $request->validate([
+            'nombre'        => 'required|string|max:255',
             'meses_minimos' => 'required|integer|min:0',
             'monto_minimo'  => 'required|numeric|min:0',
-            'tipo_ahorro'   => 'required|string|max:50',
+            'tipo_ahorro'   => 'required|string|max:50', // categoría
             'tasa_vigente'  => 'required|numeric|min:0',
         ]);
 
@@ -64,7 +69,6 @@ class AhorroController extends Controller
 
     public function destroy(Ahorro $ahorro)
     {
-        // borrado físico
         $ahorro->delete();
 
         return redirect()

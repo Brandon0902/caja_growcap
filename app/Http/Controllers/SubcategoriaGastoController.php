@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/SubcategoriaGastoController.php
 
 namespace App\Http\Controllers;
 
@@ -7,32 +6,49 @@ use App\Models\SubcategoriaGasto;
 use App\Models\CategoriaGasto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class SubcategoriaGastoController extends Controller
 {
+    public function __construct()
+    {
+        // Ver listado / ver detalle
+        $this->middleware('permission:subcategoria_gastos.ver')->only(['index','show']);
+        // Crear
+        $this->middleware('permission:subcategoria_gastos.crear')->only(['create','store']);
+        // Editar
+        $this->middleware('permission:subcategoria_gastos.editar')->only(['edit','update']);
+        // Eliminar
+        $this->middleware('permission:subcategoria_gastos.eliminar')->only(['destroy']);
+    }
+
     public function index()
     {
+        // Subcategorías son globales (no dependen de sucursal), por eso no se aplica VisibilityScope aquí.
         $subcategorias = SubcategoriaGasto::with(['categoria', 'usuario'])
-                              ->orderBy('nombre')
-                              ->paginate(15);
+            ->orderBy('nombre')
+            ->paginate(15);
 
         return view('subcategoria-gastos.index', compact('subcategorias'));
     }
 
     public function create()
     {
+        // Listado global de categorías (también globales)
         $categorias = CategoriaGasto::orderBy('nombre')->get();
         return view('subcategoria-gastos.create', compact('categorias'));
     }
 
     public function store(Request $request)
     {
+        $tabla = (new SubcategoriaGasto)->getTable(); // "subcategorias_gasto"
+
         $data = $request->validate([
-            'id_cat_gasto' => 'required|exists:categorias_gasto,id_cat_gasto',
-            'nombre'       => 'required|string|max:255|unique:subcategorias_gasto,nombre',
+            'id_cat_gasto' => ['required','exists:categorias_gasto,id_cat_gasto'],
+            'nombre'       => ['required','string','max:255', Rule::unique($tabla, 'nombre')],
         ]);
 
-        $data['id_usuario'] = Auth::id();
+        $data['id_usuario'] = auth()->user()->id_usuario ?? Auth::id();
 
         SubcategoriaGasto::create($data);
 
@@ -54,13 +70,18 @@ class SubcategoriaGastoController extends Controller
 
     public function update(Request $request, SubcategoriaGasto $subcategoriaGasto)
     {
+        $tabla = (new SubcategoriaGasto)->getTable(); // "subcategorias_gasto"
+
         $data = $request->validate([
-            'id_cat_gasto' => 'required|exists:categorias_gasto,id_cat_gasto',
-            'nombre'       => 'required|string|max:255|unique:subcategorias_gasto,nombre,' 
-                              . $subcategoriaGasto->id_sub_gasto . ',id_sub_gasto',
+            'id_cat_gasto' => ['required','exists:categorias_gasto,id_cat_gasto'],
+            'nombre'       => [
+                'required','string','max:255',
+                Rule::unique($tabla, 'nombre')
+                    ->ignore($subcategoriaGasto->id_sub_gasto, 'id_sub_gasto'),
+            ],
         ]);
 
-        $data['id_usuario'] = Auth::id();
+        $data['id_usuario'] = auth()->user()->id_usuario ?? Auth::id();
 
         $subcategoriaGasto->update($data);
 

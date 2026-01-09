@@ -1,0 +1,395 @@
+[16-Aug-2025 03:16:10 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\ErrorHandler\ErrorRenderer\highlight_file() in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:257
+Stack trace:
+#0 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/trace.html.php(36): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->fileExcerpt()
+#1 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#2 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/traces.html.php(48): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#3 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#4 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception.html.php(54): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#5 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#6 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception_full.html.php(35): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#7 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#8 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(140): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#9 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(72): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->renderException()
+#10 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(882): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->render()
+#11 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(856): Illuminate\Foundation\Exceptions\Handler->renderExceptionWithSymfony()
+#12 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(831): Illuminate\Foundation\Exceptions\Handler->renderExceptionContent()
+#13 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(810): Illuminate\Foundation\Exceptions\Handler->convertExceptionToResponse()
+#14 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(709): Illuminate\Foundation\Exceptions\Handler->prepareResponse()
+#15 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(597): Illuminate\Foundation\Exceptions\Handler->renderExceptionResponse()
+#16 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(219): Illuminate\Foundation\Exceptions\Handler->render()
+#17 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(196): Illuminate\Foundation\Bootstrap\HandleExceptions->renderHttpResponse()
+#18 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#19 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->Illuminate\Foundation\Bootstrap\{closure}()
+#20 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php on line 257
+[16-Aug-2025 17:55:53 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\ErrorHandler\ErrorRenderer\highlight_file() in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:257
+Stack trace:
+#0 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/trace.html.php(36): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->fileExcerpt()
+#1 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#2 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/traces.html.php(48): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#3 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#4 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception.html.php(54): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#5 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#6 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception_full.html.php(35): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#7 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#8 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(140): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#9 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(72): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->renderException()
+#10 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(882): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->render()
+#11 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(856): Illuminate\Foundation\Exceptions\Handler->renderExceptionWithSymfony()
+#12 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(831): Illuminate\Foundation\Exceptions\Handler->renderExceptionContent()
+#13 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(810): Illuminate\Foundation\Exceptions\Handler->convertExceptionToResponse()
+#14 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(709): Illuminate\Foundation\Exceptions\Handler->prepareResponse()
+#15 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(597): Illuminate\Foundation\Exceptions\Handler->renderExceptionResponse()
+#16 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(219): Illuminate\Foundation\Exceptions\Handler->render()
+#17 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(196): Illuminate\Foundation\Bootstrap\HandleExceptions->renderHttpResponse()
+#18 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#19 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->Illuminate\Foundation\Bootstrap\{closure}()
+#20 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php on line 257
+[16-Aug-2025 17:56:45 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\ErrorHandler\ErrorRenderer\highlight_file() in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:257
+Stack trace:
+#0 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/trace.html.php(36): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->fileExcerpt()
+#1 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#2 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/traces.html.php(48): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#3 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#4 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception.html.php(54): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#5 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#6 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception_full.html.php(35): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#7 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#8 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(140): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#9 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(72): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->renderException()
+#10 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(882): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->render()
+#11 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(856): Illuminate\Foundation\Exceptions\Handler->renderExceptionWithSymfony()
+#12 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(831): Illuminate\Foundation\Exceptions\Handler->renderExceptionContent()
+#13 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(810): Illuminate\Foundation\Exceptions\Handler->convertExceptionToResponse()
+#14 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(709): Illuminate\Foundation\Exceptions\Handler->prepareResponse()
+#15 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(597): Illuminate\Foundation\Exceptions\Handler->renderExceptionResponse()
+#16 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(219): Illuminate\Foundation\Exceptions\Handler->render()
+#17 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(196): Illuminate\Foundation\Bootstrap\HandleExceptions->renderHttpResponse()
+#18 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#19 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->Illuminate\Foundation\Bootstrap\{closure}()
+#20 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php on line 257
+[20-Aug-2025 20:49:48 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\ErrorHandler\ErrorRenderer\highlight_file() in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:257
+Stack trace:
+#0 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/trace.html.php(36): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->fileExcerpt()
+#1 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#2 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/traces.html.php(48): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#3 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#4 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception.html.php(54): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#5 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#6 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception_full.html.php(35): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#7 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#8 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(140): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#9 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(72): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->renderException()
+#10 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(882): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->render()
+#11 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(856): Illuminate\Foundation\Exceptions\Handler->renderExceptionWithSymfony()
+#12 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(831): Illuminate\Foundation\Exceptions\Handler->renderExceptionContent()
+#13 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(810): Illuminate\Foundation\Exceptions\Handler->convertExceptionToResponse()
+#14 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(709): Illuminate\Foundation\Exceptions\Handler->prepareResponse()
+#15 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(597): Illuminate\Foundation\Exceptions\Handler->renderExceptionResponse()
+#16 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(219): Illuminate\Foundation\Exceptions\Handler->render()
+#17 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(196): Illuminate\Foundation\Bootstrap\HandleExceptions->renderHttpResponse()
+#18 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#19 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->Illuminate\Foundation\Bootstrap\{closure}()
+#20 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php on line 257
+[21-Aug-2025 17:28:15 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\ErrorHandler\ErrorRenderer\highlight_file() in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:257
+Stack trace:
+#0 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/trace.html.php(36): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->fileExcerpt()
+#1 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#2 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/traces.html.php(48): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#3 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#4 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception.html.php(54): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#5 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#6 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception_full.html.php(35): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#7 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#8 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(140): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#9 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(72): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->renderException()
+#10 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(882): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->render()
+#11 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(856): Illuminate\Foundation\Exceptions\Handler->renderExceptionWithSymfony()
+#12 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(831): Illuminate\Foundation\Exceptions\Handler->renderExceptionContent()
+#13 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(810): Illuminate\Foundation\Exceptions\Handler->convertExceptionToResponse()
+#14 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(709): Illuminate\Foundation\Exceptions\Handler->prepareResponse()
+#15 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(597): Illuminate\Foundation\Exceptions\Handler->renderExceptionResponse()
+#16 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(219): Illuminate\Foundation\Exceptions\Handler->render()
+#17 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(196): Illuminate\Foundation\Bootstrap\HandleExceptions->renderHttpResponse()
+#18 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#19 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->Illuminate\Foundation\Bootstrap\{closure}()
+#20 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php on line 257
+[21-Aug-2025 17:58:46 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\ErrorHandler\ErrorRenderer\highlight_file() in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:257
+Stack trace:
+#0 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/trace.html.php(36): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->fileExcerpt()
+#1 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#2 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/traces.html.php(48): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#3 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#4 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception.html.php(54): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#5 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#6 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception_full.html.php(35): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#7 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#8 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(140): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#9 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(72): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->renderException()
+#10 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(882): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->render()
+#11 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(856): Illuminate\Foundation\Exceptions\Handler->renderExceptionWithSymfony()
+#12 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(831): Illuminate\Foundation\Exceptions\Handler->renderExceptionContent()
+#13 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(810): Illuminate\Foundation\Exceptions\Handler->convertExceptionToResponse()
+#14 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(709): Illuminate\Foundation\Exceptions\Handler->prepareResponse()
+#15 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(597): Illuminate\Foundation\Exceptions\Handler->renderExceptionResponse()
+#16 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(219): Illuminate\Foundation\Exceptions\Handler->render()
+#17 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(196): Illuminate\Foundation\Bootstrap\HandleExceptions->renderHttpResponse()
+#18 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#19 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->Illuminate\Foundation\Bootstrap\{closure}()
+#20 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php on line 257
+[21-Aug-2025 18:05:09 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\ErrorHandler\ErrorRenderer\highlight_file() in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:257
+Stack trace:
+#0 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/trace.html.php(36): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->fileExcerpt()
+#1 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#2 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/traces.html.php(48): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#3 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#4 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception.html.php(54): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#5 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#6 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception_full.html.php(35): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#7 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#8 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(140): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#9 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(72): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->renderException()
+#10 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(882): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->render()
+#11 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(856): Illuminate\Foundation\Exceptions\Handler->renderExceptionWithSymfony()
+#12 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(831): Illuminate\Foundation\Exceptions\Handler->renderExceptionContent()
+#13 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(810): Illuminate\Foundation\Exceptions\Handler->convertExceptionToResponse()
+#14 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(709): Illuminate\Foundation\Exceptions\Handler->prepareResponse()
+#15 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(597): Illuminate\Foundation\Exceptions\Handler->renderExceptionResponse()
+#16 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(219): Illuminate\Foundation\Exceptions\Handler->render()
+#17 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(196): Illuminate\Foundation\Bootstrap\HandleExceptions->renderHttpResponse()
+#18 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#19 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->Illuminate\Foundation\Bootstrap\{closure}()
+#20 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php on line 257
+[21-Aug-2025 18:05:15 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\ErrorHandler\ErrorRenderer\highlight_file() in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:257
+Stack trace:
+#0 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/trace.html.php(36): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->fileExcerpt()
+#1 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#2 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/traces.html.php(48): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#3 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#4 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception.html.php(54): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#5 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#6 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception_full.html.php(35): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#7 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#8 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(140): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#9 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(72): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->renderException()
+#10 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(882): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->render()
+#11 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(856): Illuminate\Foundation\Exceptions\Handler->renderExceptionWithSymfony()
+#12 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(831): Illuminate\Foundation\Exceptions\Handler->renderExceptionContent()
+#13 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(810): Illuminate\Foundation\Exceptions\Handler->convertExceptionToResponse()
+#14 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(709): Illuminate\Foundation\Exceptions\Handler->prepareResponse()
+#15 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(597): Illuminate\Foundation\Exceptions\Handler->renderExceptionResponse()
+#16 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(219): Illuminate\Foundation\Exceptions\Handler->render()
+#17 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(196): Illuminate\Foundation\Bootstrap\HandleExceptions->renderHttpResponse()
+#18 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#19 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->Illuminate\Foundation\Bootstrap\{closure}()
+#20 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php on line 257
+[21-Aug-2025 18:43:24 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\ErrorHandler\ErrorRenderer\highlight_file() in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:257
+Stack trace:
+#0 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/trace.html.php(36): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->fileExcerpt()
+#1 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#2 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/traces.html.php(48): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#3 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#4 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception.html.php(54): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#5 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#6 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception_full.html.php(35): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#7 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#8 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(140): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#9 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(72): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->renderException()
+#10 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(882): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->render()
+#11 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(856): Illuminate\Foundation\Exceptions\Handler->renderExceptionWithSymfony()
+#12 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(831): Illuminate\Foundation\Exceptions\Handler->renderExceptionContent()
+#13 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(810): Illuminate\Foundation\Exceptions\Handler->convertExceptionToResponse()
+#14 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(709): Illuminate\Foundation\Exceptions\Handler->prepareResponse()
+#15 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(597): Illuminate\Foundation\Exceptions\Handler->renderExceptionResponse()
+#16 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(219): Illuminate\Foundation\Exceptions\Handler->render()
+#17 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(196): Illuminate\Foundation\Bootstrap\HandleExceptions->renderHttpResponse()
+#18 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#19 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->Illuminate\Foundation\Bootstrap\{closure}()
+#20 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php on line 257
+[21-Aug-2025 18:43:36 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\ErrorHandler\ErrorRenderer\highlight_file() in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:257
+Stack trace:
+#0 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/trace.html.php(36): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->fileExcerpt()
+#1 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#2 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/traces.html.php(48): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#3 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#4 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception.html.php(54): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#5 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#6 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception_full.html.php(35): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#7 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#8 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(140): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#9 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(72): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->renderException()
+#10 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(882): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->render()
+#11 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(856): Illuminate\Foundation\Exceptions\Handler->renderExceptionWithSymfony()
+#12 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(831): Illuminate\Foundation\Exceptions\Handler->renderExceptionContent()
+#13 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(810): Illuminate\Foundation\Exceptions\Handler->convertExceptionToResponse()
+#14 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(709): Illuminate\Foundation\Exceptions\Handler->prepareResponse()
+#15 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(597): Illuminate\Foundation\Exceptions\Handler->renderExceptionResponse()
+#16 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(219): Illuminate\Foundation\Exceptions\Handler->render()
+#17 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(196): Illuminate\Foundation\Bootstrap\HandleExceptions->renderHttpResponse()
+#18 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#19 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->Illuminate\Foundation\Bootstrap\{closure}()
+#20 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php on line 257
+[21-Aug-2025 18:49:34 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\ErrorHandler\ErrorRenderer\highlight_file() in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:257
+Stack trace:
+#0 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/trace.html.php(36): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->fileExcerpt()
+#1 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#2 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/traces.html.php(48): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#3 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#4 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception.html.php(54): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#5 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#6 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception_full.html.php(35): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#7 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#8 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(140): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#9 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(72): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->renderException()
+#10 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(882): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->render()
+#11 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(856): Illuminate\Foundation\Exceptions\Handler->renderExceptionWithSymfony()
+#12 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(831): Illuminate\Foundation\Exceptions\Handler->renderExceptionContent()
+#13 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(810): Illuminate\Foundation\Exceptions\Handler->convertExceptionToResponse()
+#14 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(709): Illuminate\Foundation\Exceptions\Handler->prepareResponse()
+#15 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(597): Illuminate\Foundation\Exceptions\Handler->renderExceptionResponse()
+#16 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(219): Illuminate\Foundation\Exceptions\Handler->render()
+#17 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(196): Illuminate\Foundation\Bootstrap\HandleExceptions->renderHttpResponse()
+#18 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#19 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->Illuminate\Foundation\Bootstrap\{closure}()
+#20 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php on line 257
+[21-Aug-2025 19:47:35 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\ErrorHandler\ErrorRenderer\highlight_file() in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:257
+Stack trace:
+#0 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/trace.html.php(36): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->fileExcerpt()
+#1 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#2 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/traces.html.php(48): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#3 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#4 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception.html.php(54): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#5 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#6 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception_full.html.php(35): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#7 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#8 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(140): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#9 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(72): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->renderException()
+#10 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(882): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->render()
+#11 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(856): Illuminate\Foundation\Exceptions\Handler->renderExceptionWithSymfony()
+#12 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(831): Illuminate\Foundation\Exceptions\Handler->renderExceptionContent()
+#13 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(810): Illuminate\Foundation\Exceptions\Handler->convertExceptionToResponse()
+#14 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(709): Illuminate\Foundation\Exceptions\Handler->prepareResponse()
+#15 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(597): Illuminate\Foundation\Exceptions\Handler->renderExceptionResponse()
+#16 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(219): Illuminate\Foundation\Exceptions\Handler->render()
+#17 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(196): Illuminate\Foundation\Bootstrap\HandleExceptions->renderHttpResponse()
+#18 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#19 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->Illuminate\Foundation\Bootstrap\{closure}()
+#20 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php on line 257
+[21-Aug-2025 20:34:12 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\ErrorHandler\ErrorRenderer\highlight_file() in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:257
+Stack trace:
+#0 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/trace.html.php(36): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->fileExcerpt()
+#1 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#2 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/traces.html.php(48): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#3 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#4 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception.html.php(54): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#5 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#6 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception_full.html.php(35): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#7 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#8 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(140): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#9 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(72): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->renderException()
+#10 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(882): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->render()
+#11 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(856): Illuminate\Foundation\Exceptions\Handler->renderExceptionWithSymfony()
+#12 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(831): Illuminate\Foundation\Exceptions\Handler->renderExceptionContent()
+#13 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(810): Illuminate\Foundation\Exceptions\Handler->convertExceptionToResponse()
+#14 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(709): Illuminate\Foundation\Exceptions\Handler->prepareResponse()
+#15 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(597): Illuminate\Foundation\Exceptions\Handler->renderExceptionResponse()
+#16 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(219): Illuminate\Foundation\Exceptions\Handler->render()
+#17 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(196): Illuminate\Foundation\Bootstrap\HandleExceptions->renderHttpResponse()
+#18 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#19 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->Illuminate\Foundation\Bootstrap\{closure}()
+#20 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php on line 257
+[21-Aug-2025 20:41:40 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\ErrorHandler\ErrorRenderer\highlight_file() in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:257
+Stack trace:
+#0 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/trace.html.php(36): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->fileExcerpt()
+#1 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#2 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/traces.html.php(48): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#3 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#4 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception.html.php(54): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#5 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#6 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception_full.html.php(35): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#7 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#8 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(140): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#9 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(72): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->renderException()
+#10 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(882): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->render()
+#11 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(856): Illuminate\Foundation\Exceptions\Handler->renderExceptionWithSymfony()
+#12 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(831): Illuminate\Foundation\Exceptions\Handler->renderExceptionContent()
+#13 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(810): Illuminate\Foundation\Exceptions\Handler->convertExceptionToResponse()
+#14 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(709): Illuminate\Foundation\Exceptions\Handler->prepareResponse()
+#15 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(597): Illuminate\Foundation\Exceptions\Handler->renderExceptionResponse()
+#16 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(219): Illuminate\Foundation\Exceptions\Handler->render()
+#17 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(196): Illuminate\Foundation\Bootstrap\HandleExceptions->renderHttpResponse()
+#18 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#19 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->Illuminate\Foundation\Bootstrap\{closure}()
+#20 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php on line 257
+[21-Aug-2025 21:03:55 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\ErrorHandler\ErrorRenderer\highlight_file() in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:257
+Stack trace:
+#0 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/trace.html.php(36): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->fileExcerpt()
+#1 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#2 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/traces.html.php(48): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#3 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#4 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception.html.php(54): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#5 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#6 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/Resources/views/exception_full.html.php(35): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#7 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(345): include('/home/casabar5/...')
+#8 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(140): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->include()
+#9 /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php(72): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->renderException()
+#10 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(882): Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer->render()
+#11 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(856): Illuminate\Foundation\Exceptions\Handler->renderExceptionWithSymfony()
+#12 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(831): Illuminate\Foundation\Exceptions\Handler->renderExceptionContent()
+#13 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(810): Illuminate\Foundation\Exceptions\Handler->convertExceptionToResponse()
+#14 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(709): Illuminate\Foundation\Exceptions\Handler->prepareResponse()
+#15 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(597): Illuminate\Foundation\Exceptions\Handler->renderExceptionResponse()
+#16 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(219): Illuminate\Foundation\Exceptions\Handler->render()
+#17 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(196): Illuminate\Foundation\Bootstrap\HandleExceptions->renderHttpResponse()
+#18 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#19 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->Illuminate\Foundation\Bootstrap\{closure}()
+#20 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php on line 257
+[03-Sep-2025 14:53:34 America/Mexico_City] PHP Fatal error:  Cannot redeclare App\Http\Controllers\CuentaPorPagarDetalleController::update() in /home/casabar5/public_html/cajagrowcap/app/Http/Controllers/CuentaPorPagarDetalleController.php on line 205
+[08-Sep-2025 15:10:54 America/Mexico_City] PHP Fatal error:  Trait "Laravel\Sanctum\HasApiTokens" not found in /home/casabar5/public_html/cajagrowcap/app/Models/Cliente.php on line 10
+[26-Sep-2025 11:06:16 America/Mexico_City] PHP Fatal error:  Uncaught ErrorException: Cannot modify header information - headers already sent by (output started at /home/casabar5/public_html/cajagrowcap/app/Http/Controllers/PrestamoController.php:1) in /home/casabar5/public_html/cajagrowcap/vendor/symfony/http-foundation/Response.php:322
+Stack trace:
+#0 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->Illuminate\Foundation\Bootstrap\{closure}()
+#2 /home/casabar5/public_html/cajagrowcap/vendor/symfony/http-foundation/Response.php(322): header()
+#3 /home/casabar5/public_html/cajagrowcap/vendor/symfony/http-foundation/Response.php(401): Symfony\Component\HttpFoundation\Response->sendHeaders()
+#4 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(219): Symfony\Component\HttpFoundation\Response->send()
+#5 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(196): Illuminate\Foundation\Bootstrap\HandleExceptions->renderHttpResponse()
+#6 /home/casabar5/public_html/cajagrowcap/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#7 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->Illuminate\Foundation\Bootstrap\{closure}()
+#8 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/vendor/symfony/http-foundation/Response.php on line 322
+[28-Oct-2025 14:06:47 America/Mexico_City] PHP Fatal error:  Cannot use Illuminate\Http\Request as Request because the name is already in use in /home/casabar5/public_html/cajagrowcap/routes/web.php on line 7
+[28-Oct-2025 14:06:47 America/Mexico_City] PHP Fatal error:  Cannot use Illuminate\Http\Request as Request because the name is already in use in /home/casabar5/public_html/cajagrowcap/routes/web.php on line 7
+[28-Oct-2025 14:44:25 America/Mexico_City] PHP Fatal error:  Cannot use Illuminate\Http\Request as Request because the name is already in use in /home/casabar5/public_html/cajagrowcap/routes/web.php on line 7
+[28-Oct-2025 16:46:38 America/Mexico_City] PHP Fatal error:  Cannot use Illuminate\Http\Request as Request because the name is already in use in /home/casabar5/public_html/cajagrowcap/routes/web.php on line 7
+[28-Oct-2025 16:51:28 America/Mexico_City] PHP Fatal error:  Cannot use Illuminate\Http\Request as Request because the name is already in use in /home/casabar5/public_html/cajagrowcap/routes/web.php on line 7
+[28-Oct-2025 16:54:59 America/Mexico_City] PHP Fatal error:  Cannot use Illuminate\Http\Request as Request because the name is already in use in /home/casabar5/public_html/cajagrowcap/routes/web.php on line 7
+[26-Nov-2025 14:36:35 America/Mexico_City] Stripe Notice: Undefined property of Stripe\Invoice instance: subscription
+[26-Nov-2025 14:56:59 America/Mexico_City] Stripe Notice: Undefined property of Stripe\Invoice instance: subscription
+[26-Nov-2025 15:11:46 America/Mexico_City] Stripe Notice: Undefined property of Stripe\Invoice instance: subscription
+[01-Dec-2025 18:40:56 America/Mexico_City] PHP Fatal error:  Cannot declare class App\Http\Controllers\UserDepositoController, because the name is already in use in /home/casabar5/public_html/cajagrowcap/app/Services/VisibilityScope.php on line 18
+[21-Dec-2025 19:19:49 America/Mexico_City] PHP Fatal error:  Cannot use Illuminate\Support\Facades\Mail as Mail because the name is already in use in /home/casabar5/public_html/cajagrowcap/app/Http/Controllers/Api/UserAhorroApiController.php on line 29
+[21-Dec-2025 19:19:51 America/Mexico_City] PHP Fatal error:  Cannot use Illuminate\Support\Facades\Mail as Mail because the name is already in use in /home/casabar5/public_html/cajagrowcap/app/Http/Controllers/Api/UserAhorroApiController.php on line 29
+[21-Dec-2025 19:19:57 America/Mexico_City] PHP Fatal error:  Cannot use Illuminate\Support\Facades\Mail as Mail because the name is already in use in /home/casabar5/public_html/cajagrowcap/app/Http/Controllers/Api/UserAhorroApiController.php on line 29
+[21-Dec-2025 19:19:58 America/Mexico_City] PHP Fatal error:  Cannot use Illuminate\Support\Facades\Mail as Mail because the name is already in use in /home/casabar5/public_html/cajagrowcap/app/Http/Controllers/Api/UserAhorroApiController.php on line 29
+[21-Dec-2025 19:24:58 America/Mexico_City] PHP Fatal error:  Cannot use Illuminate\Support\Facades\Mail as Mail because the name is already in use in /home/casabar5/public_html/cajagrowcap/app/Http/Controllers/Api/UserAhorroApiController.php on line 29
+[21-Dec-2025 19:25:09 America/Mexico_City] PHP Fatal error:  Cannot use Illuminate\Support\Facades\Mail as Mail because the name is already in use in /home/casabar5/public_html/cajagrowcap/app/Http/Controllers/Api/UserAhorroApiController.php on line 29
+[21-Dec-2025 19:25:23 America/Mexico_City] PHP Fatal error:  Cannot use Illuminate\Support\Facades\Mail as Mail because the name is already in use in /home/casabar5/public_html/cajagrowcap/app/Http/Controllers/Api/UserAhorroApiController.php on line 29
+[21-Dec-2025 19:25:33 America/Mexico_City] PHP Fatal error:  Cannot use Illuminate\Support\Facades\Mail as Mail because the name is already in use in /home/casabar5/public_html/cajagrowcap/app/Http/Controllers/Api/UserAhorroApiController.php on line 29
+[21-Dec-2025 19:25:39 America/Mexico_City] PHP Fatal error:  Cannot use Illuminate\Support\Facades\Mail as Mail because the name is already in use in /home/casabar5/public_html/cajagrowcap/app/Http/Controllers/Api/UserAhorroApiController.php on line 29
+[21-Dec-2025 19:25:44 America/Mexico_City] PHP Fatal error:  Cannot use Illuminate\Support\Facades\Mail as Mail because the name is already in use in /home/casabar5/public_html/cajagrowcap/app/Http/Controllers/Api/UserAhorroApiController.php on line 29
+[21-Dec-2025 19:25:45 America/Mexico_City] PHP Fatal error:  Cannot use Illuminate\Support\Facades\Mail as Mail because the name is already in use in /home/casabar5/public_html/cajagrowcap/app/Http/Controllers/Api/UserAhorroApiController.php on line 29

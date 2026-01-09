@@ -1,0 +1,132 @@
+/* Fuente y fondo general */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+/* Breadcrumbs */
+.breadcrumb {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+/* Filtros (Sidebar) */
+.filters {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.filters h4 {
+    color: #F39C12;
+    margin-bottom: 15px;
+}
+
+/* Listado de productos */
+.product-item {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+    background: #fff;
+}
+.product-item:hover {
+    transform: translateY(-5px);
+}
+.product-item .card-img-top {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.product-item .card-body h5 {
+    color: #34495E;
+}
+.price {
+    font-weight: bold;
+    color: #F39C12;
+}
+
+/* Botones */
+.btn-primary {
+    background: #F39C12;
+    border: none;
+    transition: background 0.3s;
+}
+.btn-primary:hover {
+    background: #E67E22;
+}
+
+/* Footer */
+footer {
+    background: #2C3E50;
+    color: #fff;
+    padding: 20px 0;
+    font-size: 0.9rem;
+}
+footer h4 {
+    color: #F39C12;
+}
+footer a {
+    color: #fff;
+    text-decoration: none;
+}
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* ======================================== */
+/*      Ajustes para los menús desplegables */
+/* ======================================== */
+
+/* Todos los dropdowns (moneda, perfil, etc.) */
+.dropdown-menu {
+    background-color: #fff;       /* Fondo blanco */
+    border: 1px solid #ddd;       /* Borde gris */
+    min-width: 8rem;              /* Ancho mínimo */
+}
+
+/* Color del texto de los items */
+.dropdown-menu .dropdown-item {
+    color: #06283D;
+}
+
+/* Hover en los items: fondo gris claro */
+.dropdown-menu .dropdown-item:hover {
+    background-color: #f5f5f5;
+}
+
+/* Ajuste específico para .nav-item .dropdown-menu (perfil) */
+.nav-item .dropdown-menu {
+    background-color: #fff !important;
+    border: 1px solid #ddd !important;
+}
+
+/* Texto oscuro en los ítems del perfil */
+.nav-item .dropdown-menu .dropdown-item {
+    color: #06283D !important;
+}
+
+/* Efecto hover en ítems del perfil */
+.nav-item .dropdown-menu .dropdown-item:hover {
+    background-color: #f5f5f5 !important;
+}
+
+/* =================================================== */
+/*              Badge para el carrito                */
+/* =================================================== */
+.cart-badge {
+    position: absolute;
+    top: -8px;      /* Ajusta este valor según el tamaño del ícono */
+    right: -10px;   /* Ajusta para que se vea encima */
+    background-color: #E67E22; /* Rojo */
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    text-align: center;
+    line-height: 18px;
+    font-weight: 600;
+}

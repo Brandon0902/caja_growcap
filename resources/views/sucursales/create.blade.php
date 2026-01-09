@@ -7,7 +7,7 @@
     </x-slot>
 
     <div class="py-6 mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        {{-- Errores --}}
+        {{-- Errores de validación --}}
         <x-validation-errors class="mb-4" />
 
         <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-6">
@@ -16,26 +16,26 @@
 
                 {{-- Nombre --}}
                 <div class="mb-4">
-                    <x-label name="nombre" value="Nombre" />
-                    <x-input name="nombre" type="text" />
+                    <x-label for="nombre" value="Nombre" />
+                    <x-input id="nombre" name="nombre" type="text" />
                 </div>
 
                 {{-- Dirección --}}
                 <div class="mb-4">
-                    <x-label name="direccion" value="Dirección" />
-                    <x-input name="direccion" type="textarea" />
+                    <x-label for="direccion" value="Dirección" />
+                    <x-input id="direccion" name="direccion" type="textarea" />
                 </div>
 
                 {{-- Teléfono --}}
                 <div class="mb-4">
-                    <x-label name="telefono" value="Teléfono" />
-                    <x-input name="telefono" type="text" />
+                    <x-label for="telefono" value="Teléfono" />
+                    <x-input id="telefono" name="telefono" type="text" />
                 </div>
 
                 {{-- Gerente --}}
                 <div class="mb-4">
-                    <x-label name="gerente_id" value="Gerente" />
-                    <x-input name="gerente_id" type="select">
+                    <x-label for="gerente_id" value="Gerente" />
+                    <x-input id="gerente_id" name="gerente_id" type="select">
                         <option value="">{{ __('— Seleccionar —') }}</option>
                         @foreach($gerentes as $g)
                             <option
@@ -50,23 +50,23 @@
 
                 {{-- Política Crediticia --}}
                 <div class="mb-4">
-                    <x-label name="politica_crediticia" value="Política Crediticia (opcional)" />
-                    <x-input name="politica_crediticia" type="textarea" />
+                    <x-label for="politica_crediticia" value="Política Crediticia (opcional)" />
+                    <x-input id="politica_crediticia" name="politica_crediticia" type="textarea" />
                 </div>
 
                 {{-- Acceso Activo --}}
                 <div class="mb-6 flex items-center">
-                    <x-checkbox name="acceso_activo" :checked="old('acceso_activo', true)" />
-                    <x-label name="acceso_activo" value="Acceso Activo" class="ml-2" />
+                    <x-checkbox id="acceso_activo" name="acceso_activo" :checked="old('acceso_activo', true)" />
+                    <x-label for="acceso_activo" value="Acceso Activo" class="ml-2" />
                 </div>
 
                 {{-- Botones --}}
                 <div class="flex justify-end space-x-3">
                     <a href="{{ route('sucursales.index') }}"
-                        class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md
-                                text-gray-700 bg-white hover:bg-gray-100 focus:outline-none
-                                focus:ring-2 focus:ring-offset-2 focus:ring-gray-300
-                                dark:border-gray-600 dark:text-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-500">
+                       class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md
+                              text-gray-700 bg-white hover:bg-gray-100 focus:outline-none
+                              focus:ring-2 focus:ring-offset-2 focus:ring-gray-300
+                              dark:border-gray-600 dark:text-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-500">
                         {{ __('Cancelar') }}
                     </a>
                     <x-button

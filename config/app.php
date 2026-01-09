@@ -53,6 +53,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'front_url' => env('FRONT_URL', env('APP_URL')),
 
     /*
     |--------------------------------------------------------------------------
@@ -65,7 +66,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'America/Mexico_City',
 
     /*
     |--------------------------------------------------------------------------
@@ -122,5 +123,14 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Claves para la API del cliente legado
+    |--------------------------------------------------------------------------
+    */
+    'client_api_key'   => env('CLIENT_API_KEY'),
+    'api_user_id'      => env('API_USER_ID', 1),
+    'caja_pendientes_id' => env('DEPOSITOS_CAJA_PENDIENTE_ID', 1),
 
 ];
