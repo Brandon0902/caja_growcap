@@ -1,0 +1,271 @@
+# Unified diff for implementing Panel Control in caja_growcap
+
+# 1. Add a new controller for the panel control
+#    File: app/Http/Controllers/PanelControlController.php
+
+--- /dev/null
++++ b/app/Http/Controllers/PanelControlController.php
+@@
++<?php
++
++namespace App\Http\Controllers;
++
++use Illuminate\Http\Request;
++
++/**
++ * Controller for the admin panel control page.  This controller renders a
++ * two‑column layout where the left side contains a menu of administrative
++ * sections (roles, users, categories, etc.) and the right side dynamically
++ * loads the content for each section via Ajax.  Each module's controller
++ * should return a partial view when the query parameter `panel=1` or the
++ * request header `X‑Panel: 1` is present.
++ */
++class PanelControlController extends Controller
++{
++    /**
++     * Show the admin panel control page.
++     */
++    public function index(Request $request)
++    {
++        // Default module loaded on initial visit; adjust as needed
++        $defaultUrl = route('admin.permisos.index', ['panel' => 1]);
++        return view('panel-control.index', [
++            'defaultUrl' => $defaultUrl,
++        ]);
++    }
++}
+
+# 2. Create the panel control view
+#    File: resources/views/panel-control/index.blade.php
+
+--- /dev/null
++++ b/resources/views/panel-control/index.blade.php
+@@
++@extends('layouts.app')
++
++@section('header')
++    <div class="flex items-center justify-between">
++        <h2 class="font-semibold text-xl text-white leading-tight">Panel de Control</h2>
++    </div>
++@endsection
++
++@section('content')
++    <style>[x-cloak]{ display: none !important; }</style>
++    <div class="py-6 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
++         x-data="panelControl(@js($defaultUrl))"
++         x-init="init()">
++        <div class="grid grid-cols-12 gap-6">
++            {{-- Left column: internal menu --}}
++            <aside class="col-span-12 md:col-span-3 bg-white dark:bg-gray-900 rounded-xl shadow p-4">
++                <div class="text-xs font-semibold text-gray-500 mb-3">SISTEMA</div>
++                <div class="space-y-1">
++                    {{-- Menu entries (check permissions with @can) --}}
++                    @can('admin.ver')
++                        <a href="{{ route('admin.permisos.index', ['panel' => 1]) }}" data-panel-link class="block px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Roles y Permisos</a>
++                    @endcan
++                    @can('usuarios.ver')
++                        <a href="{{ route('usuarios.index', ['panel' => 1]) }}" data-panel-link class="block px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Usuarios</a>
++                    @endcan
++                    @can('clientes.ver')
++                        <a href="{{ route('clientes.index', ['panel' => 1]) }}" data-panel-link class="block px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Clientes</a>
++                    @endcan
++                    @can('empresas.ver')
++                        <a href="{{ route('empresas.index', ['panel' => 1]) }}" data-panel-link class="block px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Empresas</a>
++                    @endcan
++                    @can('categoria_ingresos.ver')
++                        <a href="{{ route('categoria-ingresos.index', ['panel' => 1]) }}" data-panel-link class="block px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Categorías Ingresos</a>
++                    @endcan
++                    @can('categoria_gastos.ver')
++                        <a href="{{ route('categoria-gastos.index', ['panel' => 1]) }}" data-panel-link class="block px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Categorías Gastos</a>
++                    @endcan
++                    @can('proveedores.ver')
++                        <a href="{{ route('proveedores.index', ['panel' => 1]) }}" data-panel-link class="block px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Proveedores</a>
++                    @endcan
++                </div>
++            </aside>
++            {{-- Right column: dynamic content --}}
++            <section class="col-span-12 md:col-span-9">
++                <div class="bg-white dark:bg-gray-900 rounded-xl shadow">
++                    <div class="p-4 border-b dark:border-gray-800 flex items-center justify-between">
++                        <div class="font-semibold text-gray-800 dark:text-gray-200" x-text="title"></div>
++                        <div x-show="loading" x-cloak class="text-sm text-gray-500">Cargando…</div>
++                    </div>
++                    <div class="p-4" x-ref="content"></div>
++                </div>
++            </section>
++        </div>
++    </div>
++    @push('scripts')
++        <script>
++            function panelControl(defaultUrl) {
++                return {
++                    loading: false,
++                    title: 'Panel',
++                    defaultUrl,
++                    init() {
++                        const current = new URL(window.location.href);
++                        const target = current.searchParams.get('panel_url') || this.defaultUrl;
++                        this.load(target, true);
++                        window.addEventListener('popstate', () => {
++                            const url = new URL(window.location.href);
++                            const target = url.searchParams.get('panel_url') || this.defaultUrl;
++                            this.load(target, true);
++                        });
++                        document.addEventListener('click', (e) => {
++                            const link = e.target.closest('a[data-panel-link]');
++                            if (!link) return;
++                            e.preventDefault();
++                            this.setUrl(link.href);
++                            this.load(link.href);
++                        });
++                        document.addEventListener('click', (e) => {
++                            const a = e.target.closest('[data-panel-content] a');
++                            if (!a) return;
++                            const href = a.getAttribute('href');
++                            if (!href || href.startsWith('#') || a.target === '_blank') return;
++                            e.preventDefault();
++                            this.setUrl(href);
++                            this.load(href);
++                        });
++                        document.addEventListener('submit', (e) => {
++                            const form = e.target.closest('[data-panel-content] form');
++                            if (!form) return;
++                            const method = (form.method || 'GET').toUpperCase();
++                            if (method !== 'GET') return;
++                            e.preventDefault();
++                            const url = new URL(form.action || window.location.href);
++                            const fd = new FormData(form);
++                            fd.forEach((v, k) => url.searchParams.set(k, v));
++                            this.setUrl(url.toString());
++                            this.load(url.toString());
++                        });
++                    },
++                    setUrl(panelUrl) {
++                        const u = new URL(window.location.href);
++                        u.searchParams.set('panel_url', panelUrl);
++                        history.pushState({}, '', u.toString());
++                    },
++                    async load(url) {
++                        this.loading = true;
++                        try {
++                            const res = await fetch(url, {
++                                headers: {
++                                    'X-Requested-With': 'XMLHttpRequest',
++                                    'X-Panel': '1',
++                                },
++                            });
++                            const html = await res.text();
++                            this.$refs.content.innerHTML = `<div data-panel-content>${html}</div>`;
++                            const tmp = document.createElement('div');
++                            tmp.innerHTML = html;
++                            const t = tmp.querySelector('[data-title]');
++                            this.title = t ? t.getAttribute('data-title') : 'Panel';
++                        } catch (err) {
++                            this.$refs.content.innerHTML = `<div class=\"text-red-600\">Error al cargar la sección.</div>`;
++                        } finally {
++                            this.loading = false;
++                        }
++                    },
++                };
++            }
++        </script>
++    @endpush
++@endsection
+
+# 3. Modify navigation.blade.php to add Panel Control and remove the giant Admin menu
+#    File: resources/views/layouts/navigation.blade.php
+
+@@
+-    {{-- ========== Admin ========== --}}
+-    @role('admin','web')
+-    <div class="mt-1 space-y-1">
+-      <button
+-        @click=" if (isFlyout()) { openFly('admin','adminBtn'); return; } adminOpen = !adminOpen; "
+-        :class="adminOpen ? 'bg-purple-700/50' : 'hover:bg-purple-700/50'"
+-        class="!text-white w-full px-2 py-2 rounded-md transition toplink-base"
+-        x-bind:class="{ 'toplink-closed': !open }" x-ref="adminBtn">
+-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l1.42-1.42"/><path d="M18.36 5.64l1.42-1.42"/><circle cx="12" cy="12" r="3"/></svg>
+-        <span x-bind:class="open ? 'caption' : 'caption-closed'">Admin</span>
+-      </button>
+-
+-      <div x-show="adminOpen && open" x-cloak class="space-y-1 rounded-md bg-white text-slate-900 p-2 shadow-sm submenu-white">
+-        {{-- many admin links removed for brevity --}}
+-      </div>
+-    </div>
+-    @endrole
++    {{-- ========== Panel Control ========== --}}
++    @role('admin','web')
++    <div class="mt-1 space-y-1">
++        <x-nav-link
++            :href="route('panel-control.index')"
++            :active="request()->routeIs('panel-control.*')"
++            class="!text-white px-2 py-2 rounded-md hover:bg-purple-700/50 transition w-full toplink-base"
++            x-bind:class="{ 'toplink-closed': !open }">
++            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
++                <path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><circle cx="12" cy="12" r="3"/>
++            </svg>
++            <span x-bind:class="open ? 'caption' : 'caption-closed'">Panel Control</span>
++        </x-nav-link>
++    </div>
++    @endrole
+
+# 4. Modify routes/web.php to register panel-control route
+
+@@
+ use App\Http\Controllers\CategoriaGastoController;
+ use App\Http\Controllers\CuentaPorPagarController;
+ use App\Http\Controllers\MovimientoCajaController;
+ use App\Http\Controllers\TicketRespuestaController;
++use App\Http\Controllers\PanelControlController;
+@@
+ Route::get ('adminuserabonos/abonos',                 [UserAbonoController::class,'generalIndex'])->name('adminuserabonos.abonos.general')->middleware('permission:adminuserabonos.ver');
+ });
++
++/* ========= Panel Control ========= */
++Route::middleware(['auth','role:admin'])
++    ->prefix('panel-control')
++    ->name('panel-control.')
++    ->group(function () {
++        Route::get('/', [PanelControlController::class, 'index'])->name('index');
++    });
+
+# 5. Make PermisosController return a partial view when the panel flag is present
+#    File: app/Http/Controllers/PermisosController.php
+
+@@ public function index(Request $request)
+-        return view('permisos.index', [
+-            'roles' => $roles,
+-            'permissions' => $permissions,
+-            'users' => $users,
+-        ]);
++        // When the panel flag is present (query ?panel=1 or header X-Panel: 1) return a
++        // partial without the global layout.  This allows the Panel Control
++        // to load the table via Ajax without re-rendering the entire page.
++        $isPanel = $request->boolean('panel') || $request->header('X-Panel') === '1';
++        if ($isPanel) {
++            return view('permisos._panel', [
++                'roles' => $roles,
++                'permissions' => $permissions,
++                'users' => $users,
++            ]);
++        }
++        return view('permisos.index', [
++            'roles' => $roles,
++            'permissions' => $permissions,
++            'users' => $users,
++        ]);
+
+# 6. Extract the body of permisos.index into a content partial and create a panel partial
+#    After applying this patch, you should create two new view files:
+#      resources/views/permisos/_content.blade.php : contains only the content that used to be in permisos/index.blade.php (without the <x-app-layout> wrapper).
+#      resources/views/permisos/_panel.blade.php : wraps the content partial in a div with data-title.
+#    Then update recursos/views/permisos/index.blade.php to include the content partial.
+
+--- /dev/null
++++ b/resources/views/permisos/_panel.blade.php
+@@
++{{-- Panel partial for Permisos --}}
++<div data-title="Permisos">
++    @include('permisos._content')
++</div>
+
