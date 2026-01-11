@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Concerns\ResolvesClienteId;
 use App\Models\Ticket;
+use App\Models\User;
+use App\Notifications\NuevaSolicitudNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -54,6 +56,16 @@ class TicketsApiController extends Controller
         }
 
         $ticket = Ticket::create($data);
+        $ticket->load('cliente');
+
+        $clienteNombre = trim(sprintf('%s %s', (string)($ticket->cliente->nombre ?? ''), (string)($ticket->cliente->apellido ?? '')));
+        $titulo = 'Nuevo ticket de soporte';
+        $mensaje = $clienteNombre !== '' ? "Cliente {$clienteNombre} creó un ticket." : 'Se creó un nuevo ticket.';
+        $url = route('tickets.show', $ticket);
+
+        User::role(['admin', 'gerente'])->each(function (User $admin) use ($titulo, $mensaje, $url) {
+            $admin->notify(new NuevaSolicitudNotification($titulo, $mensaje, $url));
+        });
 
         return response()->json([
             'message' => 'Ticket creado correctamente.',
