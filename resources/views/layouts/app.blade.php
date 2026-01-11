@@ -95,6 +95,69 @@
               </svg>
             </button>
 
+            {{-- Notifications dropdown --}}
+            <div
+              x-data="{
+                open: false,
+                notifications: [
+                  { id: 1, title: 'Nueva solicitud aprobada', time: 'Hace 2 min', unread: true },
+                  { id: 2, title: 'Reporte mensual disponible', time: 'Hace 1 hora', unread: false },
+                ],
+                unreadCount: 1,
+              }"
+              class="relative"
+            >
+              <button
+                @click="open = !open"
+                @keydown.escape.window="open = false"
+                class="relative inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md
+                       text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300
+                       focus:outline-none transition ease-in-out duration-150"
+                aria-label="Notificaciones"
+              >
+                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 11-6 0h6z"/>
+                </svg>
+                <span
+                  x-show="unreadCount > 0"
+                  x-text="unreadCount"
+                  class="absolute -top-1 -right-1 inline-flex items-center justify-center px-2 py-0.5 text-xs font-semibold
+                         leading-none text-white bg-rose-500 rounded-full"
+                ></span>
+              </button>
+
+              <div
+                x-cloak
+                x-show="open"
+                @click.outside="open = false"
+                x-transition
+                class="absolute right-0 mt-2 w-72 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 z-50"
+              >
+                <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                  <p class="text-sm font-semibold text-gray-700 dark:text-gray-200">Notificaciones</p>
+                </div>
+                <ul class="max-h-64 overflow-y-auto divide-y divide-gray-100 dark:divide-gray-700">
+                  <template x-for="notification in notifications" :key="notification.id">
+                    <li class="px-4 py-3 flex items-start space-x-3">
+                      <span
+                        class="mt-1 h-2.5 w-2.5 rounded-full"
+                        :class="notification.unread ? 'bg-rose-500' : 'bg-gray-300 dark:bg-gray-600'"
+                      ></span>
+                      <div class="flex-1">
+                        <p class="text-sm text-gray-700 dark:text-gray-200" x-text="notification.title"></p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400" x-text="notification.time"></p>
+                      </div>
+                    </li>
+                  </template>
+                  <li x-show="notifications.length === 0" class="px-4 py-6 text-center text-sm text-gray-500 dark:text-gray-400">
+                    No hay notificaciones nuevas.
+                  </li>
+                </ul>
+              </div>
+            </div>
+
             {{-- User dropdown --}}
             <x-dropdown align="right" width="48">
               <x-slot name="trigger">
