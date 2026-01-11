@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Caja;
 use App\Models\Inversion;
 use App\Models\MovimientoCaja;
+use App\Models\User;
 use App\Models\UserInversion;
+use App\Notifications\NuevaSolicitudNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -349,6 +351,15 @@ class UserInversionApiController extends Controller
                 ]);
             }
         }
+
+        $clienteNombre = trim(sprintf('%s %s', (string)($cliente->nombre ?? ''), (string)($cliente->apellido ?? '')));
+        $titulo = 'Nueva solicitud de inversión';
+        $mensaje = $clienteNombre !== '' ? "Cliente {$clienteNombre} creó una solicitud." : 'Se creó una nueva solicitud.';
+        $url = route('user_inversiones.show', $inv);
+
+        User::role(['admin', 'gerente'])->each(function (User $admin) use ($titulo, $mensaje, $url) {
+            $admin->notify(new NuevaSolicitudNotification($titulo, $mensaje, $url));
+        });
 
         $fmtDate = function ($v) {
             if (!$v) return null;

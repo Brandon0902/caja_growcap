@@ -99,12 +99,53 @@
             <div
               x-data="{
                 open: false,
-                notifications: [
-                  { id: 1, title: 'Nueva solicitud aprobada', time: 'Hace 2 min', unread: true },
-                  { id: 2, title: 'Reporte mensual disponible', time: 'Hace 1 hora', unread: false },
-                ],
-                unreadCount: 1,
+                notifications: [],
+                unreadCount: 0,
+                loading: false,
+                csrfToken: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
+                init() {
+                  this.fetchNotifications();
+                },
+                fetchNotifications() {
+                  this.loading = true;
+                  fetch('{{ route('notifications.index') }}', {
+                    headers: { 'Accept': 'application/json' },
+                  })
+                    .then((response) => response.json())
+                    .then((data) => {
+                      this.notifications = data.notifications ?? [];
+                      this.unreadCount = data.unreadCount ?? 0;
+                    })
+                    .finally(() => {
+                      this.loading = false;
+                    });
+                },
+                markAsRead(notification) {
+                  if (!notification.unread) {
+                    return Promise.resolve();
+                  }
+
+                  return fetch(`/notifications/${notification.id}/read`, {
+                    method: 'POST',
+                    headers: {
+                      'Accept': 'application/json',
+                      'X-CSRF-TOKEN': this.csrfToken,
+                    },
+                  }).then(() => {
+                    notification.unread = false;
+                    this.unreadCount = Math.max(this.unreadCount - 1, 0);
+                  });
+                },
+                handleNotificationClick(notification) {
+                  const url = notification.url;
+                  this.markAsRead(notification).finally(() => {
+                    if (url) {
+                      window.location = url;
+                    }
+                  });
+                },
               }"
+              x-init="init()"
               class="relative"
             >
               <button
@@ -139,19 +180,30 @@
                   <p class="text-sm font-semibold text-gray-700 dark:text-gray-200">Notificaciones</p>
                 </div>
                 <ul class="max-h-64 overflow-y-auto divide-y divide-gray-100 dark:divide-gray-700">
+                  <li x-show="loading" class="px-4 py-6 text-center text-sm text-gray-500 dark:text-gray-400">
+                    Cargando notificaciones...
+                  </li>
                   <template x-for="notification in notifications" :key="notification.id">
                     <li class="px-4 py-3 flex items-start space-x-3">
                       <span
                         class="mt-1 h-2.5 w-2.5 rounded-full"
                         :class="notification.unread ? 'bg-rose-500' : 'bg-gray-300 dark:bg-gray-600'"
                       ></span>
-                      <div class="flex-1">
+                      <button type="button" class="flex-1 text-left" @click="handleNotificationClick(notification)">
                         <p class="text-sm text-gray-700 dark:text-gray-200" x-text="notification.title"></p>
+                        <p
+                          x-show="notification.message"
+                          class="text-xs text-gray-500 dark:text-gray-400"
+                          x-text="notification.message"
+                        ></p>
                         <p class="text-xs text-gray-500 dark:text-gray-400" x-text="notification.time"></p>
-                      </div>
+                      </button>
                     </li>
                   </template>
-                  <li x-show="notifications.length === 0" class="px-4 py-6 text-center text-sm text-gray-500 dark:text-gray-400">
+                  <li
+                    x-show="!loading && notifications.length === 0"
+                    class="px-4 py-6 text-center text-sm text-gray-500 dark:text-gray-400"
+                  >
                     No hay notificaciones nuevas.
                   </li>
                 </ul>
