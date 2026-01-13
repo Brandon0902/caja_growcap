@@ -8,6 +8,8 @@ use App\Mail\NuevaSolicitudRetiroClienteMail;
 use App\Models\Cliente;
 use App\Models\Retiro;
 use App\Models\RetiroAhorro;
+use App\Models\User;
+use App\Notifications\NuevaSolicitudNotification;
 use App\Services\SaldoDisponibleService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -220,6 +222,15 @@ class RetirosClienteApiController extends Controller
                 ]);
             }
 
+            $clienteNombre = trim(sprintf('%s %s', (string)($cliente->nombre ?? ''), (string)($cliente->apellido ?? '')));
+            $titulo = 'Nuevo retiro de ahorro';
+            $mensaje = $clienteNombre !== '' ? "Cliente {$clienteNombre} solicitó un retiro." : 'Se solicitó un retiro de ahorro.';
+            $url = route('retiros.index');
+
+            User::role(['admin', 'gerente'])->each(function (User $admin) use ($titulo, $mensaje, $url) {
+                $admin->notify(new NuevaSolicitudNotification($titulo, $mensaje, $url));
+            });
+
             return response()->json([
                 'ok'        => true,
                 'message'   => 'Solicitud de retiro de ahorro enviada.',
@@ -360,6 +371,15 @@ class RetirosClienteApiController extends Controller
                 'ex'         => $e,
             ]);
         }
+
+        $clienteNombre = trim(sprintf('%s %s', (string)($cliente->nombre ?? ''), (string)($cliente->apellido ?? '')));
+        $titulo = 'Nuevo retiro de inversión';
+        $mensaje = $clienteNombre !== '' ? "Cliente {$clienteNombre} solicitó un retiro." : 'Se solicitó un retiro de inversión.';
+        $url = route('retiros.index');
+
+        User::role(['admin', 'gerente'])->each(function (User $admin) use ($titulo, $mensaje, $url) {
+            $admin->notify(new NuevaSolicitudNotification($titulo, $mensaje, $url));
+        });
 
         return response()->json([
             'ok'        => true,
