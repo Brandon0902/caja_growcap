@@ -12,6 +12,8 @@ use App\Models\UserLaboral;        // salario_mensual (último registro)
 use App\Models\UserAhorro;         // saldo_fecha (activos !=0)
 use App\Models\UserInversion;      // capital_actual (activos)
 use App\Models\UserAbono;          // para saldo_restante último por préstamo
+use App\Models\User;
+use App\Notifications\NuevaSolicitudNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -515,7 +517,16 @@ class UserPrestamoApiController extends Controller
             // No rompemos la respuesta si el correo falla
         }
         // =========================================
-    
+
+        $clienteNombre = trim(sprintf('%s %s', (string)($cliente->nombre ?? ''), (string)($cliente->apellido ?? '')));
+        $titulo = 'Nueva solicitud de préstamo';
+        $mensaje = $clienteNombre !== '' ? "Cliente {$clienteNombre} creó una solicitud." : 'Se creó una nueva solicitud.';
+        $url = route('user_prestamos.show', $prestamo);
+
+        User::role(['admin', 'gerente'])->each(function (User $admin) use ($titulo, $mensaje, $url) {
+            $admin->notify(new NuevaSolicitudNotification($titulo, $mensaje, $url));
+        });
+
         return response()->json([
             'ok'      => true,
             'message' => 'Solicitud de préstamo creada en estado pendiente.',

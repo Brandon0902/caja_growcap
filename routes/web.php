@@ -23,6 +23,7 @@ use App\Http\Controllers\UserDataController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\InversionController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\UserAbonoController;
 use App\Http\Controllers\ConfigMoraController;
@@ -70,6 +71,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile',    [ProfileController::class,'edit'])->name('profile.edit');
     Route::patch('/profile',  [ProfileController::class,'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class,'destroy'])->name('profile.destroy');
+
+    /* Notificaciones */
+    Route::get('/notifications', [NotificationController::class, 'index'])
+        ->name('notifications.index');
+    Route::post('/notifications/{notification}/read', [NotificationController::class, 'markAsRead'])
+        ->name('notifications.read');
 
     /* Sucursales */
     Route::resource('sucursales', SucursalController::class)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\UserDeposito;
 use App\Models\MovimientoCaja;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -15,6 +16,7 @@ use App\Models\Cliente;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Mail\NuevoDepositoMail;
+use App\Notifications\NuevaSolicitudNotification;
 
 // ✅ NUEVO MAIL CLIENTE
 use App\Mail\DepositoSolicitudClienteMail;
@@ -228,6 +230,15 @@ class UserDepositoController extends Controller
                 ]);
             }
         }
+
+        $clienteNombre = trim(sprintf('%s %s', (string)($cliente->nombre ?? ''), (string)($cliente->apellido ?? '')));
+        $titulo = 'Nuevo depósito registrado';
+        $mensaje = $clienteNombre !== '' ? "Cliente {$clienteNombre} registró un depósito." : 'Se registró un nuevo depósito.';
+        $url = route('depositos.show', $dep);
+
+        User::role(['admin', 'gerente'])->each(function (User $admin) use ($titulo, $mensaje, $url) {
+            $admin->notify(new NuevaSolicitudNotification($titulo, $mensaje, $url));
+        });
 
         return response()->json([
             'ok'       => true,

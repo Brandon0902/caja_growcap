@@ -7,6 +7,8 @@ use App\Models\UserPrestamo;
 use App\Models\UserAbono;
 use App\Services\MoraService;
 use App\Services\AbonoService;
+use App\Models\User;
+use App\Notifications\NuevaSolicitudNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -208,6 +210,15 @@ class AbonosApiController extends Controller
 
             Mail::to('admingrowcap@casabarrel.com')
                 ->send(new AbonoPagadoMail($cliente, $prestamo, $abono, (float)$data['monto'], $breakdown));
+
+            $clienteNombre = trim(sprintf('%s %s', (string)($cliente->nombre ?? ''), (string)($cliente->apellido ?? '')));
+            $titulo = 'Nuevo abono registrado';
+            $mensaje = $clienteNombre !== '' ? "Cliente {$clienteNombre} registró un abono." : 'Se registró un nuevo abono.';
+            $url = route('user_prestamos.show', $prestamo);
+
+            User::role(['admin', 'gerente'])->each(function (User $admin) use ($titulo, $mensaje, $url) {
+                $admin->notify(new NuevaSolicitudNotification($titulo, $mensaje, $url));
+            });
 
             return response()->json([
                 'message'          => 'Abono pagado correctamente.',

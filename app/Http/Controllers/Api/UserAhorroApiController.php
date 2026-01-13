@@ -7,6 +7,8 @@ use App\Models\Ahorro;
 use App\Models\Caja;
 use App\Models\UserAhorro;
 use App\Models\Cliente;
+use App\Models\User;
+use App\Notifications\NuevaSolicitudNotification;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
@@ -491,7 +493,16 @@ class UserAhorroApiController extends Controller
                 'err'        => $e->getMessage(),
             ]);
         }
-    
+
+        $clienteNombre = trim(sprintf('%s %s', (string)($cliente->nombre ?? ''), (string)($cliente->apellido ?? '')));
+        $titulo = 'Nueva solicitud de ahorro';
+        $mensaje = $clienteNombre !== '' ? "Cliente {$clienteNombre} creó una solicitud." : 'Se creó una nueva solicitud.';
+        $url = route('user_ahorros.show', $ahorro);
+
+        User::role(['admin', 'gerente'])->each(function (User $admin) use ($titulo, $mensaje, $url) {
+            $admin->notify(new NuevaSolicitudNotification($titulo, $mensaje, $url));
+        });
+
         return response()->json([
             'ok'      => true,
             'action'  => 'create',
