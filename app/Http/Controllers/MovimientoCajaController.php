@@ -51,15 +51,7 @@ class MovimientoCajaController extends Controller
 
     public function create()
     {
-        $u = Auth::user();
-
-        if ($u->can('cajas.ver_todas')) {
-            $cajas = Caja::orderBy('nombre')->get();
-        } elseif ($u->can('cajas.ver_sucursal')) {
-            $cajas = Caja::where('id_sucursal', $u->id_sucursal)->orderBy('nombre')->get();
-        } else {
-            $cajas = $u->cajasAsignadas()->orderBy('nombre')->get();
-        }
+        $cajas = $this->cajasDisponibles();
 
         $catsIngreso = CategoriaIngreso::orderBy('nombre')->get();
         $subsIngreso = SubcategoriaIngreso::orderBy('nombre')->get();
@@ -151,15 +143,7 @@ class MovimientoCajaController extends Controller
     {
         $this->authorizeMovimientoRecord($movimiento);
 
-        $u = Auth::user();
-
-        if ($u->can('cajas.ver_todas')) {
-            $cajas = Caja::orderBy('nombre')->get();
-        } elseif ($u->can('cajas.ver_sucursal')) {
-            $cajas = Caja::where('id_sucursal', $u->id_sucursal)->orderBy('nombre')->get();
-        } else {
-            $cajas = $u->cajasAsignadas()->orderBy('nombre')->get();
-        }
+        $cajas = $this->cajasDisponibles();
 
         $catsIngreso = CategoriaIngreso::orderBy('nombre')->get();
         $subsIngreso = SubcategoriaIngreso::orderBy('nombre')->get();
@@ -290,12 +274,38 @@ class MovimientoCajaController extends Controller
     {
         $u = Auth::user();
 
-        if ($u->can('cajas.ver_todas')) return;
+        if ($u->can('cajas.ver') || $u->can('cajas.ver_todas')) return;
 
         if ($u->can('cajas.ver_sucursal') && (int)$caja->id_sucursal === (int)$u->id_sucursal) return;
 
         if ($u->can('cajas.ver_asignadas') && $u->cajasAsignadas()->where('cajas.id_caja', $caja->id_caja)->exists()) return;
 
         abort(403, 'No tienes permiso para operar con esa caja.');
+    }
+
+    protected function cajasDisponibles()
+    {
+        $u = Auth::user();
+
+        $baseQuery = Caja::query()
+            ->with('sucursal:id_sucursal,nombre')
+            ->orderBy('nombre');
+
+        if ($u->can('cajas.ver') || $u->can('cajas.ver_todas')) {
+            return $baseQuery->get();
+        }
+
+        if ($u->can('cajas.ver_sucursal')) {
+            return $baseQuery->where('id_sucursal', $u->id_sucursal)->get();
+        }
+
+        if ($u->can('cajas.ver_asignadas')) {
+            return $u->cajasAsignadas()
+                ->with('sucursal:id_sucursal,nombre')
+                ->orderBy('nombre')
+                ->get();
+        }
+
+        return collect();
     }
 }
