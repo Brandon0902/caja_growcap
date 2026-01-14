@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('movimientos_caja', function (Blueprint $table) {
             $table->id('id_mov');
             $table->foreignId('id_caja')->constrained('cajas', 'id_caja');
+            $table->foreignId('id_sucursal')->constrained('sucursales', 'id_sucursal');
             $table->enum('tipo_mov', ['Ingreso', 'Egreso']);
             $table->foreignId('id_cat_ing')->nullable()->constrained('categorias_ingreso', 'id_cat_ing');
             $table->foreignId('id_sub_ing')->nullable()->constrained('subcategorias_ingreso', 'id_sub_ing');
