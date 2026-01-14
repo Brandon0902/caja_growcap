@@ -7,6 +7,8 @@ use App\Models\SubcategoriaIngreso;
 use App\Models\CategoriaIngreso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class SubcategoriaIngresoController extends Controller
 {
@@ -27,13 +29,33 @@ class SubcategoriaIngresoController extends Controller
 
     public function store(Request $request)
     {
+        if ($request->missing('id_cat_ing')) {
+            $request->merge([
+                'id_cat_ing' => $request->input('categoria_id')
+                    ?? $request->input('categoriaIngresoId'),
+            ]);
+        }
+
+        $tabla = (new SubcategoriaIngreso)->getTable();
         $data = $request->validate([
-            'id_cat_ing' => 'required|exists:categoria_ingresos,id_cat_ing',
-            'nombre'     => 'required|string|max:255|unique:subcategorias_ingreso,nombre',
+            'id_cat_ing' => ['required', Rule::exists('categorias_ingreso', 'id_cat_ing')],
+            'nombre'     => ['required', 'string', 'max:255', Rule::unique($tabla, 'nombre')],
         ]);
 
-        $data['id_usuario'] = Auth::id();
-        SubcategoriaIngreso::create($data);
+        $data['id_usuario'] = auth()->user()->id_usuario ?? Auth::id();
+
+        try {
+            SubcategoriaIngreso::create($data);
+        } catch (\Throwable $exception) {
+            Log::error('Error creating subcategoria ingreso.', [
+                'payload' => $request->all(),
+                'error' => $exception->getMessage(),
+            ]);
+
+            return back()
+                ->withInput()
+                ->withErrors('No se pudo crear la subcategoría de ingreso.');
+        }
 
         return redirect()
             ->route('subcategoria-ingresos.index')
@@ -53,14 +75,40 @@ class SubcategoriaIngresoController extends Controller
 
     public function update(Request $request, SubcategoriaIngreso $subcategoriaIngreso)
     {
+        if ($request->missing('id_cat_ing')) {
+            $request->merge([
+                'id_cat_ing' => $request->input('categoria_id')
+                    ?? $request->input('categoriaIngresoId'),
+            ]);
+        }
+
+        $tabla = (new SubcategoriaIngreso)->getTable();
         $data = $request->validate([
-            'id_cat_ing' => 'required|exists:categoria_ingresos,id_cat_ing',
-            'nombre'     => 'required|string|max:255|unique:subcategorias_ingreso,nombre,'
-                           . $subcategoriaIngreso->id_sub_ing . ',id_sub_ing',
+            'id_cat_ing' => ['required', Rule::exists('categorias_ingreso', 'id_cat_ing')],
+            'nombre'     => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique($tabla, 'nombre')
+                    ->ignore($subcategoriaIngreso->id_sub_ing, 'id_sub_ing'),
+            ],
         ]);
 
-        $data['id_usuario'] = Auth::id();
-        $subcategoriaIngreso->update($data);
+        $data['id_usuario'] = auth()->user()->id_usuario ?? Auth::id();
+
+        try {
+            $subcategoriaIngreso->update($data);
+        } catch (\Throwable $exception) {
+            Log::error('Error updating subcategoria ingreso.', [
+                'subcategoria_ingreso_id' => $subcategoriaIngreso->id_sub_ing,
+                'payload' => $request->all(),
+                'error' => $exception->getMessage(),
+            ]);
+
+            return back()
+                ->withInput()
+                ->withErrors('No se pudo actualizar la subcategoría de ingreso.');
+        }
 
         return redirect()
             ->route('subcategoria-ingresos.index')
