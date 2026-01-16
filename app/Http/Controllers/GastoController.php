@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 
 use App\Services\OperacionRecipientsService;
 use App\Mail\TransaccionCajasNotificacionMail;
+use App\Mail\MovimientoDineroAdminMail;
 
 class GastoController extends Controller
 {
@@ -62,6 +63,11 @@ class GastoController extends Controller
 
                 if (!empty($to)) {
                     Mail::to($to)->send(new TransaccionCajasNotificacionMail($gasto, $actor, 'creada'));
+                }
+
+                $adminEmail = trim((string) config('services.admin.email'));
+                if ($adminEmail !== '') {
+                    Mail::to($adminEmail)->send(new MovimientoDineroAdminMail($gasto, $actor, 'creada'));
                 }
             }
         } catch (\Throwable $e) {
@@ -131,6 +137,11 @@ class GastoController extends Controller
                 if (!empty($to)) {
                     Mail::to($to)->send(new TransaccionCajasNotificacionMail($gasto, $actor, 'actualizada'));
                 }
+
+                $adminEmail = trim((string) config('services.admin.email'));
+                if ($adminEmail !== '') {
+                    Mail::to($adminEmail)->send(new MovimientoDineroAdminMail($gasto, $actor, 'actualizada'));
+                }
             }
         } catch (\Throwable $e) {
             Log::warning('No se pudo enviar mail de transacción entre cajas (update): '.$e->getMessage(), [
@@ -159,6 +170,11 @@ class GastoController extends Controller
 
                 if (!empty($to)) {
                     Mail::to($to)->send(new TransaccionCajasNotificacionMail($gasto, $actor, 'eliminada'));
+                }
+
+                $adminEmail = trim((string) config('services.admin.email'));
+                if ($adminEmail !== '') {
+                    Mail::to($adminEmail)->send(new MovimientoDineroAdminMail($gasto, $actor, 'eliminada'));
                 }
             }
         } catch (\Throwable $e) {

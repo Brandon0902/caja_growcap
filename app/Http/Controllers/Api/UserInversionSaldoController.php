@@ -168,8 +168,11 @@ class UserInversionSaldoController extends Controller
         try {
             $invAdmin = UserInversion::with('plan','caja')->find($inv->id);
 
-            Mail::to('admingrowcap@casabarrel.com')
-                ->send(new InversionPagadaAdminMail($invAdmin, $cliente, $origenes));
+            $adminEmail = trim((string) config('services.admin.email'));
+            if ($adminEmail !== '') {
+                Mail::to($adminEmail)
+                    ->send(new InversionPagadaAdminMail($invAdmin, $cliente, $origenes));
+            }
         } catch (\Throwable $e) {
             Log::warning('No se pudo enviar correo de inversión pagada (saldo) al admin', [
                 'inv_id' => $inv->id,
