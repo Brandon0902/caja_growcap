@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Mail\RetiroInversionStatusActualizadoMail;
 use App\Mail\RetiroAhorroStatusActualizadoMail;
+use App\Mail\RetiroStatusActualizadoAdminMail;
 
 class RetiroController extends Controller
 {
@@ -559,6 +560,13 @@ class RetiroController extends Controller
                         new RetiroInversionStatusActualizadoMail($cliente, $row, $newStatus)
                     );
                 }
+
+                $adminEmail = trim((string) config('services.admin.email'));
+                if ($cliente && $adminEmail !== '') {
+                    Mail::to($adminEmail)->send(
+                        new RetiroStatusActualizadoAdminMail($cliente, $row, $newStatus, 'inversion')
+                    );
+                }
             } catch (\Throwable $e) {
                 Log::error('[Retiros] Error enviando correo (inversión)', [
                     'retiro_id' => $id,
@@ -681,6 +689,13 @@ class RetiroController extends Controller
                 if ($cliente && !empty($cliente->email)) {
                     Mail::to($cliente->email)->send(
                         new RetiroAhorroStatusActualizadoMail($cliente, $row, $newStatus)
+                    );
+                }
+
+                $adminEmail = trim((string) config('services.admin.email'));
+                if ($cliente && $adminEmail !== '') {
+                    Mail::to($adminEmail)->send(
+                        new RetiroStatusActualizadoAdminMail($cliente, $row, $newStatus, 'ahorro')
                     );
                 }
             } catch (\Throwable $e) {

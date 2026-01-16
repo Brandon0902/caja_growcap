@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use App\Services\VisibilityScope;
 use App\Services\OperacionRecipientsService;
 use App\Mail\CuentaPorPagarPagoNotificacionMail;
+use App\Mail\CuentaPorPagarPagoAdminMail;
 
 class CuentaPorPagarDetalleController extends Controller
 {
@@ -36,7 +37,7 @@ class CuentaPorPagarDetalleController extends Controller
         // Visibilidad por sucursal para ABONOS (hace join a cuentas_por_pagar)
         $base = VisibilityScope::cuentasPagarDetalles($base, Auth::user());
 
-        // Evitar colisión de columnas "estado" (cuenta vs detalle)
+        // Evitar colisi篓庐n de columnas "estado" (cuenta vs detalle)
         $base->select('cuentas_por_pagar_detalles.*');
 
         // -------- Filtros comunes de UI --------
@@ -143,7 +144,18 @@ class CuentaPorPagarDetalleController extends Controller
                 'id_usuario'      => auth()->id(),
             ]);
 
-            // ✅ ENVIAR CORREO (cuando se paga)
+
+                    $adminEmail = trim((string) config('services.admin.email'));
+                    if ($adminEmail !== '') {
+                        Mail::to($adminEmail)->send(new CuentaPorPagarPagoAdminMail(
+                            $cuentas_por_pagar,
+                            $detalle,
+                            $caja,
+                            $actor,
+                            'pagado'
+                        ));
+                    }
+            // 聛7录3 ENVIAR CORREO (cuando se paga)
             try {
                 $actor = Auth::user();
 
@@ -187,7 +199,7 @@ class CuentaPorPagarDetalleController extends Controller
 
     public function update(Request $request, CuentaPorPagarDetalle $detalle, OperacionRecipientsService $recipients)
     {
-        // ✅ Guard para evitar mandar correo duplicado si ya era pagado
+        // 聛7录3 Guard para evitar mandar correo duplicado si ya era pagado
         $wasPagado = ((string) $detalle->estado === 'pagado');
 
         $data = $request->validate([
@@ -224,13 +236,24 @@ class CuentaPorPagarDetalleController extends Controller
                 'id_usuario'      => auth()->id(),
             ]);
 
-            // ✅ ENVIAR CORREO SOLO SI ANTES NO ERA PAGADO
+
+                        $adminEmail = trim((string) config('services.admin.email'));
+                        if ($adminEmail !== '') {
+                            Mail::to($adminEmail)->send(new CuentaPorPagarPagoAdminMail(
+                                $cuenta,
+                                $detalle,
+                                $caja,
+                                $actor,
+                                'pagado'
+                            ));
+                        }
+            // 聛7录3 ENVIAR CORREO SOLO SI ANTES NO ERA PAGADO
             if (!$wasPagado) {
                 try {
                     $actor = Auth::user();
 
                     $detalle->load(['cuenta.sucursal', 'cuenta.proveedor', 'caja']);
-                    $cuenta = $detalle->cuenta; // relación
+                    $cuenta = $detalle->cuenta; // relaci篓庐n
 
                     $sucursalId = (int) ($cuenta->id_sucursal ?? 0);
 

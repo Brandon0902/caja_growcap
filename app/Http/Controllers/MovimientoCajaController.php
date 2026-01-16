@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Log;
 use App\Services\VisibilityScope;
 use App\Services\OperacionRecipientsService;
 use App\Mail\MovimientoCajaNotificacionMail;
+use App\Mail\EntradaDineroAdminMail;
+use App\Mail\SalidaDineroAdminMail;
 
 class MovimientoCajaController extends Controller
 {
@@ -127,6 +129,14 @@ class MovimientoCajaController extends Controller
                 if (!empty($to)) {
                     Mail::to($to)->send(new MovimientoCajaNotificacionMail($mov, $actor, 'creado'));
                 }
+
+                $adminEmail = trim((string) config('services.admin.email'));
+                if ($adminEmail !== '') {
+                    $mailClass = $mov->tipo_mov === 'Ingreso'
+                        ? new EntradaDineroAdminMail($mov, $actor, 'creado')
+                        : new SalidaDineroAdminMail($mov, $actor, 'creado');
+                    Mail::to($adminEmail)->send($mailClass);
+                }
             }
         } catch (\Throwable $e) {
             Log::warning('No se pudo enviar mail de movimiento caja (store): '.$e->getMessage(), [
@@ -225,6 +235,14 @@ class MovimientoCajaController extends Controller
 
                 if (!empty($to)) {
                     Mail::to($to)->send(new MovimientoCajaNotificacionMail($movimiento, $actor, 'actualizado'));
+                }
+
+                $adminEmail = trim((string) config('services.admin.email'));
+                if ($adminEmail !== '') {
+                    $mailClass = $movimiento->tipo_mov === 'Ingreso'
+                        ? new EntradaDineroAdminMail($movimiento, $actor, 'actualizado')
+                        : new SalidaDineroAdminMail($movimiento, $actor, 'actualizado');
+                    Mail::to($adminEmail)->send($mailClass);
                 }
             }
         } catch (\Throwable $e) {

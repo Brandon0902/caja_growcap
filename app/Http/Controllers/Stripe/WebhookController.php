@@ -502,8 +502,11 @@ class WebhookController extends Controller
             if ($depFresh) {
                 $cli = Cliente::find($depFresh->id_cliente);
 
-                Mail::to('admingrowcap@casabarrel.com')
-                    ->send(new DepositoStripePagadoAdminMail($depFresh, $cli, $piId ?: null, $sessionId ?: null));
+                $adminEmail = trim((string) config('services.admin.email'));
+                if ($adminEmail !== '') {
+                    Mail::to($adminEmail)
+                        ->send(new DepositoStripePagadoAdminMail($depFresh, $cli, $piId ?: null, $sessionId ?: null));
+                }
 
                 if ($cli && !empty($cli->email)) {
                     Mail::to($cli->email)
@@ -598,8 +601,11 @@ class WebhookController extends Controller
             $cli = $invFresh ? Cliente::find($invFresh->id_cliente) : null;
 
             if ($invFresh && $cli) {
-                Mail::to('admingrowcap@casabarrel.com')
-                    ->send(new NuevaInversionSolicitudMail($invFresh, $cli));
+                $adminEmail = trim((string) config('services.admin.email'));
+                if ($adminEmail !== '') {
+                    Mail::to($adminEmail)
+                        ->send(new NuevaInversionSolicitudMail($invFresh, $cli));
+                }
 
                 if (!empty($cli->email)) {
                     Mail::to($cli->email)

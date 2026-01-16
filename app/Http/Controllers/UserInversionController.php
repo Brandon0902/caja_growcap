@@ -381,8 +381,11 @@ class UserInversionController extends Controller
             try {
                 $inversion->loadMissing(['cliente', 'plan', 'caja']);
 
-                Mail::to('admingrowcap@casabarrel.com')
-                    ->send(new InversionActivadaAdminMail($inversion));
+                $adminEmail = trim((string) config('services.admin.email'));
+                if ($adminEmail !== '') {
+                    Mail::to($adminEmail)
+                        ->send(new InversionActivadaAdminMail($inversion));
+                }
 
                 if (!empty($inversion->cliente?->email)) {
                     Mail::to($inversion->cliente->email)

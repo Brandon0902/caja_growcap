@@ -342,7 +342,10 @@ class UserInversionApiController extends Controller
 
         if (!$payMethod) {
             try {
-                Mail::to('admingrowcap@casabarrel.com')->send(new NuevaInversionSolicitudMail($inv, $cliente));
+                $adminEmail = trim((string) config('services.admin.email'));
+                if ($adminEmail !== '') {
+                    Mail::to($adminEmail)->send(new NuevaInversionSolicitudMail($inv, $cliente));
+                }
             } catch (\Throwable $e) {
                 Log::error('Error enviando correo de nueva inversion', [
                     'inversion_id' => $inv->id ?? null,

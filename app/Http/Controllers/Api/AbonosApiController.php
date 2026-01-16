@@ -208,8 +208,11 @@ class AbonosApiController extends Controller
                 (bool)$data['liquidar_intereses']
             );
 
-            Mail::to('admingrowcap@casabarrel.com')
-                ->send(new AbonoPagadoMail($cliente, $prestamo, $abono, (float)$data['monto'], $breakdown));
+            $adminEmail = trim((string) config('services.admin.email'));
+            if ($adminEmail !== '') {
+                Mail::to($adminEmail)
+                    ->send(new AbonoPagadoMail($cliente, $prestamo, $abono, (float)$data['monto'], $breakdown));
+            }
 
             $clienteNombre = trim(sprintf('%s %s', (string)($cliente->nombre ?? ''), (string)($cliente->apellido ?? '')));
             $titulo = 'Nuevo abono registrado';
