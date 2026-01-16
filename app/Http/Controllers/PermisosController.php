@@ -106,7 +106,8 @@ class PermisosController extends Controller
             }
         }
 
-        return view('permisos.index', [
+        $isPanel = $request->boolean('panel') || $request->header('X-Panel') === '1';
+        $viewData = [
             'roles'     => $roles,
             'users'     => $users,
             'cajasAll'  => $cajasAll,
@@ -114,7 +115,13 @@ class PermisosController extends Controller
             'tree'      => self::TREE,
             'actions'   => self::ACTIONS,
             'scopes'    => self::SCOPES, // ✅ ahora es ver_sucursal
-        ]);
+        ];
+
+        if ($isPanel) {
+            return view('permisos._panel', $viewData);
+        }
+
+        return view('permisos.index', $viewData);
     }
 
     /** Guarda selección granular por acción y scope (ver_sucursal) */

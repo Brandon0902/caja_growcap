@@ -21,6 +21,11 @@ class CategoriaGastoController extends Controller
             ->paginate(15)
             ->withQueryString();
 
+        $isPanel = $request->boolean('panel') || $request->header('X-Panel') === '1';
+        if ($isPanel) {
+            return view('categoria-gastos._panel', compact('categorias'));
+        }
+
         return view('categoria-gastos.index', compact('categorias'));
     }
 

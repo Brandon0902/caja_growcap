@@ -43,6 +43,16 @@ class ProveedorController extends Controller
 
         $proveedores = $query->paginate(15)->withQueryString();
 
+        $isPanel = $request->boolean('panel') || $request->header('X-Panel') === '1';
+        if ($isPanel) {
+            return view('proveedores._panel', [
+                'proveedores' => $proveedores,
+                'search'      => $search,
+                'estado'      => $estado,
+                'orden'       => $orden,
+            ]);
+        }
+
         return view('proveedores.index', [
             'proveedores' => $proveedores,
             'search'      => $search,
