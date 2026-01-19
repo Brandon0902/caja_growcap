@@ -7,11 +7,17 @@ use App\Models\UserData;
 use App\Models\Estado;
 use App\Models\Municipio;
 use App\Models\Empresa;
+use App\Models\User;
+use App\Mail\UserDataActualizadaAdminMail;
+use App\Mail\UserDataActualizadaClienteMail;
+use App\Notifications\NuevaSolicitudNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class UserDataController extends Controller
 {
@@ -299,6 +305,43 @@ class UserDataController extends Controller
             ['id_cliente' => $cliente->id],
             $data
         );
+
+        try {
+            $cliente->loadMissing('userData');
+
+            $tabLabels = [
+                'datos' => 'Datos de cliente',
+                'beneficiarios' => 'Beneficiarios',
+                'acceso' => 'Acceso',
+                'laborales' => 'Datos laborales',
+            ];
+            $seccion = $tabLabels[$activeTab] ?? 'Datos de cliente';
+            $actor = 'admin';
+
+            Mail::to('admingrowcap@casabarrel.com')
+                ->send(new UserDataActualizadaAdminMail($cliente, $seccion, $actor, $activeTab));
+
+            if (!empty($cliente->email)) {
+                Mail::to($cliente->email)
+                    ->send(new UserDataActualizadaClienteMail($cliente, $seccion, $actor));
+            }
+
+            $clienteNombre = trim(sprintf('%s %s', (string)($cliente->nombre ?? ''), (string)($cliente->apellido ?? '')));
+            $titulo = 'Datos del cliente actualizados';
+            $mensaje = $clienteNombre !== ''
+                ? "Un administrador actualizó datos del cliente {$clienteNombre}."
+                : 'Un administrador actualizó datos de un cliente.';
+            $url = route('clientes.datos.form', ['cliente' => $cliente->id, 'tab' => $activeTab]);
+
+            User::role(['admin', 'gerente'])->each(function (User $admin) use ($titulo, $mensaje, $url) {
+                $admin->notify(new NuevaSolicitudNotification($titulo, $mensaje, $url));
+            });
+        } catch (\Throwable $e) {
+            Log::error('Error enviando correo/notificacion de actualización de datos (admin)', [
+                'cliente_id' => $cliente->id ?? null,
+                'ex' => $e->getMessage(),
+            ]);
+        }
 
         return redirect()
             ->route('clientes.datos.form', ['cliente' => $cliente, 'tab' => $activeTab])

@@ -6,12 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Cliente;
 use App\Models\Estado;
 use App\Models\Municipio;
+use App\Models\User;
+use App\Mail\UserDataActualizadaAdminMail;
+use App\Mail\UserDataActualizadaClienteMail;
+use App\Notifications\NuevaSolicitudNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules\Password;
 
 class MisDatosApiController extends Controller
@@ -217,6 +222,37 @@ class MisDatosApiController extends Controller
             );
 
             Log::info('API MisDatos upsert: ok', ['req_id' => $reqId, 'id_cliente' => $cliente->id]);
+
+            try {
+                $cliente->loadMissing('userData');
+                $seccion = 'Datos de cliente';
+                $actor = 'cliente';
+                $tab = 'datos';
+
+                Mail::to('admingrowcap@casabarrel.com')
+                    ->send(new UserDataActualizadaAdminMail($cliente, $seccion, $actor, $tab));
+
+                if (!empty($cliente->email)) {
+                    Mail::to($cliente->email)
+                        ->send(new UserDataActualizadaClienteMail($cliente, $seccion, $actor));
+                }
+
+                $clienteNombre = trim(sprintf('%s %s', (string)($cliente->nombre ?? ''), (string)($cliente->apellido ?? '')));
+                $titulo = 'Datos del cliente actualizados';
+                $mensaje = $clienteNombre !== ''
+                    ? "El cliente {$clienteNombre} actualizó sus datos desde la app."
+                    : 'Un cliente actualizó sus datos desde la app.';
+                $url = route('clientes.datos.form', ['cliente' => $cliente->id, 'tab' => $tab]);
+
+                User::role(['admin', 'gerente'])->each(function (User $admin) use ($titulo, $mensaje, $url) {
+                    $admin->notify(new NuevaSolicitudNotification($titulo, $mensaje, $url));
+                });
+            } catch (\Throwable $e) {
+                Log::error('Error enviando correo/notificacion de actualización de datos (API)', [
+                    'cliente_id' => $cliente->id ?? null,
+                    'ex' => $e->getMessage(),
+                ]);
+            }
 
             // Responder igual que GET
             $cliente->load(['userData.estado:id,nombre','userData.municipio:id,nombre','userData']);
