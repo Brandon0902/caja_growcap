@@ -5,10 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\UserData;
 use App\Models\UserLaboral;
 use App\Models\Empresa;
+use App\Models\Cliente;
+use App\Models\User;
+use App\Mail\UserDataActualizadaAdminMail;
+use App\Mail\UserDataActualizadaClienteMail;
+use App\Notifications\NuevaSolicitudNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 
 class UserLaboralController extends Controller
@@ -116,6 +122,41 @@ class UserLaboralController extends Controller
                 'created'    => $laboral->wasRecentlyCreated,
             ]);
 
+            try {
+                $userData->loadMissing('cliente');
+                $cliente = $userData->cliente ?? Cliente::find($userData->id_cliente);
+                if (!$cliente) {
+                    throw new \RuntimeException('Cliente no encontrado.');
+                }
+                $seccion = 'Datos laborales';
+                $actor = 'admin';
+                $tab = 'laborales';
+
+                Mail::to('admingrowcap@casabarrel.com')
+                    ->send(new UserDataActualizadaAdminMail($cliente, $seccion, $actor, $tab));
+
+                if (!empty($cliente?->email)) {
+                    Mail::to($cliente->email)
+                        ->send(new UserDataActualizadaClienteMail($cliente, $seccion, $actor));
+                }
+
+                $clienteNombre = trim(sprintf('%s %s', (string)($cliente?->nombre ?? ''), (string)($cliente?->apellido ?? '')));
+                $titulo = 'Datos del cliente actualizados';
+                $mensaje = $clienteNombre !== ''
+                    ? "Un administrador actualizó datos laborales del cliente {$clienteNombre}."
+                    : 'Un administrador actualizó datos laborales de un cliente.';
+                $url = route('clientes.datos.form', ['cliente' => $userData->id_cliente, 'tab' => $tab]);
+
+                User::role(['admin', 'gerente'])->each(function (User $admin) use ($titulo, $mensaje, $url) {
+                    $admin->notify(new NuevaSolicitudNotification($titulo, $mensaje, $url));
+                });
+            } catch (\Throwable $e) {
+                Log::error('[LABORAL][STORE] error enviando correo/notificacion', [
+                    'cliente_id' => $userData->id_cliente ?? null,
+                    'ex' => $e->getMessage(),
+                ]);
+            }
+
             return $this->backToFicha($userData, 'Datos laborales guardados/actualizados correctamente.');
         } catch (\Throwable $e) {
             Log::error('[LABORAL][STORE] ERROR', [
@@ -190,6 +231,41 @@ class UserLaboralController extends Controller
             Log::info('[LABORAL][UPDATE] saved', [
                 'laboral_id' => $laboral->id,
             ]);
+
+            try {
+                $userData->loadMissing('cliente');
+                $cliente = $userData->cliente ?? Cliente::find($userData->id_cliente);
+                if (!$cliente) {
+                    throw new \RuntimeException('Cliente no encontrado.');
+                }
+                $seccion = 'Datos laborales';
+                $actor = 'admin';
+                $tab = 'laborales';
+
+                Mail::to('admingrowcap@casabarrel.com')
+                    ->send(new UserDataActualizadaAdminMail($cliente, $seccion, $actor, $tab));
+
+                if (!empty($cliente?->email)) {
+                    Mail::to($cliente->email)
+                        ->send(new UserDataActualizadaClienteMail($cliente, $seccion, $actor));
+                }
+
+                $clienteNombre = trim(sprintf('%s %s', (string)($cliente?->nombre ?? ''), (string)($cliente?->apellido ?? '')));
+                $titulo = 'Datos del cliente actualizados';
+                $mensaje = $clienteNombre !== ''
+                    ? "Un administrador actualizó datos laborales del cliente {$clienteNombre}."
+                    : 'Un administrador actualizó datos laborales de un cliente.';
+                $url = route('clientes.datos.form', ['cliente' => $userData->id_cliente, 'tab' => $tab]);
+
+                User::role(['admin', 'gerente'])->each(function (User $admin) use ($titulo, $mensaje, $url) {
+                    $admin->notify(new NuevaSolicitudNotification($titulo, $mensaje, $url));
+                });
+            } catch (\Throwable $e) {
+                Log::error('[LABORAL][UPDATE] error enviando correo/notificacion', [
+                    'cliente_id' => $userData->id_cliente ?? null,
+                    'ex' => $e->getMessage(),
+                ]);
+            }
 
             return $this->backToFicha($userData, 'Datos laborales actualizados correctamente.');
         } catch (\Throwable $e) {

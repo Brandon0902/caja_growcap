@@ -11,11 +11,16 @@ use App\Models\User;            // ✅ NUEVO (usuarios)
 use App\Models\UserAbono;
 use App\Models\UserPrestamo;
 use App\Models\MovimientoCaja;
+use App\Mail\PrestamoAutorizadoAdminMail;
+use App\Mail\PrestamoAutorizadoClienteMail;
+use App\Notifications\NuevaSolicitudNotification;
 use App\Services\ProveedorResolver;
 use App\Services\VisibilityScope;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 
 class UserPrestamoController extends Controller
@@ -470,6 +475,8 @@ class UserPrestamoController extends Controller
         $oldStatus = (int) $prestamo->status;
         $newStatus = (int) $data['status'];
 
+        $enviarCorreoAutorizado = false;
+
         $prestamo->update([
             'status'            => $newStatus,
             'nota'              => $data['nota'] ?? null,
@@ -477,6 +484,10 @@ class UserPrestamoController extends Controller
             'id_caja'           => $data['id_caja'],
             'id_empleado'       => $data['id_empleado'] ?? $prestamo->id_empleado, // ✅
         ]);
+
+        if ($oldStatus !== 1 && $newStatus === 1) {
+            $enviarCorreoAutorizado = true;
+        }
 
         // Cambio a Pagado → abonos + egreso + comisiones
         if ($oldStatus !== 5 && $newStatus === 5) {
@@ -490,6 +501,39 @@ class UserPrestamoController extends Controller
         // Cambio a Terminado → ingreso (capital + intereses)
         if ($oldStatus !== 6 && $newStatus === 6) {
             $this->ingresarPagoEnCaja($prestamo);
+        }
+
+        if ($enviarCorreoAutorizado) {
+            try {
+                $prestamo->loadMissing(['cliente', 'plan', 'caja']);
+
+                Mail::to('admingrowcap@casabarrel.com')
+                    ->send(new PrestamoAutorizadoAdminMail($prestamo));
+
+                if (!empty($prestamo->cliente?->email)) {
+                    Mail::to($prestamo->cliente->email)
+                        ->send(new PrestamoAutorizadoClienteMail($prestamo));
+                }
+
+                $clienteNombre = trim(sprintf(
+                    '%s %s',
+                    (string)($prestamo->cliente?->nombre ?? ''),
+                    (string)($prestamo->cliente?->apellido ?? '')
+                ));
+                $titulo = 'Préstamo autorizado';
+                $mensaje = $clienteNombre !== '' ? "Préstamo del cliente {$clienteNombre} fue autorizado." : 'Se autorizó un préstamo.';
+                $url = route('user_prestamos.show', $prestamo);
+
+                User::role(['admin', 'gerente'])->each(function (User $admin) use ($titulo, $mensaje, $url) {
+                    $admin->notify(new NuevaSolicitudNotification($titulo, $mensaje, $url));
+                });
+            } catch (\Throwable $e) {
+                Log::error('Error enviando correo de préstamo autorizado', [
+                    'prestamo_id' => $prestamo->id ?? null,
+                    'cliente_id'  => $prestamo->id_cliente ?? null,
+                    'ex'          => $e->getMessage(),
+                ]);
+            }
         }
 
         return redirect()->route('user_prestamos.index')
