@@ -1,0 +1,25 @@
+/* Estilos específicos para la vista de detalle de producto */
+.product-detail .price {
+    color: #F39C12;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.product-detail .nav-tabs .nav-link.active {
+    border-color: #F39C12;
+    color: #333;
+}
+
+.product-detail .nav-tabs .nav-link {
+    color: #555;
+    transition: color 0.3s;
+}
+
+.product-detail .nav-tabs .nav-link:hover {
+    color: #F39C12;
+}
+
+.product-detail img {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}

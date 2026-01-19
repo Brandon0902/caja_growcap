@@ -12,8 +12,11 @@ class UserLaboral extends Model
     // Nombre de la tabla
     protected $table = 'user_laborales';
 
-    // Desactivamos timestamps autom谩ticos
+    // Desactivamos timestamps automáticos
     public $timestamps = false;
+
+    // (Opcional pero recomendado) Definir PK si tu tabla usa "id"
+    protected $primaryKey = 'id';
 
     // Campos asignables masivamente
     protected $fillable = [
@@ -33,27 +36,48 @@ class UserLaboral extends Model
         'fecha',
     ];
 
+    // ✅ Casts para que fecha_registro y fecha se comporten como Carbon
+    protected $casts = [
+        'id_cliente'         => 'integer',
+        'empresa_id'         => 'integer',
+        'id_usuario'         => 'integer',
+        'salario_mensual'    => 'decimal:2',
+        'tipo_salario_valor' => 'integer',
+        'recurrencia_valor'  => 'integer',
+        'fecha_registro'     => 'datetime',
+        'fecha'              => 'datetime',
+    ];
+
     /**
-     * Relaci贸n con Cliente (tabla clientes)
+     * Relación con Cliente (tabla clientes)
      */
     public function cliente()
     {
-        return $this->belongsTo(Cliente::class, 'id_cliente');
+        // (FK id_cliente -> clientes.id)
+        return $this->belongsTo(Cliente::class, 'id_cliente', 'id');
     }
 
     /**
-     * Relaci贸n con Empresa (tabla empresas)
+     * Relación con Empresa (tabla empresas)
      */
     public function empresa()
     {
-        return $this->belongsTo(Empresa::class, 'empresa_id');
+        // (FK empresa_id -> empresas.id)
+        return $this->belongsTo(Empresa::class, 'empresa_id', 'id');
     }
 
     /**
-     * Relaci贸n con Usuario (tabla usuarios)
+     * Relación con Usuario (tabla users o usuarios)
+     *
+     * OJO: Ajusta esto según tu BD:
+     * - Si tu tabla de usuarios es "users" con PK "id", lo correcto es:
+     *   return $this->belongsTo(User::class, 'id_usuario', 'id');
+     *
+     * - Si de verdad tienes un modelo Usuario con PK "id_usuario", deja así.
      */
     public function usuario()
     {
+        // Tu versión original apuntaba a Usuario::class y keys id_usuario -> id_usuario
         return $this->belongsTo(Usuario::class, 'id_usuario', 'id_usuario');
     }
 }

@@ -469,7 +469,7 @@ class UserAhorroApiController extends Controller
         // ✅ DATOS PARA MAILS (con tu servicio)
         $clienteData = $this->clienteMail->mailData($cliente);
         $clienteEmail = trim((string)($clienteData['email'] ?? ''));
-        $adminEmail = trim((string) (config('services.admin.email') ?? config('mail.from.address'))); // ADMIN_EMAIL
+        $adminEmail = trim((string)config('mail.from.address')); // MAIL_FROM_ADDRESS
     
         try {
             DB::afterCommit(function () use ($ahorro, $clienteData, $clienteEmail, $adminEmail) {

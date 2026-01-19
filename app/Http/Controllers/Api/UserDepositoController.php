@@ -201,11 +201,8 @@ class UserDepositoController extends Controller
 
         // ========= Enviar correo a admin =========
         try {
-            $adminEmail = trim((string) config('services.admin.email'));
-            if ($adminEmail !== '') {
-                Mail::to($adminEmail)
-                    ->send(new NuevoDepositoMail($dep, $cliente, $publicUrl));
-            }
+            Mail::to('admingrowcap@casabarrel.com')
+                ->send(new NuevoDepositoMail($dep, $cliente, $publicUrl));
         } catch (\Throwable $e) {
             Log::error('Error enviando correo de nuevo depósito', [
                 'deposito_id' => $dep->id ?? null,

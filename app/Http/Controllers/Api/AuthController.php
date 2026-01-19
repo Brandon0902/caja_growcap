@@ -60,7 +60,9 @@ class AuthController extends Controller
         // - (opcional) texto plano
         // =============================
         $plain  = (string) $data['password'];
-        $stored = strtolower(trim((string) ($cliente->pass ?? '')));
+
+        // ✅ IMPORTANTE: NO usar strtolower() aquí, rompe bcrypt/argon (case-sensitive)
+        $stored = trim((string) ($cliente->pass ?? ''));
 
         $valid = false;
 
@@ -75,8 +77,9 @@ class AuthController extends Controller
             $valid = Hash::check($plain, $stored);
         }
         // 2) Legacy: SHA1(MD5(password)) -> 40 hex
-        elseif (preg_match('/^[a-f0-9]{40}$/', $stored)) {
-            $valid = hash_equals($stored, sha1(md5($plain)));
+        elseif (preg_match('/^[a-f0-9]{40}$/i', $stored)) {
+            // normalizamos SOLO para comparar legacy (aquí sí conviene minúsculas)
+            $valid = hash_equals(strtolower($stored), sha1(md5($plain)));
 
             // ✅ si fue válido, migramos a bcrypt para ya no batallar
             if ($valid) {

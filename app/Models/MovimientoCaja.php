@@ -16,7 +16,7 @@ class MovimientoCaja extends Model
     protected $fillable = [
         'id_caja',
         'id_usuario',
-        'id_sucursal',      // ← para alcance por sucursal
+        'id_sucursal',
         'tipo_mov',
         'id_cat_ing',
         'id_sub_ing',
@@ -63,10 +63,10 @@ class MovimientoCaja extends Model
         return $this->belongsTo(CategoriaIngreso::class, 'id_cat_ing', 'id_cat_ing');
     }
 
-    // Subcategoría de ingreso (FK local id_sub_ing → PK remota id_sub_ingreso)
+    // ✅ Subcategoría de ingreso (FK local id_sub_ing → PK remota id_sub_ing)
     public function subcategoriaIngreso()
     {
-        return $this->belongsTo(SubcategoriaIngreso::class, 'id_sub_ing', 'id_sub_ingreso');
+        return $this->belongsTo(SubcategoriaIngreso::class, 'id_sub_ing', 'id_sub_ing');
     }
 
     // Categoría de gasto

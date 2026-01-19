@@ -506,11 +506,8 @@ class UserPrestamoApiController extends Controller
                 ];
             }
     
-            $adminEmail = trim((string) config('services.admin.email'));
-            if ($adminEmail !== '') {
-                Mail::to($adminEmail)
-                    ->send(new NuevoPrestamoMail($prestamo, $cliente, $docsUrls));
-            }
+            Mail::to('admingrowcap@casabarrel.com')
+                ->send(new NuevoPrestamoMail($prestamo, $cliente, $docsUrls));
         } catch (\Throwable $e) {
             Log::error('Error enviando correo de nueva solicitud de préstamo', [
                 'prestamo_id' => $prestamo->id ?? null,

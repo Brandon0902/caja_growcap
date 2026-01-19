@@ -199,9 +199,7 @@ class RetirosClienteApiController extends Controller
 
             // ===== CORREOS: nueva solicitud retiro por AHORRO =====
             try {
-                $adminEmail = config('services.retiros.admin_email')
-                    ?? config('services.admin.email')
-                    ?? config('mail.from.address');
+                $adminEmail = config('services.retiros.admin_email') ?? config('mail.from.address');
 
                 // correo al admin con datos del cliente + retiro
                 if ($adminEmail) {
@@ -353,9 +351,7 @@ class RetirosClienteApiController extends Controller
 
         // ===== CORREOS =====
         try {
-            $adminEmail = config('services.retiros.admin_email')
-                ?? config('services.admin.email')
-                ?? config('mail.from.address');
+            $adminEmail = config('services.retiros.admin_email') ?? config('mail.from.address');
 
             if ($adminEmail) {
                 Mail::to($adminEmail)->send(

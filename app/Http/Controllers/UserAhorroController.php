@@ -209,7 +209,7 @@ class UserAhorroController extends Controller
         ];
 
         $clienteEmail = trim((string)($clienteData['email'] ?? ''));
-        $adminEmail   = trim((string) (config('services.admin.email') ?? config('mail.from.address')));
+        $adminEmail   = trim((string)config('mail.from.address'));
         $planLabel    = $ahorro->ahorro?->tipo_ahorro ?? null;
 
         try {

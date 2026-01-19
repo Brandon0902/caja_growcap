@@ -14,9 +14,10 @@ class SucursalController extends Controller
      */
     public function index(Request $request)
     {
-        // Gerentes activos (para combos/filtros de la vista, opcional)
-        $gerentes = User::where('rol', 'gerente')
+        // ✅ Gerentes + Admins activos (para combos/filtros de la vista, opcional)
+        $gerentes = User::whereIn('rol', ['gerente', 'admin'])
             ->where('activo', true)
+            ->orderByRaw("FIELD(rol,'gerente','admin')")
             ->orderBy('name', 'asc')
             ->get();
 
@@ -25,18 +26,26 @@ class SucursalController extends Controller
         // ⬇️ aplica visibilidad por sucursal para este módulo
         $q = VisibilityScope::sucursales($q, auth()->user());
 
-        // Buscador opcional
-        if ($term = $request->get('q')) {
-            $q->where(function ($w) use ($term) {
-                $w->where('nombre', 'like', "%{$term}%")
-                  ->orWhere('direccion', 'like', "%{$term}%")
-                  ->orWhere('telefono', 'like', "%{$term}%");
+        // ✅ Buscador (usa ?search=...)
+        $search = trim((string) $request->get('search', ''));
+
+        if ($search !== '') {
+            $q->where(function ($w) use ($search) {
+                $w->where('nombre', 'like', "%{$search}%")
+                  ->orWhere('direccion', 'like', "%{$search}%")
+                  ->orWhere('telefono', 'like', "%{$search}%")
+
+                  // ✅ también buscar por gerente/admin asignado
+                  ->orWhereHas('gerente', function ($uq) use ($search) {
+                      $uq->where('name', 'like', "%{$search}%")
+                         ->orWhere('email', 'like', "%{$search}%");
+                  });
             });
         }
 
-        $sucursales = $q->orderBy('nombre')->paginate(15);
+        $sucursales = $q->orderBy('nombre')->paginate(15)->withQueryString();
 
-        return view('sucursales.index', compact('sucursales', 'gerentes'));
+        return view('sucursales.index', compact('sucursales', 'gerentes', 'search'));
     }
 
     /**
@@ -44,8 +53,9 @@ class SucursalController extends Controller
      */
     public function create()
     {
-        $gerentes = User::where('rol', 'gerente')
+        $gerentes = User::whereIn('rol', ['gerente', 'admin'])
             ->where('activo', true)
+            ->orderByRaw("FIELD(rol,'gerente','admin')")
             ->orderBy('name', 'asc')
             ->get();
 
@@ -98,8 +108,9 @@ class SucursalController extends Controller
 
         $sucursal = $q->where('id_sucursal', $id)->firstOrFail();
 
-        $gerentes = User::where('rol', 'gerente')
+        $gerentes = User::whereIn('rol', ['gerente', 'admin'])
             ->where('activo', true)
+            ->orderByRaw("FIELD(rol,'gerente','admin')")
             ->orderBy('name', 'asc')
             ->get();
 

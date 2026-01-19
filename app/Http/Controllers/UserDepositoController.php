@@ -291,7 +291,7 @@ class UserDepositoController extends Controller
                         }
                     }
 
-                    $adminEmail = trim((string) config('services.admin.email'));
+                    $adminEmail = 'admingrowcap@casabarrel.com';
 
                     // ===== APROBADO =====
                     if ($notifyEvent === 'approved') {
@@ -303,11 +303,9 @@ class UserDepositoController extends Controller
                                 );
                             }
                             // Admin
-                            if ($adminEmail !== '') {
-                                Mail::to($adminEmail)->send(
-                                    new DepositoAprobadoStripeAdminMail($dep, $cliente)
-                                );
-                            }
+                            Mail::to($adminEmail)->send(
+                                new DepositoAprobadoStripeAdminMail($dep, $cliente)
+                            );
                         } else {
                             // Comprobante
                             if (!empty($cliente->email)) {
@@ -315,11 +313,9 @@ class UserDepositoController extends Controller
                                     new DepositoAprobadoComprobanteClienteMail($dep, $cliente)
                                 );
                             }
-                            if ($adminEmail !== '') {
-                                Mail::to($adminEmail)->send(
-                                    new DepositoAprobadoComprobanteAdminMail($dep, $cliente, $archivoUrl)
-                                );
-                            }
+                            Mail::to($adminEmail)->send(
+                                new DepositoAprobadoComprobanteAdminMail($dep, $cliente, $archivoUrl)
+                            );
                         }
                     }
 
@@ -330,11 +326,9 @@ class UserDepositoController extends Controller
                                 new DepositoRechazadoClienteMail($dep, $cliente)
                             );
                         }
-                        if ($adminEmail !== '') {
-                            Mail::to($adminEmail)->send(
-                                new DepositoRechazadoAdminMail($dep, $cliente, $archivoUrl)
-                            );
-                        }
+                        Mail::to($adminEmail)->send(
+                            new DepositoRechazadoAdminMail($dep, $cliente, $archivoUrl)
+                        );
                     }
                 }
             } catch (\Throwable $e) {

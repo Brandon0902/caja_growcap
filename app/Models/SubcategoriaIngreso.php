@@ -11,11 +11,18 @@ class SubcategoriaIngreso extends Model
 
     protected $table = 'subcategorias_ingreso';
     protected $primaryKey = 'id_sub_ing';
+    public $timestamps = false; // ✅ importante
 
     protected $fillable = [
         'id_cat_ing',
         'nombre',
         'id_usuario',
+    ];
+
+    protected $casts = [
+        'id_sub_ing' => 'integer',
+        'id_cat_ing' => 'integer',
+        'id_usuario' => 'integer',
     ];
 
     public function categoria()

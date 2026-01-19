@@ -1,0 +1,30 @@
+[22-Aug-2025 21:09:21 UTC] PHP Warning:  unlink(public/storage): Is a directory in /home/casabar5/public_html/cajagrowcap/public/make-link.php on line 6
+[22-Aug-2025 21:09:21 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function symlink() in /home/casabar5/public_html/cajagrowcap/public/make-link.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/public/make-link.php on line 8
+[22-Aug-2025 21:09:28 UTC] PHP Warning:  unlink(public/storage): Is a directory in /home/casabar5/public_html/cajagrowcap/public/make-link.php on line 6
+[22-Aug-2025 21:09:28 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function symlink() in /home/casabar5/public_html/cajagrowcap/public/make-link.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/public/make-link.php on line 8
+[22-Aug-2025 21:09:57 UTC] PHP Warning:  unlink(public/storage): Is a directory in /home/casabar5/public_html/cajagrowcap/public/make-link.php on line 6
+[22-Aug-2025 21:09:57 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function symlink() in /home/casabar5/public_html/cajagrowcap/public/make-link.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/public/make-link.php on line 8
+[23-Aug-2025 23:52:11 UTC] PHP Warning:  unlink(public/storage): Is a directory in /home/casabar5/public_html/cajagrowcap/public/make-link.php on line 6
+[23-Aug-2025 23:52:11 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function symlink() in /home/casabar5/public_html/cajagrowcap/public/make-link.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/public/make-link.php on line 8
+[25-Aug-2025 19:30:23 UTC] PHP Warning:  unlink(public/storage): Is a directory in /home/casabar5/public_html/cajagrowcap/public/make-link.php on line 6
+[25-Aug-2025 19:30:23 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function symlink() in /home/casabar5/public_html/cajagrowcap/public/make-link.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/public/make-link.php on line 8
+[25-Aug-2025 19:30:25 UTC] PHP Warning:  unlink(public/storage): Is a directory in /home/casabar5/public_html/cajagrowcap/public/make-link.php on line 6
+[25-Aug-2025 19:30:25 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function symlink() in /home/casabar5/public_html/cajagrowcap/public/make-link.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/casabar5/public_html/cajagrowcap/public/make-link.php on line 8

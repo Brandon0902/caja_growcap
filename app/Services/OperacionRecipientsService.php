@@ -21,8 +21,8 @@ class OperacionRecipientsService
             $emails[] = trim((string) $actor->email);
         }
 
-        // 2) Admin del sistema (ADMIN_EMAIL o MAIL_FROM_ADDRESS)
-        $adminSistema = trim((string) (config('services.admin.email') ?? config('mail.from.address') ?? ''));
+        // 2) Admin del sistema (MAIL_FROM_ADDRESS)
+        $adminSistema = trim((string) (config('mail.from.address') ?? ''));
         if ($adminSistema !== '') {
             $emails[] = $adminSistema;
         }
