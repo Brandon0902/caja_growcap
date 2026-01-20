@@ -8,21 +8,19 @@
     <h2>Abono pagado en préstamo</h2>
 
     <p><strong>Cliente:</strong>
-        {{ $cliente->nombre ?? $cliente->full_name ?? $cliente->name ?? ('Cliente #'.$cliente->id) }}
+        {{ $cliente->nombre ?? $cliente->full_name ?? $cliente->name ?? 'Cliente' }}
     </p>
     <p><strong>Email del cliente:</strong> {{ $cliente->email ?? 'No registrado' }}</p>
 
     <hr>
 
-    <p><strong>Préstamo ID:</strong> {{ $prestamo->id }}</p>
     <p><strong>Descripción préstamo:</strong>
-        {{ $prestamo->descripcion ?? ("Préstamo #".$prestamo->id) }}
+        {{ $prestamo->descripcion ?? 'Préstamo' }}
     </p>
     <p><strong>Monto original del préstamo:</strong>
         ${{ number_format((float)($prestamo->cantidad ?? 0), 2) }}
     </p>
 
-    <p><strong>Abono ID:</strong> {{ $abono->id }}</p>
     <p><strong>Número de pago:</strong> {{ $abono->num_pago }}</p>
     <p><strong>Monto del pago recibido:</strong> ${{ number_format($monto, 2) }}</p>
 

@@ -26,7 +26,7 @@
       } elseif ($periodoRaw !== '') {
         $planText = "Inversión ({$periodoRaw})";
       } else {
-        $planText = "Plan #".($p->id ?? $inversion->id_activo ?? '');
+        $planText = "Plan de inversión";
       }
     }
 

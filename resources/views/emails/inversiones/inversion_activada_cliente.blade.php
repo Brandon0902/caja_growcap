@@ -43,8 +43,6 @@
     @endphp
 
     <div style="background:#f9fafb;border:1px solid #eef2f7;border-radius:10px;padding:14px;margin:14px 0;">
-      <p style="margin:6px 0;color:#111827;"><b>Inversión:</b> #{{ $inversion->id }}</p>
-
       <p style="margin:6px 0;color:#111827;">
         <b>Plan:</b> {{ $planText }}
         @if($p && $p->rendimiento !== null) — {{ $p->rendimiento }}% @endif
