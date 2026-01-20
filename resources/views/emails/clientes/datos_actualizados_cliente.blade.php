@@ -21,7 +21,6 @@
     <div style="background:#f9fafb;border:1px solid #eef2f7;border-radius:10px;padding:14px;margin:14px 0;">
       <p style="margin:6px 0;color:#111827;"><b>Cliente:</b> {{ $cliente->nombre }} {{ $cliente->apellido }}</p>
       <p style="margin:6px 0;color:#111827;"><b>Email:</b> {{ $cliente->email ?? 'No registrado' }}</p>
-      <p style="margin:6px 0;color:#111827;"><b>ID:</b> #{{ $cliente->id }}</p>
     </div>
 
     <p style="margin:0;color:#6b7280;font-size:13px;">

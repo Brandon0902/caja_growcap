@@ -60,12 +60,10 @@
     <h2 style="margin:0 0 12px 0;color:#111827;">Inversión activada correctamente</h2>
 
     <p style="margin:0 0 14px 0;color:#374151;line-height:1.5;">
-      Hola <b>{{ $cliente->nombre ?? ('Cliente #'.$cliente->id) }}</b>, tu inversión se realizó correctamente.
+      Hola <b>{{ $cliente->nombre ?? 'Cliente' }}</b>, tu inversión se realizó correctamente.
     </p>
 
     <div style="background:#f9fafb;border:1px solid #eef2f7;border-radius:10px;padding:14px;margin:14px 0;">
-      <p style="margin:6px 0;color:#111827;"><b>Inversión:</b> #{{ $inversion->id }}</p>
-
       <p style="margin:6px 0;color:#111827;">
         <b>Monto:</b> ${{ number_format((float)$inversion->inversion, 2) }}
       </p>

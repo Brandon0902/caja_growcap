@@ -22,7 +22,7 @@
 <p>
   Tu
   <strong>{{ $origen === 'ahorro' ? 'retiro de ahorro' : 'retiro de inversión' }}</strong>
-  con ID <strong>#{{ $retiro->id }}</strong> ha cambiado de estado a:
+  ha cambiado de estado a:
   <strong>{{ $status_label }}</strong>.
 </p>
 
