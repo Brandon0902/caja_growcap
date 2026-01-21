@@ -22,6 +22,11 @@ class CategoriaIngresoController extends Controller
             ->paginate(15)
             ->withQueryString();
 
+        $isPanel = $request->boolean('panel') || $request->header('X-Panel') === '1';
+        if ($isPanel) {
+            return view('categoria-ingresos._panel', compact('categorias'));
+        }
+
         return view('categoria-ingresos.index', compact('categorias'));
     }
 

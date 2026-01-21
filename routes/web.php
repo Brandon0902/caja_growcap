@@ -29,6 +29,7 @@ use App\Http\Controllers\UserAbonoController;
 use App\Http\Controllers\ConfigMoraController;
 use App\Http\Controllers\UserAhorroController;
 use App\Http\Controllers\PresupuestoController;
+use App\Http\Controllers\PanelControlController;
 use App\Http\Controllers\UserLaboralController;
 use App\Http\Controllers\ContabilidadController;
 use App\Http\Controllers\UserDepositoController;
@@ -364,6 +365,14 @@ Route::middleware(['auth','role:admin'])
 
         Route::post('/prune', [PermisosController::class, 'pruneAndNormalize'])
             ->name('pruneAndNormalize');
+    });
+
+/* ========= Panel Control ========= */
+Route::middleware(['auth','role:admin'])
+    ->prefix('panel-control')
+    ->name('panel-control.')
+    ->group(function () {
+        Route::get('/', [PanelControlController::class, 'index'])->name('index');
     });
 
 Route::get('/admin/flush-permissions-cache', function () {
